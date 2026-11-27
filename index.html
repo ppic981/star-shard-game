@@ -406,7 +406,9 @@ const STD_SET0=[1,1,1.1,1.15], STD_SETN=[1.2,1.2,1.25,1.3];
 const MX_NEED=[20,35,60,100,160,250,400];
 const REBIRTH_B=.05;
 // 난이도 보정(봇으로 맞춤): 처음 그 지역에 올 때의 주인공은 표준보다 약간 강해서, 몹은 표준의 이만큼 세게
-const STD_D=(R,q)=>{const c=Math.floor(R/4),i=R%4+q;return c?2.0*(1+.12*i):[1,1.35,1.7,2.0,2.1][Math.floor(i)]+([1,1.35,1.7,2.0,2.1][Math.min(4,Math.floor(i)+1)]-[1,1.35,1.7,2.0,2.1][Math.floor(i)])*(i%1)}; // 환생 1회당 공격·체력 +5%(영구)
+// v19: 전직·훈련·물약만큼 몹을 조금 세게(봇으로 맞춤): 1대륙 ×STD_V0, 2대륙부터 ×STD_VN
+const STD_V0=1.05, STD_VN=1.08;
+const STD_D=(R,q)=>{const c=Math.floor(R/4),i=R%4+q;return c?STD_VN*2.0*(1+.12*i):STD_V0*([1,1.35,1.7,2.0,2.1][Math.floor(i)]+([1,1.35,1.7,2.0,2.1][Math.min(4,Math.floor(i)+1)]-[1,1.35,1.7,2.0,2.1][Math.floor(i)])*(i%1))}; // 환생 1회당 공격·체력 +5%(영구)
 function stdHero(R,p){const c=Math.floor(R/4),i=R%4,q=Math.max(0,Math.min(1.2,p||0))*.6;
   const G=c?STD_GMN.map(x=>x*Math.pow(2,c)):STD_GM0,g=G[i]+((i<3?G[i+1]:G[3]*1.12)-G[i])*q;
   const L=1+3*c+2*i+q*2,rb=c?3+3*c+i:i,sf=(c?STD_SETN:STD_SET0)[i],k=sf*(1+REBIRTH_B*rb)*(1+.05*c);
@@ -1932,8 +1934,8 @@ const KEEPER_LINES=[
  ['…빛이 돌아왔구나. 나는 새벽의 별지기 에오.','별을 삼킨 용이 하늘의 별 아스텔을 부순 날, 우리는 이 마을 아래에서 잠들었단다.','네 안의 별빛을 깨워 주마.'],
  ['황혼의 조각이 두 번째 결계를 풀었군.','다섯 조각이 모이면 하늘의 상처를 꿰맬 수 있을지도 몰라.','더 단단해져라.'],
  ['망각의 조각… 시간을 먹는 자를 넘어섰구나.','별의 기억이 조금씩 돌아오고 있어.','너에게 세 번째 빛을 주마.'],
- ['꿈결의 조각. 그 용을 쓰러뜨렸단 말이냐.','별을 부순 용은 쓰러졌지만, 아직 끝이 아니야.','네 번째 빛을 받아라.'],
- ['마지막 결계가 풀렸다. 이제 진실을 말해야겠지.','부서진 별 아스텔은 우리가 지키던 별이 아니었다. 그 별은 처음부터 무언가를 가두고 있었어.','마지막 빛을 너에게. 별의 바다 끝에서 아스텔이 기다린다.']];
+ ['꿈결의 조각. 그 용을 쓰러뜨렸단 말이냐.','이제 진실을 말해야겠지. 부서진 별 아스텔은 우리가 지키던 별이 아니었다. 그 별은 처음부터 무언가를 가두고 있었어.','네 번째 빛을 받아라. 별의 바다 끝에서 아스텔이 기다린다.'],
+ ['아스텔의 마지막 조각이 돌아왔구나. 하늘의 상처가 닫혔다. 고맙다, 별을 이은 자여.']];
 function placeShards(){S.altar=S.altar||{};const n0=altarN();for(const c in S.shards)if(S.shards[c])S.altar[c]=1;const n=altarN()-n0;
   if(n>0){toast(`별 조각 ${n}개를 제단에 놓았어요<br>지하 계단이 열리고 성소의 결계가 ${n}겹 풀렸어요`,'#c9b8ff');newFx('결계가 풀렸어요',`별 조각 ${altarN()}/5`,6);
     if(world&&world.town&&!world.sanct){const hx=hero.x,hy=hero.y;buildTown(world.c);hero.x=hx;hero.y=hy}save();dirty=true}}
