@@ -344,9 +344,10 @@ button.main{background:linear-gradient(180deg,#ffe08a 0,#f0b840 45%,#c8861e 100%
 </div>
 <div class="sheet" id="sheet" hidden><div class="sheet-in">
   <div class="sheet-h"><b>메뉴</b><button id="closeSheet">닫기</button></div>
-  <div class="strip">
+  <div class="strip" style="grid-template-columns:1.2fr 1fr 1fr .9fr">
     <div class="cell"><small>공격력</small><b id="atkV">0</b></div>
     <div class="cell"><small>체력</small><b id="hpV">0</b></div>
+    <div class="cell"><small>방어력</small><b id="defV">0</b><small id="defR" style="color:var(--ok)"></small></div>
     <div class="cell"><small>전투 횟수</small><b id="enV">0</b></div>
   </div>
   <div class="mats">
@@ -426,6 +427,13 @@ const zoneHi=R=>5*R+5, zoneLo=R=>5*R+1;
 // (1대륙 SSS+ ≈ 2대륙 C~B라서 1대륙 장비를 끝까지 키울 의미가 있지만 결국 2대륙 장비가 이긴다)
 const ITEM_A0=4, ITEM_H0=40; // 공격 부위 무게 1당 공격, 체력 부위 하나당 체력(1대륙 1지역 D 기준)
 const itemBase=R=>Math.pow(2,Math.floor(R/4))*(1+.08*(R%4));
+// v21 방어력: 방어 부위(투구·상의·하의·장갑·신발·망토) 아이템마다 모양(ds)이 고정. 받는 피해 × K/(K+방어력), K는 몹 지역의 장비 기본 수치를 따라 커진다
+// 체력 부위 ds 0 체력형 / 1 방어형 / 2 반반, 장갑 ds 0 공격형 / 2 반반. 수치 = 기본 수치 × 아래 배율
+const ITEM_D0=10, DEF_K0=100;
+const DS_HP=[1,.4,.7], DS_DEF=[0,1,.5], DS_GA=[1,1,.7], DS_GD=[0,0,.5], DS_NM=['체력형','방어형','반반'];
+const defK=R=>DEF_K0*itemBase(Math.max(0,R||0));
+const defMul=(def,R)=>{const K=defK(R);return K/(K+Math.max(0,def||0))};
+const PROMO_DEF=.05; // 전사 전직 1단계마다 방어력 +5%
 // v18 표준 주인공(몹 능력치의 기준): 그 지역에 처음 올 때쯤 가진 장비·환생·레벨을 가정한다
 // 1대륙은 맨몸에서 시작해 장비를 모으며 B~A까지, n+1대륙 첫 지역은 "n대륙 장비 평균 A~S + 보스 세트 2피스"
 const STD_GM0=[.3,.75,1.15,1.5], STD_GMN=[.91,1.14,1.45,1.74]; // 장비 배율(기본 수치 × 등급), n대륙은 ×2^n
@@ -440,7 +448,8 @@ const STD_D=(R,q)=>{const c=Math.floor(R/4),i=R%4+q;return c?STD_VN*2.0*(1+.12*i
 function stdHero(R,p){const c=Math.floor(R/4),i=R%4,q=Math.max(0,Math.min(1.2,p||0))*.6;
   const G=c?STD_GMN.map(x=>x*Math.pow(2,c)):STD_GM0,g=G[i]+((i<3?G[i+1]:G[3]*1.12)-G[i])*q;
   const L=1+3*c+2*i+q*2,rb=c?3+3*c+i:i,sf=(c?STD_SETN:STD_SET0)[i],k=sf*(1+REBIRTH_B*rb)*(1+.05*c);
-  const d=STD_D(R,q);return{atk:(10+1.8*(L-1)+7*ITEM_A0*g)*k*d,hp:(100+18*(L-1)+5*ITEM_H0*g)*k*d}}
+  // v21: 표준 주인공은 모양이 고르게 섞인 장비(체력 부위 체력 ×0.7·방어 ×0.5, 장갑 공격 ×0.85·방어 ×0.25)
+  const d=STD_D(R,q);return{atk:(10+1.8*(L-1)+6.85*ITEM_A0*g)*k*d,hp:(100+18*(L-1)+3.5*ITEM_H0*g)*k*d,def:2.75*ITEM_D0*g}}
 // 몹: 표준 주인공이 몇 대 쳐야 쓰러지는지(HITS), 표준 주인공을 몇 대에 쓰러뜨리는지(KILLN). 일반, 중간, 지역, 대륙 보스
 // 전투 길이(v18.1 사용자 요청: 일반 ×0.5, 보스 ×0.7): 일반 3~5초, 중간 11~14초, 지역 21~29초, 대륙 56초 이상
 const MOB_HITS=[6.5,29.4,56,98], MOB_KILLN=[11,25.2,33.6,50.4], MOB_IV=[1.1,1.1,1.15,1.2];
@@ -453,7 +462,7 @@ const SHARD_P=1; // v17: 대륙 보스를 처음 이기면 별 조각을 꼭 얻
 // 대륙 포탈 전투력 기준(대륙 1~4로 가는 문). 그 대륙 1지역 보스를 무난히 잡는 정도
 // v17: 그 대륙 첫 지역 지역 보스를 무난히 잡는 표준 주인공 전투력(레벨 +3, 지역 세기 G 반영). 봇으로 맞춤
 // v18: 앞 대륙 끝(대륙 보스 자리)의 표준 주인공 전투력 ×1.3
-const stdPower=R=>{const h=stdHero(R,1);return h.atk*1.2*1.45+h.hp/8};
+const stdPower=R=>{const h=stdHero(R,1);return h.atk*1.2*1.45+h.hp/defMul(h.def,R)/8}; // v21: 체력은 방어력을 넣은 버틸 수 있는 피해량으로
 const PORTAL_POWER=[0,1,2,3,4].map(c=>c?Math.round(stdPower(c*4-1)*1.3):0);
 const CONT_RP=[1,2,3,4,5]; // 대륙별 유물 포인트 배율
 // 예전 고유 장비 20개 이름(저장 이전용: 같은 이름의 보스 아이템으로 옮긴다)
@@ -670,6 +679,8 @@ ZONES.forEach((Z,R)=>{const start=ITEMS.length,c=Z.c,sc=FX_SC(c);
 function srand0(seed){let s=(seed*2654435761)%4294967296;return()=>{s=(s*1664525+1013904223)%4294967296;return s/4294967296}}
 const zoneItemN=R=>ZONE_ITEMS[R][1]-ZONE_ITEMS[R][0];
 const contItemN=c=>{let n=0;for(let R=c*4;R<c*4+4;R++)n+=zoneItemN(R);return n};
+/* v21: 방어 부위 아이템 모양(ds) 고정. 이름으로 정해서 언제나 같다(몹별 고정 아이템 원칙) */
+for(const d of ITEMS){if(!['helm','top','bottom','gloves','boots','cape'].includes(d.t))continue;let h=0;for(const ch of d.n)h=(h*31+ch.charCodeAt(0))%9973;d.ds=d.t==='gloves'?(h%2?2:0):h%3}
 /* v19d: 몬스터 교체로 이름이 바뀐 아이템(옛 저장 옮길 때 이름 찾기용) */
 const ITEM_RN=[["서리 송곳니", "매머드 상아"], ["백곰 가죽 갑옷", "바다코끼리 가죽 갑옷"], ["곰의 심장 반지", "상아 엄니 반지"], ["지옥견 이빨", "지옥 사슬"], ["검댕 털", "검댕 쇠고랑"], ["화염 거미줄", "용암 껍질"], ["핏빛 송곳니", "핏빛 부리"], ["몰락한 검", "광대 방울"], ["포자 날개", "늪 깃털"], ["빛 송곳니", "빛 부리"], ["수정 핵", "수정 집게"], ["요정 가루", "광석 가루"], ["무지개", "광맥"], ["하늘 촉수", "복어 가시"], ["하늘 창", "그리핀 발톱"], ["길 잃은", "너구리 꼬리"], ["감시의 눈", "미믹 이빨"], ["악몽 날개", "오르골 태엽"], ["악몽 이빨", "녹은 촛농"], ["보라 털", "보라 불꽃"], ["별빛 촉수", "별빛 지느러미"], ["우주 날개", "우주 물갈퀴"], ["별 갈기", "별 깃"], ["시공 이빨", "시공 손톱"], ["공허 칼날", "공허 수행"], ["검은 갑", "검은 염주"], ["태양 갈기", "태양 껍데기"], ["초신성 깃", "초신성 꼬리"], ["별 기사", "켄타우로스 말굽"], ["은하 문장", "별자리"]];
 </script>
@@ -899,7 +910,9 @@ const itemR=it=>isC(it)?ITEMS[it.ci].r:Math.max(0,Math.min(ZONES.length-1,Math.f
 function itemStat(it){
   const sl=TYPES[it.type],b=itemBase(itemR(it));
   const k=GRADES[it.g].m*(1+0.03*it.up);
-  return sl.st==='atk'?{atk:ITEM_A0*(sl.w||1)*b*k,hp:0}:{atk:0,hp:ITEM_H0*b*k};
+  const ds=isC(it)&&ITEMS[it.ci].ds!=null?ITEMS[it.ci].ds:0; // v21 모양(옛 장비는 체력형·공격형)
+  if(it.type==='gloves')return{atk:ITEM_A0*(sl.w||1)*b*k*DS_GA[ds],hp:0,def:ITEM_D0*b*k*DS_GD[ds]};
+  return sl.st==='atk'?{atk:ITEM_A0*(sl.w||1)*b*k,hp:0,def:0}:{atk:0,hp:ITEM_H0*b*k*DS_HP[ds],def:ITEM_D0*b*k*DS_DEF[ds]};
 }
 // v18 숙련도: 끼고 이긴 전투마다 +n. 다 차면 등급이 한 칸 오르고(도감 기록도 같이) 0부터 다시
 const mxTag=it=>it.g>=GRADES.length-1?'숙련 완료':`숙련 ${Math.floor(it.mx||0)}/${MX_NEED[it.g]}`;
@@ -920,7 +933,8 @@ function stats(){
   const c=CLASSES[S.cls||0];
   const sp=S.sp||{};
   let atk=c.atk*(10+(S.lv-1)+(sp.atk||0)*.4), hp=c.hp*(100+10*(S.lv-1)+(sp.hp||0)*4); // v18: 레벨 몫은 작게, 장비 몫을 크게
-  for(const sl of SLOTS){const it=S.eq[sl.k];if(it){const s=itemStat(it);atk+=s.atk;hp+=s.hp}}
+  let def=0;for(const sl of SLOTS){const it=S.eq[sl.k];if(it){const s=itemStat(it);atk+=s.atk;hp+=s.hp;def+=s.def||0}}
+  if((S.cls||0)===0)def*=1+PROMO_DEF*(S.promo||0); // v21 전사는 전직마다 방어력 +5%
   let atkP=0, hpP=0, skill=c.skill, final=1;
   // 세트 효과: 3·11피스 공통, 6·9피스는 세트마다 다름. v13부터 f는 항상 1
   let crit=c.crit, critM=c.critM, aspdP=0, dblP=0, heal=0, guard=0, burn=0, bossDmg=0, steal=0, xpP=rl('seed')*.05, spd=0, luckU=0;
@@ -946,8 +960,10 @@ function stats(){
   atk*=(1+atkP)*final*(1+cAtk)*cAll*rbB*(bf.atk>0?1.1:1); hp*=Math.max(.1,1+hpP)*(1+cHp)*cAll*rbB*(bf.hp>0?1.1:1);
   crit=Math.min(crit,1); guard=Math.min(guard,.75);
   const aspd=Math.min(2.2,c.aspd*(1+Math.min(.6,(sp.agi||0)*0.002))*(1+aspdP)), dbl=Math.min(1,0.08+Math.min(.3,(sp.agi||0)*0.0005)+dblP), luck=Math.min(1,(sp.luk||0)*0.002)+luckU;
-  const power=atk*aspd*(1+dbl)*(1+crit*(critM-1))*(1+skill*(c.skillM-1))+hp/8;
-  return{atk,hp,aspd,dbl,luck,crit,critM,skill:Math.min(skill,.6),skillM:c.skillM,power,c,heal,guard,burn,bossDmg,steal,xpP,spd,rbB,aura};
+  // v21: 전투력의 체력 몫은 방어력을 넣은 버틸 수 있는 피해량(기준 K는 가 본 가장 먼 지역 — 지역을 옮겨도 숫자가 흔들리지 않게)
+  const defR=Math.max(0,S.bestRegion||0),dm=defMul(def,defR),dmgRed=1-dm;
+  const power=atk*aspd*(1+dbl)*(1+crit*(critM-1))*(1+skill*(c.skillM-1))+hp/dm/8;
+  return{atk,hp,def,dmgRed,defR,aspd,dbl,luck,crit,critM,skill:Math.min(skill,.6),skillM:c.skillM,power,c,heal,guard,burn,bossDmg,steal,xpP,spd,rbB,aura};
 }
 let ST=null;
 function recalc(){
@@ -1148,14 +1164,14 @@ const monArtR=R=>ZONES[R].mk==null?R:ZONES[R].mk;
 // pwField: PW판 필드(일반 몹 평균 키 36px의 배수), pwBattle: PW판 전투 키(px)
 const BOSS_VIEW={field:[1.5,1.9,2.7],battle:[118,135,160],enc:[110,128,160],pwField:[2.4,3.3,4.4],pwBattle:[140,175,215]};
 const CB_D=1.45; // 대륙 보스는 한 번 더 세게(그 대륙 장비를 꽤 키워야)
-function monStats(tier,R,k,p){const h=stdHero(R,p),d=k===3?CB_D:1;return{hp:Math.round(MOB_HITS[k]*h.atk*d),atk:Math.max(1,Math.round(h.hp*d/MOB_KILLN[k]*10)/10),iv:MOB_IV[k]}}
+function monStats(tier,R,k,p){const h=stdHero(R,p),d=k===3?CB_D:1;return{hp:Math.round(MOB_HITS[k]*h.atk*d),atk:Math.max(1,Math.round(h.hp/defMul(h.def,R)*d/MOB_KILLN[k]*10)/10),iv:MOB_IV[k]}} // v21: 표준 주인공의 방어력만큼 세게(MOB_KILLN 체감 유지)
 function makeMon(x,y,tier,kind,bi,mi0,p){
   const R=world.r,Z=ZONES[R],A=monArtR(R);let e,n,mi=-1,D;
   if(kind==='b'){D=[Z.mid,Z.boss,Z.cb][bi];e=(bi===2?pickImg(Z.bk&&Z.bk[2],...(Z.cbk||['c'+Z.c+'boss'])):pickImg(Z.bk&&Z.bk[bi],A>=0?'z'+A+(bi?'boss':'mid'):null,D[2]))||D[1];p=1} // v19: Z.bk(비교판 새 보스 그림)가 먼저, 대륙 보스는 Z.cbk 목록(1대륙 노크투스, 4대륙 별을 삼킨 용)
   else{mi=mi0;D=Z.mons[mi];e=pickImg(A>=0?'z'+A+'m'+mi:null,D[2])||D[1]}
   n=D[0];
   const s=monStats(tier,R,kind==='b'?bi+1:0,p);
-  return{x,y,hx:x,hy:y,tier,kind,bi,mi,e,n,nm:kind==='b'?bossNm(R,bi):'',max:s.hp,hp:s.hp,atk:s.atk,iv:s.iv,cd:1,wt:0,vx:0,vy:0};
+  return{x,y,hx:x,hy:y,R,tier,kind,bi,mi,e,n,nm:kind==='b'?bossNm(R,bi):'',max:s.hp,hp:s.hp,atk:s.atk,iv:s.iv,cd:1,wt:0,vx:0,vy:0};
 }
 // 일반 몹 6종이 한 마리씩, 왼쪽→오른쪽 레벨 순서(가운데 중간 보스 양옆에 3마리씩).
 // v19: 칸 안의 자리와 레벨은 지역마다 늘 같다(환생해도 그대로라 공략을 쓸 수 있게). 잡으면 1~2초 뒤 같은 자리에서 다시 일어난다
@@ -1255,9 +1271,9 @@ function simFight(m,st,r){let mh=m.max,hh=st.hp,t=0,ha=.25,ma=.8;const iv=1/st.a
       if(r()<st.skill){d=roll()*st.skillM*(ci===3?3/2.2:ci===2?1.2:1)+(st.burn>0?st.atk*st.burn*3:0)}
       else{d=cr();if(r()<st.dbl)d+=cr()}
       d*=bm;mh-=d;if(st.heal||st.steal)hh=Math.min(st.hp,hh+st.hp*st.heal+d*st.steal);if(mh<=0)return[1,t]}
-    if(ma<=1e-9){ma+=miv;if(r()>=.08){let dm=m.atk*(0.9+r()*.2);if(st.guard&&hh<st.hp*.5)dm*=1-st.guard;hh-=dm;if(hh<=0)return[0,t]}}}
+    if(ma<=1e-9){ma+=miv;if(r()>=.08){let dm=m.atk*(0.9+r()*.2)*defMul(st.def,m.R??world.r);if(st.guard&&hh<st.hp*.5)dm*=1-st.guard;hh-=dm;if(hh<=0)return[0,t]}}}
   return[0,t]}
-function winRate(m,n){const st=ST,key=st.power.toFixed(3)+'|'+st.hp+'|'+m.max+'|'+m.atk;if(m._wk===key)return m._wr;
+function winRate(m,n){const st=ST,key=st.power.toFixed(3)+'|'+st.hp+'|'+st.def+'|'+m.max+'|'+m.atk;if(m._wk===key)return m._wr;
   let w=0,tt=0;const r=srand(((m.tier*7919+m.max)|0)+1);n=n||160;for(let i=0;i<n;i++){const [ok,t]=simFight(m,st,r);w+=ok;tt+=t}
   m._wk=key;m._wr=[w/n,tt/n];return m._wr}
 function predict(m){const [p,t]=winRate(m);
@@ -1385,7 +1401,7 @@ function openItemWin(it){
   w.innerHTML=`<div class="iw bd${it.g}"><div class="iw-k">${isC(it)&&it.nw?'NEW! 도감 등록':'아이템 획득!'}</div><div class="iw-ico bd${it.g} g${it.g}">${itemIcon(it,56)}</div>
    <div class="iw-n g${it.g}">${itemName(it)}</div><div class="iw-s">${gradeName(it)} · ${mxTag(it)}${it.set!=null?' · 세트 피스':''}</div>${isC(it)&&ITEMS[it.ci].fx?`<div class="iw-st g5">${ITEMS[it.ci].d}</div>`:''}
    <div class="iw-st">${statLine(it)}</div>
-   <div class="iw-c"><div class="iw-ct">${cur?'지금 장비: '+itemName(cur)+upTag(cur):'지금 비어 있는 자리'}</div>${line('공격력',now.atk,after.atk)}${line('체력',now.hp,after.hp)}
+   <div class="iw-c"><div class="iw-ct">${cur?'지금 장비: '+itemName(cur)+upTag(cur):'지금 비어 있는 자리'}</div>${line('공격력',now.atk,after.atk)}${line('체력',now.hp,after.hp)}${line('방어력',now.def,after.def)}
    <div class="${dp>=0?'pos':'neg'}"><b>전투력 ${dp>=0?'+':'-'}${fmt(Math.abs(dp))}</b></div></div>
    <div class="iw-b"><button id="iwClose">가방에 넣기</button><button id="iwCmp">비교</button><button class="main" id="iwEq">바로 장착</button></div></div>`;
   w.hidden=false;w.dataset.id=it.id;w.dataset.sk=sk;delete it.nw;
@@ -1424,7 +1440,7 @@ function update(dt){
     if(fight&&fight.st==='bat'&&fight.burn){const b=fight.burn;b.t-=dt;b.tick-=dt;if(b.tick<=0){b.tick+=1;hit(m,b.dmg,'burn')}if(fight&&fight.burn&&b.t<=0.001)fight.burn=null}
     if(fight&&fight.st==='bat'){m.cd-=dt;if(m.cd<=0){m.cd=m.iv||1.1;const H=HPOS();
       if(rnd()<.08){log(`${m.n}의 공격이 빗나갔어요`,'dim');addTxt(H.x,H.y-30,'MISS','#aaa',18)}
-      else{let dm=m.atk*(0.9+rnd()*.2);if(ST.guard&&heroHp<ST.hp*.5)dm*=1-ST.guard;heroHp-=dm;hero.hurt=.12;fightShake(2.5);fight.taken+=dm;fight.combo=0;addTxt(H.x,H.y-30,'-'+fmt(Math.round(dm)),'#ff3b4a',22);log(`${m.n}의 공격! ${fmt(dm)} 피해`,'hurt');if(heroHp<=0){heroDown();return}}}}
+      else{let dm=m.atk*(0.9+rnd()*.2)*defMul(ST.def,m.R??world.r);if(ST.guard&&heroHp<ST.hp*.5)dm*=1-ST.guard; /* v21 방어력 × 보스템 받는 피해 감소(곱) */heroHp-=dm;hero.hurt=.12;fightShake(2.5);fight.taken+=dm;fight.combo=0;addTxt(H.x,H.y-30,'-'+fmt(Math.round(dm)),'#ff3b4a',22);log(`${m.n}의 공격! ${fmt(dm)} 피해`,'hurt');if(heroHp<=0){heroDown();return}}}}
     if(fight&&fight.logDirty)renderLog();
     return;
   }
@@ -1655,7 +1671,7 @@ function gotItem(it,tag){
   it.nb=1;S.bag.unshift(it);L.push({it,...tag}); // v20 nb=가방 NEW 점. 도감 아이템은 자동 파쇄 없이 항상 가방으로
   itemQ.push(it);
 }
-function scoreOf(it){const s=itemStat(it);return s.atk*1+s.hp/8}
+function scoreOf(it){const s=itemStat(it);return s.atk*1+s.hp/8+(s.def||0)*(ST?ST.hp:100)/defK(S.bestRegion||0)/8} // v21 방어력 1 ≈ 체력×(1/K)
 function bestSlotFor(it){ // returns slot key if it improves something
   const cands=SLOTS.filter(sl=>sl.t===it.type);
   let worst=null,ws=Infinity;
@@ -2047,7 +2063,7 @@ function clearFx(){$('toast').innerHTML='';document.querySelectorAll('.fxpop').f
 function toast(html,color){if($('toTown'))return;const box=$('toast');while(box.children.length>=3)box.firstChild.remove();const el=document.createElement('div');el.className='toast';el.innerHTML=html;el.style.borderColor=color||'var(--accent)';$('toast').appendChild(el);setTimeout(()=>el.remove(),2600)}
 let pupT=null;
 function showPowerUp(d){const el=$('powerUp');el.textContent='▲ +'+fmt(d);clearTimeout(pupT);pupT=setTimeout(()=>el.textContent='',1800)}
-function statLine(it){const s=itemStat(it);return s.atk?`공격력 +${fmt(s.atk)}`:`체력 +${fmt(s.hp)}`}
+function statLine(it){const s=itemStat(it),o=[];if(s.atk)o.push(`공격력 +${fmt(s.atk)}`);if(s.hp)o.push(`체력 +${fmt(s.hp)}`);if(s.def)o.push(`방어 +${fmt(s.def)}`);return o.join(' · ')} // v21 방어력
 function upTag(it){return it.up?` +${it.up}`:''}
 
 function renderPanel(){
@@ -2055,7 +2071,7 @@ function renderPanel(){
   if(tab==='equip'){
     h+='<div class="sec">착용 장비</div><div class="slots">';
     for(const sl of SLOTS){const it=S.eq[sl.k];
-      h+=it?`<div class="slot bd${it.g}" data-card="${it.id}" style="cursor:pointer"><span class="sn">${sl.n}</span>${SPRITES[itemIconKey(it)]?itemIcon(it,28):''}<span class="it g${it.g}">${gradeName(it)}${upTag(it)}</span><span class="sn">${statLine(it).replace('공격력','공').replace('체력','체')}</span></div>`
+      h+=it?`<div class="slot bd${it.g}" data-card="${it.id}" style="cursor:pointer"><span class="sn">${sl.n}</span>${SPRITES[itemIconKey(it)]?itemIcon(it,28):''}<span class="it g${it.g}">${gradeName(it)}${upTag(it)}</span><span class="sn">${statLine(it).replace('공격력','공').replace('체력','체').replace(' · ',' ')}</span></div>`
             :`<div class="slot"><span class="sn">${sl.n}</span><span class="sn">비어 있음</span></div>`}
     h+='</div><div class="sec">세트 효과</div><div class="setbox">';
     const sets=setInfo();
@@ -2065,7 +2081,7 @@ function renderPanel(){
       for(const [on,t] of setEffLines(s.set,s.c))h+=`<div class="${on?'on':'off'}">${t}</div>`}
     h+='</div>';
     const st=ST;
-    h+=`<div class="sec">${st.c.n} · ${promoName()}</div><div class="note">전직 ${S.promo||0}/5 (+${Math.round(PROMO_B*(S.promo||0)*100)}%) · 수련 ${S.train||0}단계 (+${Math.round(TRAIN_B*(S.train||0)*100)}%) · 공격 속도 ${st.aspd}회/초 · 치명타 ${Math.round(st.crit*100)}% (×${st.critM}) · 스킬 「${st.c.sk}」 발동 ${(st.skill*100).toFixed(0)}% (×${st.skillM}) · 이동 속도 +${Math.round(st.spd*100)}% · 경험치 +${Math.round(st.xpP*100)}% · ${S.runs+1}번째 환생 · <b style="color:#ffd23d">환생 ${S.runs}회: 공격·체력 +${Math.round(REBIRTH_B*S.runs*100)}%</b></div>`;
+    h+=`<div class="sec">${st.c.n} · ${promoName()}</div><div class="note">방어력 ${fmt(st.def)} (받는 피해 -${Math.round(st.dmgRed*100)}%, ${zoneTag(st.defR)} 몹 기준${(S.cls||0)===0&&S.promo?` · 전사 전직 +${Math.round(PROMO_DEF*S.promo*100)}%`:''}) · 전직 ${S.promo||0}/5 (+${Math.round(PROMO_B*(S.promo||0)*100)}%) · 수련 ${S.train||0}단계 (+${Math.round(TRAIN_B*(S.train||0)*100)}%) · 공격 속도 ${st.aspd}회/초 · 치명타 ${Math.round(st.crit*100)}% (×${st.critM}) · 스킬 「${st.c.sk}」 발동 ${(st.skill*100).toFixed(0)}% (×${st.skillM}) · 이동 속도 +${Math.round(st.spd*100)}% · 경험치 +${Math.round(st.xpP*100)}% · ${S.runs+1}번째 환생 · <b style="color:#ffd23d">환생 ${S.runs}회: 공격·체력 +${Math.round(REBIRTH_B*S.runs*100)}%</b></div>`;
   }
   else if(tab==='bag'){
     h+=`<div class="opts"><label><input type="checkbox" id="optAE" ${S.opt.autoEquip?'checked':''}> 더 좋으면 자동 장착</label>
@@ -2212,7 +2228,7 @@ $('goals').addEventListener('pointerdown',e=>e.stopPropagation());
 $('chips').addEventListener('click',e=>{if(e.target.closest('[data-chip]'))openSheet('relic')});
 function renderStats(){
   renderHudExtras();
-  $('powerV').textContent=fmt(ST.power);$('atkV').textContent=fmt(ST.atk);$('hpV').textContent=fmt(ST.hp);
+  $('powerV').textContent=fmt(ST.power);$('atkV').textContent=fmt(ST.atk);$('hpV').textContent=fmt(ST.hp);{const e=$('defV');if(e){e.textContent=fmt(ST.def);$('defR').textContent='받는 피해 -'+Math.round(ST.dmgRed*100)+'%'}}
   $('hudLv').textContent=fmt(S.lv);$('hudEn').textContent=S.energy;$('enV').textContent=S.energy;$('spDot').hidden=!freePts();
   $('mStone').textContent=fmt(S.mats.stone);$('mEss').textContent=fmt(S.mats.essence);$('mCry').textContent=fmt(S.mats.crystal);$('mFrag').textContent=fmt(S.rp);updGold();
   $('xpBar').style.width=Math.min(100,S.xp/xpNeed()*100)+'%';
@@ -2236,17 +2252,19 @@ const invEl=(()=>{const d=document.createElement('div');d.id='invWin';d.classNam
 let invCur=null; // 지금 열린 화면 {kind:'card'|'cmp', id, sk}
 const eqSlotOf=it=>{for(const sl of SLOTS)if(S.eq[sl.k]&&S.eq[sl.k].id===it.id)return sl.k;return null};
 const slotNm=it=>TYPES[it.type].n;
+const dsTag=it=>{const d=isC(it)&&ITEMS[it.ci].ds;if(d==null||d===false)return '';return ' · '+(it.type==='gloves'?(d?'반반':'공격형'):DS_NM[d])}; // v21 방어 부위 모양
 
 // ---------- 능력치 줄 ----------
 // 보스 아이템 능력 이름표(짧게). 값은 [표시 글자, 비교용 숫자]
-const FX_LB={atkP:'공격력 %',hpP:'체력 %',crit:'치명타 확률',critM:'치명타 피해',aspd:'공격 속도',dbl:'더블 히트',skill:'스킬 발동',guard:'받는 피해 감소',
+const FX_LB={atkP:'공격력 %',hpP:'체력 %',crit:'치명타 확률',critM:'치명타 피해',aspd:'공격 속도',dbl:'더블 히트',skill:'스킬 발동',guard:'위기 때 피해 감소',
   steal:'흡혈',bossDmg:'보스 피해',xp:'경험치',spd:'이동 속도',luck:'좋은 등급 확률',final:'최종 피해'};
 const FX_UNIT={crit:'%p',dbl:'%p',skill:'%p'};
 function fxVal(k,v){if(k==='final')return '×'+(1+v).toFixed(2).replace(/0$/,'');const p=+(v*100).toFixed(1);return (k==='guard'?'-':p>=0?'+':'')+Math.abs(p)+(FX_UNIT[k]||'%')}
 function fxDiff(k,d){if(k==='final')return (d>=0?'+':'-')+Math.abs(d).toFixed(2);const p=+(Math.abs(d)*100).toFixed(1);return (d>=0?'+':'-')+p+(FX_UNIT[k]||'%')}
 // 아이템 한 개의 능력치 줄: [{k,n,v,txt}]
 function itemRows(it){if(!it)return[];const s=itemStat(it),out=[];
-  if(TYPES[it.type].st==='atk')out.push({k:'atk',n:'공격력',v:s.atk,txt:'+'+fmt(s.atk)});else out.push({k:'hp',n:'체력',v:s.hp,txt:'+'+fmt(s.hp)});
+  if(s.atk||TYPES[it.type].st==='atk')out.push({k:'atk',n:'공격력',v:s.atk,txt:'+'+fmt(s.atk)});if(s.hp||TYPES[it.type].st==='hp')out.push({k:'hp',n:'체력',v:s.hp,txt:'+'+fmt(s.hp)});
+  if(s.def)out.push({k:'def',n:'방어력',v:s.def,txt:'+'+fmt(s.def)}); // v21
   const fx=isC(it)&&ITEMS[it.ci].fx;if(fx)for(const k in fx)out.push({k,n:FX_LB[k]||k,v:fx[k],txt:fxVal(k,fx[k]),fx:1});
   return out}
 // 보스 세트 효과 글(장비 탭과 같은 문장). c = 지금 낀 피스 수
@@ -2297,7 +2315,7 @@ function bagBarHtml(){const f=S.opt.bagF||'all',s=S.opt.bagS||'new',n=t=>S.bag.f
 function openItemCard(id){const it=findItem(id);if(!it)return;if(it.nb){delete it.nb;save();dirty=true}
   invCur={kind:'card',id:it.id};const sk=eqSlotOf(it),need=mxNeed(it),mx=Math.floor(it.mx||0);
   let h=`<div class="ic bd${it.g}"><div class="ic-h">${itemIconBox(it,48)}<div class="grow"><div class="ic-n g${it.g}">${itemName(it)}${upTag(it)}</div>
-    <div class="ic-s"><b class="g${it.g}">${gradeName(it)} 등급</b> · ${slotNm(it)}${it.set!=null?' · ★ 세트':''}${sk?' · <span class="ic-on">착용 중</span>':''}${it.lk?' · 🔒 잠김 (파쇄·재료로 안 쓰여요)':''}</div></div></div>`;
+    <div class="ic-s"><b class="g${it.g}">${gradeName(it)} 등급</b> · ${slotNm(it)}${dsTag(it)}${it.set!=null?' · ★ 세트':''}${sk?' · <span class="ic-on">착용 중</span>':''}${it.lk?' · 🔒 잠김 (파쇄·재료로 안 쓰여요)':''}</div></div></div>`;
   h+=need?`<div class="ic-mx"><div><span>숙련도</span><span>${mx} / ${need} → ${GRADES[it.g+1].n}</span></div><div class="ic-bar"><i style="width:${Math.min(100,mx/need*100)}%"></i></div><small>끼고 이긴 전투마다 차요. 다 차면 다음 등급으로 올라요.</small></div>`
     :`<div class="ic-mx"><div><span>숙련도</span><span class="g7">숙련 완료 (최고 등급)</span></div></div>`;
   h+='<div class="ic-sec">능력치</div><div class="ic-st">'+itemRows(it).map(r=>`<div><span>${r.n}</span><b class="${r.fx?'g5':''}">${r.txt}</b></div>`).join('')+(it.up?`<div><span>강화</span><b>+${it.up} (수치 +${it.up*3}%)</b></div>`:'')+'</div>';
@@ -2320,7 +2338,7 @@ function openCompare(id,sk){const it=findItem(id);if(!it)return;if(eqSlotOf(it))
   h+='<div class="ic-sec">장비 능력치</div><div class="cp-t">';
   for(const k of keys){const a=A.find(r=>r.k===k),b=B.find(r=>r.k===k),va=a?a.v:0,vb=b?b.v:0,d=vb-va,nm=(a||b).n;
     const di=Math.floor(vb)-Math.floor(va); /* 화면에 보이는 숫자끼리 뺀 값 */
-    const dt=(k==='atk'||k==='hp')?(di===0?'<i class="cp-same">=</i>':`<i class="${di>0?'pos':'neg'}">${di>0?'▲+':'▼-'}${fmt(Math.abs(di))}</i>`):Math.abs(d)<1e-9?'<i class="cp-same">=</i>':`<i class="${d>0?'pos':'neg'}">${d>0?'▲':'▼'}${fxDiff(k,d)}</i>`;
+    const dt=(k==='atk'||k==='hp'||k==='def')?(di===0?'<i class="cp-same">=</i>':`<i class="${di>0?'pos':'neg'}">${di>0?'▲+':'▼-'}${fmt(Math.abs(di))}</i>`):Math.abs(d)<1e-9?'<i class="cp-same">=</i>':`<i class="${d>0?'pos':'neg'}">${d>0?'▲':'▼'}${fxDiff(k,d)}</i>`;
     h+=`<div><span>${nm}</span><b>${a?a.txt:'-'}</b><b>${b?b.txt:'-'} ${dt}</b></div>`}
   h+='</div>';
   // 세트 피스 수가 바뀌면
@@ -2328,8 +2346,8 @@ function openCompare(id,sk){const it=findItem(id);if(!it)return;if(eqSlotOf(it))
   const sk2=[...new Set([...Object.keys(s0),...Object.keys(s1)])].filter(R=>(s0[R]||0)!==(s1[R]||0));
   if(sk2.length)h+='<div class="cp-set">'+sk2.map(R=>{const a=s0[R]||0,b=s1[R]||0;return `<div class="${b>a?'pos':'neg'}">세트 「${regionData(+R).set}」 ${a} → ${b}피스${b>a&&[2,3,4].includes(b)?' · '+b+'세트 효과 켜짐!':a>b&&[2,3,4].includes(a)?' · '+a+'세트 효과 꺼짐':''}</div>`}).join('')+'</div>';
   // 끼면 내 능력치(캐릭터 최종 수치)
-  const pc=v=>Math.round(v*100)+'%',L=[['공격력',x=>x.atk,fmt,1],['체력',x=>x.hp,fmt,1],['공격 속도',x=>x.aspd,v=>v.toFixed(2)+'/초',1],['치명타',x=>x.crit,pc,1],
-    ['치명타 피해',x=>x.critM,v=>'×'+v.toFixed(2)],['더블 히트',x=>x.dbl,pc],['스킬 발동',x=>x.skill,pc],['받는 피해 감소',x=>x.guard,pc],['흡혈',x=>x.steal,v=>(v*100).toFixed(1)+'%'],['보스 피해',x=>x.bossDmg,v=>'+'+pc(v)],['경험치',x=>x.xpP,v=>'+'+pc(v)]];
+  const pc=v=>Math.round(v*100)+'%',L=[['공격력',x=>x.atk,fmt,1],['체력',x=>x.hp,fmt,1],['방어력',x=>x.def,fmt,1],['받는 피해 감소',x=>x.dmgRed,v=>'-'+Math.round(v*100)+'%',1],['공격 속도',x=>x.aspd,v=>v.toFixed(2)+'/초',1],['치명타',x=>x.crit,pc,1],
+    ['치명타 피해',x=>x.critM,v=>'×'+v.toFixed(2)],['더블 히트',x=>x.dbl,pc],['스킬 발동',x=>x.skill,pc],['위기 때 피해 감소',x=>x.guard,v=>'-'+Math.round(v*100)+'%'],['흡혈',x=>x.steal,v=>(v*100).toFixed(1)+'%'],['보스 피해',x=>x.bossDmg,v=>'+'+pc(v)],['경험치',x=>x.xpP,v=>'+'+pc(v)]];
   h+='<div class="ic-sec">끼면 내 능력치</div><div class="cp-t cp-me">';
   for(const [n,g,f,always] of L){const a=g(now),b=g(aft),same=f(a)===f(b);if(same&&!always)continue;
     h+=`<div><span>${n}</span><b>${f(a)}</b><b class="${same?'':b>a?'pos':'neg'}">${same?'':b>a?'▲ ':'▼ '}${f(b)}</b></div>`}
