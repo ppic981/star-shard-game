@@ -505,6 +505,18 @@ button.main{background:linear-gradient(180deg,#ffe08a 0,#f0b840 45%,#c8861e 100%
 .rr-l.lk{border-color:#ffd38a;background:#2a1e10}
 .rr-cmp{width:100%;display:flex;gap:4px;align-items:center;margin:4px 0}.rr-cmp>div:not(.to){flex:1;background:rgba(0,0,0,.3);border-radius:9px;padding:6px;min-height:70px}.rr-cmp small{font-size:10px;color:#c8a070}.rr-cmp p{margin:3px 0;font-size:12px;color:#f1dfc0}.rr-cmp .chg{color:#7dff9a;font-weight:800}.rr-cmp .no{color:#776}.rr-cmp .to{color:#c8a070;font-weight:900}
 .rr-b{display:flex;gap:6px;width:100%}.rr-b button{flex:1;min-height:48px;font-size:16px;font-weight:900}
+/* v24b 폰 전체 화면: 보이는 높이(dvh) 안에 맞추고, 노치·홈 막대 피하고, 닫기 버튼은 위에 고정 */
+.sm-scr,.tw-scr{top:0;bottom:auto;height:100%;height:100dvh;overflow:hidden}
+.sm-in,.tw-in{height:100%;max-height:100%;min-height:0;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.sm-hd,.tw-hd{flex:none;position:sticky;top:0;z-index:5}.sm-mats,.sm-tabs,.tw-info{flex:none}
+.sm-x,.tw-x{width:40px;height:40px;font-size:16px;flex:none}
+.sm-body,.tw-body{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.sm-grid{max-height:calc(100dvh - 200px - env(safe-area-inset-top,0px))}
+.vn-wrap,.bty-wrap{padding-top:calc(env(safe-area-inset-top,0px) + 6px)}
+.bty-board{-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.vn-panel{-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
+.res{max-height:calc(100% - 16px - env(safe-area-inset-top,0px));-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y}
+.dlg-x{width:34px;height:34px}
 </style>
 <div id="app">
   <div class="stage" id="stage"><canvas id="cv"></canvas>
@@ -1038,7 +1050,7 @@ function cleanSave(o){
   {const ru=r.run&&typeof r.run==='object'&&!Array.isArray(r.run)?r.run:{};
    r.run={bosses:Math.floor(num(ru.bosses,0,0)),newFirst:Math.floor(num(ru.newFirst,0,0)),maxLv:Math.floor(num(ru.maxLv,1,1)),
      newU:Array.isArray(ru.newU)?ru.newU.filter(x=>Number.isInteger(x)&&x>=0&&x<ITEMS.length):[]}}
-  r.runOver=r.runOver===true;r.needRun=r.needRun===true;
+  r.runOver=r.runOver===true;r.needRun=r.needRun===true;r.prepRun=r.prepRun===true;
   // v19
   r.gold=Math.floor(Math.min(1e15,num(r.gold,0,0)));r.vil=Math.min(4,Math.floor(num(r.vil,0,0)));r.vilG=Math.floor(Math.min(1e15,num(r.vilG,0,0)));
   r.train=Math.min(20,Math.floor(num(r.train,0,0)));r.altar=flags(r.altar,k=>cKey(k)&&r.shards[k]);r.promo=Math.min(Object.keys(r.altar).length,Math.floor(num(r.promo,0,0)));
@@ -3543,7 +3555,8 @@ const twEl=(()=>{const d=document.createElement('div');d.id='towerScr';d.classNa
 .tw-btns .tw-go{background:linear-gradient(#a58bff,#5b3fd0);color:#fff;border:2px solid #d8ccff}.tw-btns button:disabled{opacity:.45}
 .tw-note{font-size:11px;color:#a99ad8;line-height:1.55;text-align:center}
 .tw-rw{margin-top:8px;background:rgba(10,8,30,.6);border:1px solid #4a3f8a;border-radius:10px;padding:7px 10px;font-size:12px;color:#e6dcff;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.tw-rw b{color:#ffe07a}`;document.head.appendChild(s)})();
+.tw-rw b{color:#ffe07a}
+.tw-scr{height:100%;height:100dvh;bottom:auto}.tw-in{height:100%;min-height:0;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}.tw-hd,.tw-info{flex:none}.tw-x{width:40px;height:40px}.tw-body{min-height:0;-webkit-overflow-scrolling:touch;overscroll-behavior:contain}`;document.head.appendChild(s)})();
 let twT={busy:false,f:1,res:null,auto:false,raf:0};
 function openTower(){const T=twState();twT={busy:false,f:T.best+1,res:null,auto:false,raf:0};joy=null;if(typeof hero!=='undefined')hero.vx=hero.vy=0;twEl.hidden=false;renderTower()}
 function closeTower(){if(twT.busy)return;cancelAnimationFrame(twT.raf);twEl.hidden=true;const n=world&&world.npcs&&world.npcs.find(x=>x.role==='portal');if(n)n.wait=true}
@@ -3684,6 +3697,46 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
 .ttl-bar{position:relative;height:10px;margin-top:3px;border-radius:6px;background:#0d0b12;overflow:hidden}.ttl-bar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#8a6a2a,#e0b050)}
 .ttl-bar span{position:absolute;inset:0;font-size:8.5px;line-height:10px;text-align:center;color:#fff}
 .ttl-c button{min-height:32px;padding:0 12px;font-size:12px}`;document.head.appendChild(s)})();
+</script>
+<script>
+// v24b 안전장치: 전투 횟수 0(패배 포함) → 결산 → "돌아가기"를 누르면 마을에서 바로 새 환생 준비 상태(멈춤 없이)
+// 고친 것: 마을에 오면 무적 깜빡임(hero.inv)이 안 줄어 계속 반짝이던 문제(마을 업데이트는 inv를 안 줄임)
+function prepRunInTown(c){if(c==null)c=S.cont||0;const er=enterRegion;enterRegion=function(){};
+  try{newRun(c)}finally{enterRegion=er}
+  S.lastR=S.cont*4;S.prepRun=true;fight=null;itemQ.length=0;lootWait=false;$('itemWin').hidden=true;setOv('');closeSheet();enterTown(S.cont);hero.inv=0;joy=null;save();dirty=true}
+{const _e=enterTown;enterTown=function(){const r=_e.apply(this,arguments);hero.inv=0;hero.hurt=0;return r}}
+// 결산 "돌아가기"(마을 이름으로 돌아가기) → 새 환생 준비
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#toTown');if(!b)return;e.stopPropagation();e.preventDefault();prepRunInTown(S.cont)},true);
+// 마을에서 환생이 끝난 상태로 남아 있으면 환생 탭에 버튼
+{const _t=tabReb22;tabReb22=function(){const h=_t.apply(this,arguments);if(!(S.runOver&&world&&world.town))return h;
+  return h.replace(/<div class="note rb2-n">마을 오른쪽 입구 문으로 나가면 새 환생이 시작돼요\.<\/div>/,`<button class="main rb2-b" id="prepRunBtn">새 환생 준비하기 (전투 횟수 ${startEnergy()})</button>`)}}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#prepRunBtn');if(!b)return;e.stopPropagation();prepRunInTown(S.cont)},true);
+// 지킴이: 어떤 이유로든 멈춘 상태를 1초마다 풀어 준다
+let fixDyT=0,fixLwT=0;
+setInterval(()=>{try{if(!S||S.cls==null||!world)return;
+  if(world.town&&hero.inv>0)hero.inv=0;
+  if(fight&&fight.st==='dying'){fixDyT++;if(fixDyT>=4){fixDyT=0;heroDown0()}}else fixDyT=0; // 쓰러지는 연출이 4초 넘게 멈춤
+  if(lootWait&&$('itemWin').hidden){fixLwT++;if(fixLwT>=4){fixLwT=0;lootWait=false;showItem()}}else fixLwT=0;
+  if(world.town||fight)return;
+  if(!S.runOver&&runActive()&&S.energy<=0&&$('itemWin').hidden&&!lootWait&&!itemQ.length){endRun();return} // 횟수 0인데 결산이 안 뜸
+  if(S.runOver&&!$('toTown')&&$('sheet').hidden&&$('itemWin').hidden)showRunEnd(); // 사냥터에서 결산 창이 사라짐
+ }catch(e){}},1000);
+// 결산 창 안내 한 줄
+{const _s=showRunEnd;showRunEnd=function(){_s.apply(this,arguments);const b=$('toTown');if(b&&!b.dataset.v24b){b.dataset.v24b=1;b.insertAdjacentHTML('beforebegin','<div class="note" style="margin:6px 0 4px">누르면 마을에서 새 환생이 바로 준비돼요</div>')}}}
+// 준비만 된 환생(아직 사냥터에 안 나감)은 "환생 끝" 상태처럼 다룬다: 포탈로 다른 대륙 고르기 가능(그 대륙으로 다시 준비)
+{const _r=enterRegion;enterRegion=function(){if(S.prepRun&&!world){enterTown(S.cont||0);return}S.prepRun=false;return _r.apply(this,arguments)}} // 준비 상태로 저장된 뒤 다시 열면 마을에서
+{const _p=portalPanel;portalPanel=function(){if(!S.prepRun)return _p.apply(this,arguments);const ro=S.runOver;S.runOver=true;try{return _p.apply(this,arguments)}finally{S.runOver=ro}}}
+{const _t=townClick;townClick=function(b){if(b&&b.dataset&&b.dataset.goc&&S.prepRun){const c=+b.dataset.goc;if(S.contOpen[c]){npcTalk=null;prepRunInTown(c);return true}}return _t(b)}}
+{const _t=tabReb22;tabReb22=function(){const h=_t.apply(this,arguments);if(!(S.prepRun&&world&&world.town))return h;
+  return h.replace(/<button class="main rb2-b" id="rebBtn">지금 환생하기<\/button>/,'<div class="note rb2-n">새 환생 준비 완료! 마을 오른쪽 입구나 해골 길잡이에게서 출발해요. 다른 대륙은 포탈에서 고를 수 있어요.</div>')}}
+{const _g=gateAsk;gateAsk=function(){if(!S.prepRun)return _g.apply(this,arguments);const ro=S.runOver;S.runOver=true;try{return _g.apply(this,arguments)}finally{S.runOver=ro}}} // 준비 상태면 "새 환생 출발" 안내
+// 지역·마을 이름 큰 글씨가 메뉴·게시판·대장간 위에 겹치던 것: 창이 열려 있으면 띄우지 않고, 창을 열면 지운다
+{const _b=showBanner;showBanner=function(){const st=$('stage');_b.apply(this,arguments);const el=st&&st.lastElementChild;if(el)el.classList.add('stbn')}}
+const hideBanners=()=>document.querySelectorAll('.stbn').forEach(e=>e.remove());
+{const _o=openSheet;openSheet=function(){hideBanners();return _o.apply(this,arguments)}}
+{const _o=openSmith;openSmith=function(){hideBanners();return _o.apply(this,arguments)}}
+{const _o=openTower;openTower=function(){hideBanners();return _o.apply(this,arguments)}}
+{const _o=openBounty;openBounty=function(){hideBanners();return _o.apply(this,arguments)}}
 </script>
 <script>
 // 자동 생성(tools/pw_pack.py). Pixelwright 무료 팩 그림: 게임 안에서만 쓰기, 파일 재배포·AI 학습 금지
