@@ -322,6 +322,73 @@ button.main{background:linear-gradient(180deg,#ffe08a 0,#f0b840 45%,#c8861e 100%
 .bagf{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px}.bagf button{padding:4px 7px;font-size:12px}.bagf button small{margin-left:3px;color:var(--dim);font-size:10px}
 .bagf button.on,.bags button.on{border-color:var(--accent);color:var(--accent)}
 .bags{display:flex;gap:4px;align-items:center;margin-bottom:8px;flex-wrap:wrap}.bags button{padding:4px 8px;font-size:12px}.bags span{font-size:11px;color:var(--dim);margin-left:auto}
+/* v22 장비 배치 판 */
+.pd{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:6px;margin:4px 0 8px}
+.pd-s{position:relative;min-height:74px;padding:4px 2px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:var(--panel);border:2px solid var(--line);border-radius:10px}
+.pd-s.on{box-shadow:0 0 0 2px var(--accent)}.pd-n{font-size:10px;color:var(--dim)}.pd-e{font-size:20px;color:var(--line)}.pd-g{font-size:11px;font-weight:700}
+.pd-up{position:absolute;right:3px;top:2px;color:var(--ok);font-style:normal;font-weight:900;font-size:12px;text-shadow:0 0 3px #000}
+.pd-h{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:radial-gradient(circle at 50% 40%,rgba(255,210,80,.14),transparent 70%);border-radius:12px;text-align:center}.pd-h small{font-size:11px;color:var(--dim)}
+/* v22 가방 격자 */
+.bg-top{display:flex;justify-content:space-between;align-items:center;font-size:12px;margin-bottom:6px}.bg-top span{color:var(--dim)}
+.bg-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:6px}.bg-tabs button{padding:5px 2px;font-size:11px;display:flex;flex-direction:column;align-items:center;line-height:1.2}.bg-tabs button span{font-size:16px}.bg-tabs small{color:var(--dim);font-size:10px}
+.bg-tabs button.on,.bg-sort button.on,.cx-sub button.on,.cx-cont button.on{border-color:var(--accent);color:var(--accent)}
+.bg-sort{display:flex;gap:4px;margin-bottom:8px}.bg-sort button{padding:5px 8px;font-size:12px}.bg-sort .bg-dis{margin-left:auto;font-size:11px;color:var(--dim)}
+.bg-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.bg-c{position:relative;aspect-ratio:1;padding:0;display:grid;place-items:center;background:var(--panel2);border:2px solid var(--line);border-radius:9px;min-width:0}
+.bg-empty{opacity:.35;border-style:dashed}
+.bg-gr{position:absolute;left:3px;bottom:1px;font-size:10px;font-weight:800;text-shadow:0 0 3px #000,0 0 3px #000}.bg-up{position:absolute;right:3px;bottom:1px;font-size:10px;color:#fff;font-weight:700;text-shadow:0 0 3px #000}
+.bg-b{position:absolute;right:2px;top:0;color:var(--ok);font-style:normal;font-weight:900;font-size:13px;text-shadow:0 0 3px #000,0 0 3px #000}
+.bg-new{position:absolute;left:3px;top:3px;width:9px;height:9px;border-radius:50%;background:#ff4d5e;box-shadow:0 0 0 2px var(--panel2)}.bg-lk{position:absolute;left:1px;top:0;font-style:normal;font-size:11px}
+/* v22 도감 격자 */
+.cx-sub{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}.cx-sub button{padding:7px;font-size:13px}
+.cx-top{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-bottom:8px;font-size:13px}.cx-top span{color:var(--dim);font-size:12px}.cx-top small{color:var(--dim);font-size:11px}
+.cx-cont{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-bottom:6px}.cx-cont button{padding:4px 1px;font-size:10px;line-height:1.3}.cx-cont small{display:block;color:var(--dim)}
+.cx-rh{display:flex;justify-content:space-between;margin:10px 2px 4px;font-size:13px}.cx-rh span{color:var(--dim);font-size:12px}
+.cx-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:4px}
+.cx-c{position:relative;aspect-ratio:1;padding:0;display:grid;place-items:center;background:var(--panel2);border:2px solid;border-radius:8px;min-width:0}
+.cx-c>span{position:absolute;left:2px;bottom:0;font-size:9px;font-weight:800;text-shadow:0 0 3px #000}.cx-c>i{position:absolute;right:2px;top:0;font-size:9px;font-style:normal;color:#ffd23d}
+.cx-no{border-color:var(--line);border-style:dashed}.cx-no b{color:var(--line);font-size:16px}.cx-sil{position:static!important;filter:brightness(0);opacity:.45}
+/* v22 환생 */
+.rb2-h{display:flex;justify-content:space-between;align-items:center;font-family:var(--f-display);font-size:20px;margin-bottom:6px}.rb2-h button{width:34px;height:34px;border-radius:50%;padding:0;font-size:16px}
+.rb2-en{text-align:center;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:8px}.rb2-en b{display:block;font-size:44px;line-height:1.1;color:var(--accent)}.rb2-en small{color:var(--dim);font-size:12px}
+.rb2-l{margin:0 0 10px;padding-left:18px;font-size:13px;line-height:1.7}.rb2-b{width:100%;padding:14px;font-size:17px}.rb2-n{margin:8px 0}
+/* v22 NPC 대화창 */
+.dlg-wrap{position:absolute;left:8px;right:8px;bottom:64px;pointer-events:auto;display:flex;flex-direction:column;gap:6px;max-height:calc(100% - 120px)}
+.dlg-panel{position:relative;overflow-y:auto;background:rgba(14,12,20,.96);border:2px solid #7a5a2a;border-radius:12px;padding:10px 10px 8px;box-shadow:0 0 0 2px #000,0 6px 20px rgba(0,0,0,.6)}
+.dlg-x{position:absolute;right:6px;top:6px;width:28px;height:28px;padding:0;min-height:0;font-size:13px;z-index:1}
+.dlg{display:flex;gap:10px;padding:10px;background:linear-gradient(180deg,rgba(38,30,46,.97),rgba(16,13,22,.98));border:3px double #c9a14e;border-radius:12px;box-shadow:0 0 0 2px #000,inset 0 0 0 1px rgba(255,220,140,.15),0 8px 24px rgba(0,0,0,.6);position:relative}
+.dlg::before,.dlg::after{content:"◆";position:absolute;top:-10px;color:#e0b75a;font-size:12px;text-shadow:0 0 4px #000}.dlg::before{left:12px}.dlg::after{right:12px}
+.dlg-face{flex:none;width:84px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.dlg-face img,.dlg-face>span{width:80px;height:80px;object-fit:contain;image-rendering:pixelated;background:radial-gradient(circle,rgba(255,210,120,.18),transparent 70%);border:2px solid #7a5a2a;border-radius:10px;display:grid;place-items:center;font-size:44px}
+.dlg-name{font-size:11px;font-weight:700;color:#1a1208;background:linear-gradient(#f0d48a,#c9a14e);border-radius:6px;padding:1px 6px;text-align:center;line-height:1.3;word-break:keep-all}
+.dlg-body{flex:1;min-width:0;display:flex;flex-direction:column}
+.dlg-role{font-size:11px;color:#c8b48c}.dlg-txt{flex:1;margin:4px 0 8px;font-size:14px;line-height:1.6;color:#fff;min-height:44px;word-break:keep-all}
+.dlg-b{display:flex;flex-wrap:wrap;gap:5px}.dlg-b button{flex:1 1 auto;min-width:64px;padding:8px 6px;font-size:13px}.dlg-b button.on{border-color:var(--accent);color:var(--accent)}
+/* v22 지도 지역 정보 */
+.wr-btn{width:100%;margin-top:4px;padding:4px;font-size:11px}
+.wr-t{font-weight:700;margin-bottom:6px}
+.wr-m{display:flex;gap:8px;padding:6px;margin-bottom:5px;background:var(--panel);border:1px solid var(--line);border-radius:10px}.wr-m.boss{border-color:#a0582a}
+.wr-p{flex:none;width:52px;height:52px;display:grid;place-items:center;background:var(--panel2);border-radius:8px}.wr-p img{max-width:48px;max-height:48px;image-rendering:pixelated}.wr-p span{font-size:28px}
+.wr-i{flex:1;min-width:0;font-size:12px;line-height:1.4}.wr-i small{display:block;color:var(--dim);font-size:11px}
+.wr-d{display:flex;flex-wrap:wrap;gap:3px;margin-top:3px}.wr-it{position:relative;width:26px;height:26px;display:grid;place-items:center;border:2px solid;border-radius:6px;background:var(--panel2)}.wr-it.no{border-color:var(--line);opacity:.6}.wr-it.no img{filter:brightness(0);opacity:.5}
+.wr-it i{position:absolute;font-style:normal;font-size:11px;color:var(--dim)}.wr-rel{border-color:#ffd23d;font-size:14px}.wr-rel.no{border-color:var(--line)}
+/* v22 C3 대륙 보스 대화 */
+.cbt-wrap{position:absolute;inset:0;pointer-events:auto;display:flex;flex-direction:column;justify-content:flex-end;padding:0 8px 86px;background:linear-gradient(180deg,rgba(6,5,15,0) 40%,rgba(6,5,15,.75));cursor:pointer}
+.cbt{display:flex;align-items:flex-end;gap:6px;background:linear-gradient(180deg,#1c1733,#100d20);border:2px solid #8a74d8;border-radius:12px;box-shadow:0 0 0 2px #2a2150 inset,0 0 18px rgba(140,110,255,.35);padding:8px 6px;min-height:120px}
+.cbt-f{width:76px;flex:0 0 76px;height:92px;display:flex;align-items:flex-end;justify-content:center;opacity:.35;filter:grayscale(.6) brightness(.7);transition:opacity .2s,filter .2s}
+.cbt-f.on{opacity:1;filter:none}.cbt-f img{max-width:100%;max-height:100%;image-rendering:pixelated;object-fit:contain}.cbt-f span{font-size:44px}.cbt-f.r img{transform:scaleX(-1)}
+.cbt-b{flex:1;min-width:0;align-self:stretch;display:flex;flex-direction:column;gap:4px}.cbt-n{align-self:flex-start;background:#3a2f6b;color:#fff;font-size:12px;font-weight:700;padding:2px 8px;border-radius:6px}.cbt-n.b{background:#6b2f5c;color:#ffd6f3}
+.cbt-t{font-size:14px;line-height:1.5;color:#f1ecff;overflow-wrap:anywhere}.cbt-b small{margin-top:auto;font-size:10px;color:var(--dim)}
+.cbt-s{position:absolute;top:56px;right:10px;width:auto;min-height:0;padding:4px 10px;font-size:12px}
+/* v22 B 유물 탭, 건너뛰기 */
+.rl-h{display:flex;justify-content:space-between;align-items:baseline;gap:6px}.rl-h b{font-size:16px;color:#ffd23d}.rl-h small{color:var(--dim);font-size:11px}
+.rl-g{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:6px 0 4px}
+.rl-c{display:flex;gap:6px;align-items:flex-start;padding:6px;border:1px solid var(--line);border-radius:8px;min-width:0;opacity:.55}
+.rl-c.have{opacity:1;border-color:#ffd23d;background:rgba(255,210,61,.06)}
+.rl-c div{min-width:0;display:flex;flex-direction:column;font-size:12px;line-height:1.3}.rl-c b{overflow-wrap:anywhere}.rl-c small{font-size:10.5px;color:var(--dim);overflow-wrap:anywhere}
+.rl-e{font-size:20px;line-height:1}.rl-c:not(.have) .rl-e{filter:grayscale(1) brightness(.5)}
+.sk-r{display:flex;justify-content:space-between;gap:6px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;margin-bottom:4px;font-size:12px;text-align:left}
+.sk-r.ok{border-color:var(--ok)}.sk-r.ok b{color:var(--ok)}.sk-r small{color:var(--dim);font-size:11px;white-space:nowrap}
 @media (prefers-reduced-motion:reduce){.enc-pic>*,.enc-warn{animation:none}}
 </style>
 <div id="app">
@@ -354,7 +421,7 @@ button.main{background:linear-gradient(180deg,#ffe08a 0,#f0b840 45%,#c8861e 100%
     <span>강화석 <b id="mStone">0</b></span>
     <span>보스의 정수 <b id="mEss">0</b></span>
     <span>태초의 결정 <b id="mCry">0</b></span>
-    <span>유물 포인트 <b id="mFrag">0</b></span>
+    <span>유물 Lv <b id="mFrag">0</b></span>
     <span>골드 <b id="mGold" style="color:#ffd23d">0</b></span>
   </div>
   <div class="xpbar" title="경험치"><i id="xpBar"></i></div>
@@ -363,7 +430,6 @@ button.main{background:linear-gradient(180deg,#ffe08a 0,#f0b840 45%,#c8861e 100%
     <button role="tab" data-tab="bag" aria-selected="false">가방</button>
     <button role="tab" data-tab="stat" aria-selected="false">스탯</button>
     <button role="tab" data-tab="up" aria-selected="false">강화</button>
-    <button role="tab" data-tab="relic" aria-selected="false">유물</button>
     <button role="tab" data-tab="codex" aria-selected="false">도감</button>
     <button role="tab" data-tab="reb" aria-selected="false">환생</button>
   </div>
@@ -415,7 +481,7 @@ const CLASSES=[
 // {n:'프리스트',e:'✨',atk:.85,hp:1.35,aspd:1.0,crit:.05,critM:2,skill:.09,skillM:3.5,sk:'성스러운 빛',d:'스킬이 터질 때 체력을 회복한다.'}
 // AUTO_SP 프리스트 몫: [['atk',2],['hp',2],['luk',1]]
 // v12 유물 6개: 판이 끝나면 받는 유물 포인트로 강화. mx=최대 단계, c0=첫 비용, cm=단계마다 비용 배율
-const RELICS=[
+const RELICS_OLD=[ // v22: 유물 상점은 없앴다. 옛 저장의 유물 단계·포인트를 유물 경험치로 바꿀 때만 쓴다
  {k:'hour',n:'모래시계',mx:20,c0:10,cm:1.3,d:l=>`시작 전투 횟수 +${l}`},
  {k:'seed',n:'성장의 씨앗',mx:30,c0:10,cm:1.3,d:l=>`경험치 +${l*5}%`},
  {k:'coin',n:'행운의 동전',mx:30,c0:12,cm:1.3,d:l=>`좋은 등급이 나올 확률 +${l*5}%`},
@@ -444,14 +510,16 @@ const STD_GM0=[.3,.75,1.15,1.5], STD_GMN=[.91,1.14,1.45,1.74]; // 장비 배율(
 const STD_SET0=[1,1,1.1,1.15], STD_SETN=[1.2,1.2,1.25,1.3];
 // v18 장비 숙련도: 끼고 이긴 전투마다 쌓여서 등급이 한 칸씩 오른다(D→C 20회 … SSS→SSS+ 400회, 모두 약 1,000회)
 const MX_NEED=[20,35,60,100,160,250,400];
-const REBIRTH_B=.05;
+const REBIRTH_B=0; // v22: 환생 보너스(+5%/회)는 없앴다. 대신 레벨 유지 + 보스 유물
+const STD_RB=.03; // 표준 주인공(몹 세기 기준)이 가정하는 영구 성장(v22: .05→.03). 환생 보너스가 빠진 자리는 유물 레벨·전직·훈련이 채운다(봇으로 맞춤)
+const KEEP_LV=false; // v22 환생하면 레벨 1부터(2026-11-27 사용자 결정). true면 레벨 유지
 // 난이도 보정(봇으로 맞춤): 처음 그 지역에 올 때의 주인공은 표준보다 약간 강해서, 몹은 표준의 이만큼 세게
 // v19: 전직·훈련·물약만큼 몹을 조금 세게(봇으로 맞춤): 1대륙 ×STD_V0, 2대륙부터 ×STD_VN
 const STD_V0=1.05, STD_VN=1.08;
 const STD_D=(R,q)=>{const c=Math.floor(R/4),i=R%4+q;return c?STD_VN*2.0*(1+.12*i):STD_V0*([1,1.35,1.7,2.0,2.1][Math.floor(i)]+([1,1.35,1.7,2.0,2.1][Math.min(4,Math.floor(i)+1)]-[1,1.35,1.7,2.0,2.1][Math.floor(i)])*(i%1))}; // 환생 1회당 공격·체력 +5%(영구)
 function stdHero(R,p){const c=Math.floor(R/4),i=R%4,q=Math.max(0,Math.min(1.2,p||0))*.6;
   const G=c?STD_GMN.map(x=>x*Math.pow(2,c)):STD_GM0,g=G[i]+((i<3?G[i+1]:G[3]*1.12)-G[i])*q;
-  const L=1+3*c+2*i+q*2,rb=c?3+3*c+i:i,sf=(c?STD_SETN:STD_SET0)[i],k=sf*(1+REBIRTH_B*rb)*(1+.05*c);
+  const L=1+3*c+2*i+q*2,rb=c?3+3*c+i:i,sf=(c?STD_SETN:STD_SET0)[i],k=sf*(1+STD_RB*rb)*(1+.05*c);
   // v21: 표준 주인공은 모양이 고르게 섞인 장비(체력 부위 체력 ×0.7·방어 ×0.5, 장갑 공격 ×0.85·방어 ×0.25)
   const d=STD_D(R,q);return{atk:(10+1.8*(L-1)+6.85*ITEM_A0*g)*k*d,hp:(100+18*(L-1)+3.5*ITEM_H0*g)*k*d,def:2.75*ITEM_D0*g}}
 // 몹: 표준 주인공이 몇 대 쳐야 쓰러지는지(HITS), 표준 주인공을 몇 대에 쓰러뜨리는지(KILLN). 일반, 중간, 지역, 대륙 보스
@@ -519,7 +587,7 @@ const STORY='옛날 「별을 삼킨 용」이 하늘의 큰 별 「아스텔」
 // 대륙: pos 지도 위치(c 가운데, r 오른쪽, l 왼쪽, d 아래, u 위), col 지도·배너 색, sky 판 배경
 const CONTINENTS=[
  {n:'새벽의 대륙',pos:'c',col:'#7fd67a',town:'햇살마을',boss:'별빛 사제 노크투스',title:'새벽의 용사',
-  npc:{chief:['해바라기 할머니','👵'],smith:['무쇠 할아범','👴'],sage:['책벌레 루미','🧑‍🎓'],relic:['떠돌이 상인 모아','🧕'],portal:['별지기 소년 테오','👦']}},
+  npc:{chief:['해바라기 할머니','👵'],smith:['무쇠 할아범','👴'],sage:['책 위의 노학자 오르빈','🧙‍♂️'],relic:['드워프 행상 모아','🧔‍♂️'],portal:['해골 길잡이 테오','💀']}},
  {n:'황혼의 대륙',pos:'r',col:'#ff9a5a',town:'황혼 요새',boss:'타락한 별의 왕',title:'황혼을 넘은 자',
   npc:{chief:['요새 사령관 카일','🧔'],smith:['불꽃 대장장이 브론','👨‍🏭'],sage:['기록관 세린','👩‍🏫'],relic:['노을 상인 하루','🧑‍💼'],portal:['문지기 노병 그렌','💂']}},
  {n:'잊힌 대륙',pos:'l',col:'#4fd1c5',town:'망각의 항구',boss:'시간을 먹는 자',title:'시간의 방랑자',
@@ -535,16 +603,16 @@ const CHIEF_LINES=[
  ['안개 낀 망각의 항구에 잘 왔소.','여기 사람들은 어제 일을 잊어버리오. 시간의 신전에 사는 「{boss}」가 시간을 먹어 치우기 때문이지.','가라앉은 도시와 늪굴, 멈춘 기계 유적을 지나야 신전에 닿을 수 있소.'],
  ['거꾸로 탑에 온 걸 환영해. 여기서는 위가 아래고 아래가 위야.','꿈결의 대륙은 누군가의 꿈이 굳어서 생긴 땅이래.','악몽의 정원 끝에 「{boss}」이 내려앉았어. 하늘의 별을 부순 바로 그 용이야.'],
  ['마지막 등대에 닿았구나. 여기서부터는 별의 바다야.','네 개의 별 조각이 네 안에서 반짝이는 게 보여.','성운 정원과 운석 띠, 블랙홀 가장자리를 지나면 별의 심장이 있어.','그곳에서 「{boss}」과 마주하렴. 부서진 별을 다시 이을 수 있는 건 너뿐이야.']];
-const NPC_LINES={
- shop:['어서 와요! 도감에 한 번이라도 올린 장비는 여기서 D급으로 다시 살 수 있어요.','골드는 몬스터가 떨궈요. 환생해도 그대로 남으니 차곡차곡 모아 봐요.'],
- inn:['푹 쉬어 가요. 물약을 마시면 다음 몇 번의 전투가 한결 수월해져요.'],
- market:['시장이 열렸으니 이제 1대륙 장비를 전부 들여놨지. C급도 있다네.'],
- train:['땀은 배신하지 않아. 골드를 내면 영원히 남는 수련을 시켜 주지.'],
- watch:['망루에서 보면 사냥터가 한눈에 보여. 덕분에 환생할 때마다 전투 횟수가 늘 거야.'],
- smith:['장비는 SS 이상부터 강화할 수 있지. 실패해도 장비는 안 깨지니 걱정 말게.','강화석은 몹을 잡거나 같은 장비가 또 나오면 생긴다네.'],
- sage:['도감은 네가 얻은 장비의 기록이야. 칸이 늘수록, 등급이 높을수록 영원히 강해져.','못 찾은 칸에는 떨구는 몹 이름이 적혀 있어. 그 몹을 노려 봐!'],
- relic:['환생하면 유물 포인트가 쌓이지. 유물은 다음 환생을 더 멀리 가게 해 줘.','높은 대륙에서 시작하면 유물 포인트를 더 많이 받아.'],
- portal:['다음 대륙으로 가려면 전투력이 기준을 넘거나, 대륙 보스가 떨구는 별 조각이 있어야 해.','한 번 열린 대륙은 영원히 열려 있어. 어느 대륙에서 출발할지 골라 봐.']};
+const NPC_LINES={ // v22: 대사마다 이 NPC가 무엇을 해 주는지 분명하게
+ shop:['어서 와요! 나는 떠돌이 상인이에요. 물약과, 도감에 한 번이라도 올린 장비를 D급으로 팔아요.','물약은 다음 5전투 동안 공격력·체력·드랍을 올려 줘요. 마을 2단계(시장)부터는 C급 장비도 팔아요.'],
+ inn:['푹 쉬어 가요. 쉬고 나면 다음 10번의 전투 동안 때릴 때마다 체력이 조금씩 돌아와요.','긴 보스전 앞에서 쉬어 가면 한결 든든할 거예요.'],
+ market:['안 쓰는 장비는 여기서 골드로 바꿔 주지. 파쇄하면 강화석, 팔면 골드야.','끼고 있는 장비와 🔒 잠근 장비는 사지 않으니 걱정 말게.'],
+ train:['땀은 배신하지 않아. 골드를 내면 공격력·체력이 영원히 오르는 수련을 시켜 주지.'],
+ watch:['망루에서 보면 다음에 넘어야 할 보스가 보여. 이름, 이길 확률, 약점을 알려 줄게.','망루 덕분에 환생할 때마다 시작 전투 횟수도 늘어.'],
+ smith:['강화와 파쇄는 나한테 맡기게. 장비는 SS 이상부터 강화할 수 있고, 실패해도 장비는 안 깨진다네.','안 쓰는 장비를 파쇄하면 강화석이 나와. 강화석은 몹을 잡아도 생기지.'],
+ sage:['나는 이 마을의 학자일세. 도감과 몬스터의 기록을 지키고 있지.','도감 칸이 늘수록, 등급이 높을수록 영원히 강해진다네. 10·30·60칸… 칸 수마다 보상도 있어.','어느 몬스터가 어디에 있고 무엇을 떨구는지 궁금하면 몬스터 정보를 보게.'],
+ relic:['……'],
+ portal:['……오래도 이 문을 지켜 왔지. 다음 대륙으로 가려면 전투력이 기준을 넘거나, 대륙 보스가 떨구는 별 조각을 가져오게.','한 번 열린 길은 닫히지 않는다네. 도감 장비와 보스 유물을 다 모은 지역은 건너뛰게 해 주지. 그다음 지역으로 바로 보내 주마.']};
 // 지역 20개. c 대륙, th 기존 그림 테마(0숲 1사막 2화산 3얼음 4심연), fl 바닥 색 2개, ob 장애물 이모지, set 세트 이름, sk 세트 효과 종류(0~4)
 // mons: [이름, 이모지, 기존 그림 키, 아이템A(세트 피스), 아이템B]. 아이템이 글자면 그 말로 이름을 짓는다(부위는 자동)
 // mid/boss/cb: [이름, 이모지, 기존 그림 키, 아이템 목록 또는 짧은 이름]. 아이템 [부위, 이름, 능력, 설명, 무기 이름 끝]. 첫 번째가 세트 피스(cb는 세트 없음)
@@ -694,12 +762,37 @@ const contItemN=c=>{let n=0;for(let R=c*4;R<c*4+4;R++)n+=zoneItemN(R);return n};
 for(const d of ITEMS){if(!['helm','top','bottom','gloves','boots','cape'].includes(d.t))continue;let h=0;for(const ch of d.n)h=(h*31+ch.charCodeAt(0))%9973;d.ds=d.t==='gloves'?(h%2?2:0):h%3}
 /* v19d: 몬스터 교체로 이름이 바뀐 아이템(옛 저장 옮길 때 이름 찾기용) */
 const ITEM_RN=[["서리 송곳니", "매머드 상아"], ["백곰 가죽 갑옷", "바다코끼리 가죽 갑옷"], ["곰의 심장 반지", "상아 엄니 반지"], ["지옥견 이빨", "지옥 사슬"], ["검댕 털", "검댕 쇠고랑"], ["화염 거미줄", "용암 껍질"], ["핏빛 송곳니", "핏빛 부리"], ["몰락한 검", "광대 방울"], ["포자 날개", "늪 깃털"], ["빛 송곳니", "빛 부리"], ["수정 핵", "수정 집게"], ["요정 가루", "광석 가루"], ["무지개", "광맥"], ["하늘 촉수", "복어 가시"], ["하늘 창", "그리핀 발톱"], ["길 잃은", "너구리 꼬리"], ["감시의 눈", "미믹 이빨"], ["악몽 날개", "오르골 태엽"], ["악몽 이빨", "녹은 촛농"], ["보라 털", "보라 불꽃"], ["별빛 촉수", "별빛 지느러미"], ["우주 날개", "우주 물갈퀴"], ["별 갈기", "별 깃"], ["시공 이빨", "시공 손톱"], ["공허 칼날", "공허 수행"], ["검은 갑", "검은 염주"], ["태양 갈기", "태양 껍데기"], ["초신성 깃", "초신성 꼬리"], ["별 기사", "켄타우로스 말굽"], ["은하 문장", "별자리"]];
+// v22 보스 유물 목록(sys22.js에서 씀). 저장을 읽을 때(state.js) 필요해서 여기서 만든다
+const RELIC_FX={
+ hour:{n:'모래시계',e:'⏳',d:v=>`시작 전투 횟수 +${v}`},
+ seed:{n:'씨앗',e:'🌱',d:v=>`경험치 +${v*5}%`},
+ coin:{n:'행운 동전',e:'🪙',d:v=>`좋은 등급 확률 +${v*5}%`},
+ hammer:{n:'망치',e:'🔨',d:v=>`강화 성공률 +${v*3}%p`},
+ gold:{n:'금화 주머니',e:'💰',d:v=>`골드 +${v*5}%`},
+ map:{n:'보물 지도',e:'🗺️',d:v=>`환생할 때 ${['','C','B','A','S','SS'][Math.min(5,v)]} 장비 1개`},
+ atk:{n:'송곳니',e:'🦷',d:v=>`공격력 +${v}%`},
+ hp:{n:'심장',e:'❤️',d:v=>`체력 +${v}%`},
+ def:{n:'비늘',e:'🛡️',d:v=>`방어력 +${v}%`}};
+const RELICS=[];
+(()=>{const I0=['hour','gold','hour','gold','hour'],CB=[['seed','coin'],['hammer','gold'],['map','hour'],['seed','coin'],['hammer','atk']];
+  const val=(k,c,bi)=>k==='atk'||k==='hp'||k==='def'?2+c:k==='hour'?(bi===2||c>=2?2:1):k==='map'?2:1+Math.floor(c/2);
+  const mk=(R,bi,k)=>{const c=Math.floor(R/4),D=[ZONES[R].mid,ZONES[R].boss,ZONES[R].cb][bi],nm=bossNm(R,bi)||D[0],short=nm.split(' ').pop(),v=val(k,c,bi);
+    RELICS.push({R,bi,k,v,e:RELIC_FX[k].e,n:`${short}의 ${RELIC_FX[k].n}`,d:RELIC_FX[k].d(v),boss:nm})};
+  for(let R=0;R<ZONES.length;R++){const c=Math.floor(R/4),i=R%4;mk(R,1,[I0[c],'atk','hp','def'][i]);if(ZONES[R].cb)for(const k of CB[c])mk(R,2,k)}})();
+// v22 C3 대륙 보스 대화(전용 공간에 처음 들어가면 전체, 다시 오면 again 한 줄, 쓰러뜨리면 dead 한 줄). 'b' 보스, 'h' 주인공. 임시 대사(사용자 검토 예정)
+const CB_TALK=[
+ {intro:[['b','작은 별빛 하나가 여기까지 기어 올라왔구나.'],['h','네가 별 조각을 모으는 사제냐?'],['b','모은다니. 나는 별에게 바칠 뿐이다… 별이 다시 깨어나도록.'],['b','너의 빛도 제단에 올려 주마!']],again:'또 빛을 바치러 왔느냐.',dead:'별이시여… 저는 아직… 부족했나이다…'},
+ {intro:[['b','한때 나도 별을 섬기던 왕이었다. 별은 대답하지 않더군.'],['h','그래서 어둠을 택했나.'],['b','어둠은 적어도 배신하지 않는다. 무릎 꿇어라, 별의 아이야.']],again:'왕좌는 아직 내 것이다.',dead:'별이… 나를 보고 있었던가…'},
+ {intro:[['b','너는 이 방에 백 번은 들어왔다. 기억하지 못할 뿐.'],['h','…무슨 소리지?'],['b','환생이란 내가 남긴 찌꺼기다. 이번 시간도 맛있게 먹어 주마.']],again:'이번 시간은 몇 번째더라.',dead:'시간이… 나를 먹는구나…'},
+ {intro:[['b','크르르… 별의 냄새. 내 배 속의 별들이 너를 부르는구나.'],['h','삼킨 별을 돌려받으러 왔다.'],['b','돌려받고 싶다면, 내 배 속으로 들어와라!']],again:'또 먹히러 왔느냐.',dead:'별들이… 빠져나간다…'},
+ {intro:[['b','…드디어 왔구나. 내 조각들을 모아 준 아이.'],['h','네가… 별 아스텔?'],['b','나는 부서지며 세상에 빛을 흩었다. 그 빛이 너를 키웠지.'],['b','이제 마지막 조각을 가져가렴. 나를 넘어서야만 가져갈 수 있단다.']],again:'기다리고 있었단다.',dead:'고마워… 이제 다시 빛날 수 있겠구나.'}];
 </script>
 <script>
 // 저장 상태, 공통 도우미, 스탯 계산
 'use strict';
 // ---------- state ----------
 const SAVE_KEY='farmrpg_pw_v1';
+let relicConvMsg=0; // v22 옛 유물 → 유물 경험치(처음 불러올 때 한 번 알림)
 function fresh(){return{v:9,cont:0,contOpen:{0:1},shards:{},cls:null,lv:1,xp:0,region:0,maxRegion:0,bestRegion:0,dead:{},energy:BASE_ENERGY,sp:{},best:1,runBest:1,
   eq:{},bag:[],mats:{stone:0,essence:0,crystal:0},frag:0,relics:{},rebirths:0,
   opt:{autoEquip:false,autoDis:2,showStats:false,autoSp:true},nextId:1,lastPower:0,
@@ -707,7 +800,11 @@ function fresh(){return{v:9,cont:0,contOpen:{0:1},shards:{},cls:null,lv:1,xp:0,r
   // runBoss 이번 판에 잡은 보스, run 이번 환생 기록, runOver 판이 끝나 결산 중, needRun 다음 시작 때 새 판
   rp:0,runSeed:1,firstKill:{},codex:{},runBoss:{},run:{bosses:0,newU:[],newFirst:0,maxLv:1},runOver:false,needRun:true,runs:0,lastRun:null,
   // v19 골드(영구), 마을 단계 vil과 다음 단계까지 기부한 골드 vilG, 물약 buff(남은 전투 수), 훈련장 train, 제단에 놓은 별 조각 altar, 전직 단계 promo(0~5)
-  gold:0,vil:0,vilG:0,buff:{},train:0,altar:{},promo:0}}
+  gold:0,vil:0,vilG:0,buff:{},train:0,altar:{},promo:0,
+  // v22 보스 유물: rel 가진 유물(번호 → 얻은 횟수), rxp 유물 경험치, rconv 옛 유물 변환 끝, dq 오늘의 의뢰
+  rel:{},rxp:0,rconv:1,dq:null,
+  // v22 C3 대륙 보스 대화를 본 대륙(번호 → 1)
+  cbTalk:{}}}
 const SAVE_VER=10;
 // 옛 버전 저장을 한 단계씩 다음 버전으로 바꾸는 표 (n → n+1). 빠진 값은 fresh() 기본값으로 채워진다.
 let priestMoved=false; // v3→v4에서 프리스트(4)를 전사(0)로 옮겼는지 (토스트 1번용)
@@ -821,7 +918,7 @@ function cleanSave(o){
   // v19
   r.gold=Math.floor(Math.min(1e15,num(r.gold,0,0)));r.vil=Math.min(4,Math.floor(num(r.vil,0,0)));r.vilG=Math.floor(Math.min(1e15,num(r.vilG,0,0)));
   r.train=Math.min(20,Math.floor(num(r.train,0,0)));r.altar=flags(r.altar,k=>cKey(k)&&r.shards[k]);r.promo=Math.min(Object.keys(r.altar).length,Math.floor(num(r.promo,0,0)));
-  {const b=r.buff&&typeof r.buff==='object'&&!Array.isArray(r.buff)?r.buff:{},o={};for(const k of['atk','hp','luck'])o[k]=Math.min(20,Math.floor(num(b[k],0,0)));r.buff=o}
+  {const b=r.buff&&typeof r.buff==='object'&&!Array.isArray(r.buff)?r.buff:{},o={};for(const k of['atk','hp','luck','rest'])o[k]=Math.min(20,Math.floor(num(b[k],0,0)));r.buff=o}
   if(r.lastRun!==null&&!(r.lastRun&&typeof r.lastRun==='object'&&!Array.isArray(r.lastRun)))r.lastRun=null;
   if(r.lastRun){const L=r.lastRun;r.lastRun={region:Math.floor(num(L.region,1,1)),bosses:Math.floor(num(L.bosses,0,0)),maxLv:Math.floor(num(L.maxLv,1,1)),
     newFirst:Math.floor(num(L.newFirst,0,0)),rp:Math.floor(num(L.rp,0,0)),newU:Array.isArray(L.newU)?L.newU.filter(x=>Number.isInteger(x)&&x>=0&&x<ITEMS.length):[]}}
@@ -831,7 +928,12 @@ function cleanSave(o){
   r.bag=Array.isArray(r.bag)?r.bag.filter(okItem):[];
   r.mats=Object.assign(d.mats,obj(r.mats,{}));for(const k in r.mats)r.mats[k]=num(r.mats[k],0,0);
   {const m=obj(r.sp,{});for(const k in m)m[k]=Math.floor(num(m[k],0,0));r.sp=m}
-  {const m=obj(r.relics,{}),out={};for(const R of RELICS)if(m[R.k]!==undefined)out[R.k]=Math.min(R.mx,Math.floor(num(m[R.k],0,0)));r.relics=out}
+  {const m=obj(r.relics,{});let xp=Math.floor(Math.min(1e12,num(r.rxp,0,0)));
+   // v22: 옛 유물 단계(산 값 그대로)와 남은 유물 포인트를 유물 경험치로 바꾼다(한 번만)
+   if(!o||o.rconv!==1){let sp=0;for(const R of RELICS_OLD){const l=Math.min(R.mx,Math.floor(num(m[R.k],0,0)));for(let j=0;j<l;j++)sp+=Math.ceil(R.c0*Math.pow(R.cm,j))}
+     const add=sp+Math.floor(Math.min(1e12,num(r.rp,0,0)));if(add>0)relicConvMsg=add;xp+=add;r.rp=0;r.rconv=1}
+   r.relics={};r.rxp=xp;{const t=obj(r.cbTalk,{}),o2={};for(const k in t)if(/^[0-4]$/.test(k)&&t[k])o2[k]=1;r.cbTalk=o2}const rm=obj(r.rel,{}),ro={};for(const k in rm){const i=+k;if(Number.isInteger(i)&&i>=0&&i<RELICS.length)ro[i]=Math.max(1,Math.floor(num(rm[k],1,1)))}r.rel=ro;
+   const q=r.dq;r.dq=q&&typeof q==='object'&&typeof q.day==='string'?{day:q.day.slice(0,10),n:Math.floor(num(q.n,0,0)),need:Math.max(1,Math.floor(num(q.need,30,1))),got:q.got===1?1:0}:null}
   for(const k in r.eq){const sl=SLOTS.find(x=>x.k===k);if(!sl||!okItem(r.eq[k])||r.eq[k].type!==sl.t)delete r.eq[k]}
   // 아이템 번호가 겹치지 않게 nextId를 가장 큰 번호보다 크게
   let mx=0;for(const it of[...r.bag,...Object.values(r.eq)])if(typeof it.id==='number'&&it.id>mx)mx=it.id;
@@ -888,7 +990,7 @@ function auraOf(m){if(m.kind==='b')return m.bi===2?'#d05cff':m.bi===1?'#ff3b30':
 const regionData=r=>ZONES[Math.max(0,Math.min(ZONES.length-1,r))];
 const zoneTag=R=>`${Math.floor(R/4)+1}-${R%4+1}`;
 function regionName(r){return `${zoneTag(r)} ${regionData(r).n}`}
-const rl=k=>S.relics[k]||0;
+const rl=k=>typeof relicSum==='function'?relicSum(k):0; // v22: 가진 보스 유물의 효과 합
 // v13: ci가 있으면 도감 아이템, 없으면 예전 버전에서 온 "옛 장비"
 const isC=it=>!!it&&it.ci!=null;
 const gradeName=it=>GRADES[it.g].n;
@@ -960,15 +1062,17 @@ function stats(){
     if(s.c>=4){final*=1+.3*f;if(k===0)guard+=.2*f;else if(k===1)critM+=.4*f;else if(k===2)burn+=.3*f;else if(k===3)dblP+=.1*f;else if(k===4)steal+=.03*f}
   }
   // v18 환생 횟수 영구 보너스
-  const rbB=(1+REBIRTH_B*(S.runs||0))*(1+PROMO_B*(S.promo||0))*(1+TRAIN_B*(S.train||0)); // v19: 전직·훈련도 영구로 곱한다
-  const bf=S.buff||{};if(bf.luck>0)luckU+=.2;
+  const rLv=typeof relicLv==='function'?relicLv():0; // v22 유물 레벨: 공격·체력·방어 +RELIC_LV_B/레벨, 유물마다 작은 고유 효과
+  def*=(1+rl('def')/100)*(1+RELIC_LV_B*rLv);
+  const rbB=(1+RELIC_LV_B*rLv)*(1+PROMO_B*(S.promo||0))*(1+TRAIN_B*(S.train||0)); // v19: 전직·훈련도 영구로 곱한다
+  const bf=S.buff||{};if(bf.luck>0)luckU+=.2;if(bf.rest>0)heal+=REST_HEAL; // v22 여관 휴식: 때릴 때마다 체력 회복
   let aura=null;{const b=setInfo().filter(x=>x.c>=2).sort((x,y)=>y.c-x.c||ZONES[y.set].c-ZONES[x.set].c)[0];if(b)aura={col:CONTINENTS[ZONES[b.set].c].col,s:b.c>=4?1:.55}}
   // 도감 보너스: 칸마다 최고 등급에 따라 공격·체력 +%, 마일스톤, 지역 완성
   let cx=0;for(const k in S.codex)cx+=CODEX_G[S.codex[k]]||0;
   const cn=codexN();let cAtk=cx,cHp=cx,cAll=1;
   for(const M of CODEX_MS)if(cn>=M.n){cAtk+=M.x||0;cHp+=M.h||0;xpP+=M.xp||0;if(M.all)cAll*=1+M.all}
   for(let c=0;c<CONTINENTS.length;c++)if(codexContN(c)>=contItemN(c))cAtk+=CODEX_CONT_ATK;
-  atk*=(1+atkP)*final*(1+cAtk)*cAll*rbB*(bf.atk>0?1.1:1); hp*=Math.max(.1,1+hpP)*(1+cHp)*cAll*rbB*(bf.hp>0?1.1:1);
+  atk*=(1+rl('atk')/100)*(1+atkP)*final*(1+cAtk)*cAll*rbB*(bf.atk>0?1.1:1); hp*=(1+rl('hp')/100)*Math.max(.1,1+hpP)*(1+cHp)*cAll*rbB*(bf.hp>0?1.1:1);
   crit=Math.min(crit,1); guard=Math.min(guard,.75);
   const aspd=Math.min(2.2,c.aspd*(1+Math.min(.6,(sp.agi||0)*0.002))*(1+aspdP)), dbl=Math.min(1,0.08+Math.min(.3,(sp.agi||0)*0.0005)+dblP), luck=Math.min(1,(sp.luk||0)*0.002)+luckU;
   // v21: 전투력의 체력 몫은 방어력을 넣은 버틸 수 있는 피해량(기준 K는 가 본 가장 먼 지역 — 지역을 옮겨도 숫자가 흔들리지 않게)
@@ -1077,9 +1181,8 @@ const TOWN_B=[
  {k:0,n:'촌장 집',x:12,y:9,w:3,h:3,role:'chief',nx:13.5,ny:12.7,em:'🏠'},
  {k:3,n:'잡화점',x:3,y:8,w:3,h:3,role:'shop',nx:4.5,ny:11.7,em:'🛒'},
  {k:1,n:'대장간',x:3,y:18,w:3,h:3,role:'smith',nx:4.5,ny:21.7,em:'⚒️'},
- {k:2,n:'현자의 서재',x:27,y:8,w:3,h:3,role:'sage',nx:28.5,ny:11.7,em:'📚'},
+ {k:2,n:'학자의 서재',x:27,y:8,w:3,h:3,role:'sage',nx:28.5,ny:11.7,em:'📚'},
  {k:4,n:'대륙 포탈',x:27,y:19,w:2,h:2.5,role:'portal',nx:28,ny:22.3,em:'🌀'},
- {k:3,n:'유물 상점',x:20,y:4,w:3,h:3,role:'relic',nx:21.5,ny:7.7,em:'💎'},
  {k:0,n:'여관',x:8,y:3,w:3,h:3,role:'inn',nx:9.5,ny:6.7,em:'🛏️',vil:1},
  {k:3,n:'시장',x:8,y:23,w:3,h:3,role:'market',nx:9.5,ny:26.7,em:'🏪',vil:2},
  {k:1,n:'훈련장',x:21,y:23,w:3,h:3,role:'train',nx:22.5,ny:26.7,em:'🥋',vil:3},
@@ -1197,13 +1300,13 @@ function spawnMobs(R){
       const tx=Math.floor(x0+(ci+.15+.7*R())*cw),ty=2+Math.floor(R()*(MH-4));
       if(world.g[ty*MW+tx])continue;
       const x=(tx+.5)*T,y=(ty+.5)*T;if(Math.hypot(x-world.entry.x,y-world.entry.y)<120)continue;
-      if(mons.some(m=>Math.hypot(m.x-x,m.y-y)<56))continue;
+      if(mons.some(m=>Math.hypot(m.x-x,m.y-y)<(m.kind==='b'?monSize(m)*1.1+60:90)))continue; // v22: 필드 몹이 커져서 서로·보스와 더 벌린다
       const m=makeMon(x,y,monLv(world.r,p),'n',null,i,p);m.sid=world.r+'_'+i;mons.push(m);break}}}
 // 보스: 중간 보스(맵 가운데), 지역 보스(보스의 굴), 4번째 지역은 대륙 보스(굴 맨 끝). 한 판에 한 번씩
 const bossKey=(r,i)=>r+'_'+i;
 function spawnBosses(){const mid=(MH>>1)+.5,R=world.r,Z=ZONES[R];
   const pos=[{x:(MIDX+.5)*T,y:mid*T},world.bossHome,world.contHome];
-  for(let i=0;i<(Z.cb?3:2);i++){if(S.runBoss[bossKey(R,i)])continue;mons.push(makeMon(pos[i].x,pos[i].y,bossLv(R,i),'b',i))}}
+  for(let i=0;i<(Z.cb?3:2);i++){if(S.runBoss[bossKey(R,i)])continue;if(i===2&&typeof c22On==='function'&&c22On(R))continue; /* v22 C2: 대륙 보스는 별의 문 너머 전용 공간에 */mons.push(makeMon(pos[i].x,pos[i].y,bossLv(R,i),'b',i))}}
 // 몹 주변 장애물 비우기(몹이 장식에 묻히지 않게): 칸을 걸을 수 있게 하고 바닥을 다시 칠한다
 function clearAround(px,py,rad){const cx=Math.floor(px/T),cy=Math.floor(py/T),lx=MW-LAIR;
   for(let y=cy-rad;y<=cy+rad;y++)for(let x=cx-rad;x<=cx+rad;x++){if(x<=0||y<=0||x>=MW-1||y>=MH-1||x===lx)continue;world.g[y*MW+x]=0}
@@ -1330,6 +1433,7 @@ function winFight(){
   const mats={};const add=(k,n)=>{S.mats[k]+=n;mats[k]=(mats[k]||0)+n};
   let extra='';
   {const gd=goldFor(m,r);addGold(gd);mats.gold=gd} // v19 골드
+  if(typeof dqKill==='function')dqKill(); // v22 오늘의 의뢰
   if(m.kind==='n'){
     add('stone',1+r);
     if(rnd()<MON_DROP*(1+Math.min(1,ST.luck)))dropFrom(m,t);
@@ -1342,6 +1446,7 @@ function winFight(){
     if(m.bi===1&&r%4!==3&&S.maxRegion===r){S.maxRegion=r+1;extra+='<div class="res-x">보스의 굴 오른쪽에 다음 지역 포털이 열렸어요!</div>'}
     if(m.bi===2){const c=ZONES[r].c;extra+=`<div class="res-x" style="color:var(--g6)">대륙 보스 「${jo(m.nm||m.n,'을를').replace(/(.)$/,'」$1')} 쓰러뜨렸어요!</div>`;
       if(!S.shards[c]&&rnd()<SHARD_P*(1+Math.min(1,ST.luck))){S.shards[c]=1;extra+=`<div class="res-x" style="color:#ffd23d;font-size:16px">★ 별 조각을 얻었어요! ★</div>`;newFx('별 조각!',CONTINENTS[c].n+'의 파편',7)}}
+    if(typeof relicDrop==='function')extra+=relicDrop(m,r); // v22 보스 유물
     if(S.maxRegion>S.bestRegion)S.bestRegion=S.maxRegion;
     extra+=checkUnlock();
   }
@@ -1459,11 +1564,12 @@ function update(dt){
   if(hero.inv>0)hero.inv=Math.max(0,hero.inv-dt);
   for(const m of mons){
     if(m.down>0){m.down-=dt;if(m.down<=0){m.down=0;m.hp=m.max;m.wait=true}continue}
-    if(m.wait){if(dist(m,hero)>50)m.wait=false;else continue} // 다시 일어난 몹은 주인공이 한 번 비켜야 닿는다
+    if(m.wait){if(dist(m,hero)>Math.max(50,monSize(m)*.8+14))m.wait=false;else continue} // v22: 몹이 커져서 닿는 거리만큼 비켜야 // 다시 일어난 몹은 주인공이 한 번 비켜야 닿는다
     if(m.nf>0){m.nf-=dt;continue}
     if(hero.inv>0)continue; // 부활 직후 무적
     if(dist(m,hero)<(m.kind==='n'?monSize(m)*.8:monSize(m)*.6)){
       tryEncounter(m);break}}
+  if(typeof c22Field==='function'&&c22Field())return; // v22 C2 별의 문
   if(S.maxRegion>world.r&&world.r%4!==3&&dist(hero,world.portal)<26){enterRegion(world.r+1);return}
   $('killInfo').textContent=(hero.x/T>MW-LAIR?'보스의 굴 · ':'')+`이 지역 도감 ${codexRegionN(world.r)}/${zoneItemN(world.r)}`;
 }
@@ -1499,8 +1605,10 @@ function drawFight(){
     ctx.font='bold 16px "Noto Sans KR",sans-serif';ctx.fillStyle=m.kind!=='n'?'#ffcf4a':'#fff';ctx.fillText(`${monTitle(m)}  Lv.${fmt(m.tier)}`,CW/2,22);
     gbar('m',CW/2,38,CW*.8,Math.max(0,m.hp)/m.max,'#ff5d73',10);
     ctx.font='11px "DotGothic16",monospace';ctx.fillStyle='#ddd';ctx.fillText(`${fmt(Math.max(0,m.hp))} / ${fmt(m.max)}`,CW/2,56);
-    const ms=m.kind==='b'?BOSS_VIEW.battle[m.bi]:96;const mx=M.x+((m.shake||0)>0?10:0);
+    const ms=m.kind==='b'?BOSS_VIEW.battle[m.bi]:96;const mx=M.x+((m.shake||0)>0?10:0);const gx=typeof isGalaxy==='function'&&isGalaxy(m),gt=performance.now()/1000;
+    if(gx)galaxy(ctx,mx,M.y+10+ms*.62,ms*1.1,ms*1.35,gt,Math.floor(world.r/4),false);
     if(!(typeof skinFight==='function'&&skinFight(ctx,'m',mx,M.y+10+ms*.62,ms*1.25,auraOf(m)))&&!drawSpr(ctx,m.e,mx,M.y+10,ms*1.45,auraOf(m))){ctx.font=ms+'px serif';ctx.fillText(m.e,mx,M.y+10)}
+    if(gx)galaxy(ctx,mx,M.y+10+ms*.62,ms*1.1,ms*1.35,gt,Math.floor(world.r/4),true);
   }else if(typeof skinFight==='function'){const ms=m.kind==='b'?BOSS_VIEW.battle[m.bi]:96;skinFight(ctx,'m',M.x,M.y+10+ms*.62,ms*1.25,null)}
   const hy=H.y-(hero.lunge>0?14:0)+(hero.hurt>0?6:0);
   drawAura(ctx,H.x,hy+30,1.7);
@@ -1520,9 +1628,12 @@ const TOP_PAD=44;
 function drawMonF(m){const sz=monSize(m),au=auraOf(m);
   if(m.down>0){ctx.globalAlpha=.3;if(!drawSpr(ctx,m.e,m.x,m.y+2,sz*1.2,null)){ctx.font=sz*.85+'px serif';ctx.fillText(m.e,m.x,m.y)}ctx.globalAlpha=1;return} // 쓰러진 몹
   // v13: 바닥 고리와 빛은 오라 색(뒤쪽 몹일수록 초록→파랑→보라→주황→빨강)
+  const gx=typeof isGalaxy==='function'&&isGalaxy(m); // v22 C1 대륙 보스 은하수 오라(바닥 고리 대신)
+  if(gx)galaxyField(m,false);else{
   ctx.fillStyle=au?au+'33':'rgba(120,220,255,.14)';ctx.strokeStyle=au||'rgba(120,220,255,.7)';ctx.lineWidth=2;
-  ctx.beginPath();ctx.ellipse(m.x,m.y+sz*.38,sz*.62,sz*.22,0,0,6.283);ctx.fill();ctx.stroke();
-  if(!(typeof skinMob==='function'&&skinMob(ctx,m,sz,au))&&!drawSpr(ctx,m.e,m.x,m.y-4,sz*1.45,au)){ctx.font=sz+'px serif';ctx.fillStyle='#fff';if(au){ctx.shadowColor=au;ctx.shadowBlur=sz*.35}ctx.fillText(m.e,m.x,m.y);ctx.shadowBlur=0}}
+  ctx.beginPath();ctx.ellipse(m.x,m.y+sz*.38,sz*.62,sz*.22,0,0,6.283);ctx.fill();ctx.stroke();}
+  if(!(typeof skinMob==='function'&&skinMob(ctx,m,sz,au))&&!drawSpr(ctx,m.e,m.x,m.y-4,sz*1.45,au)){ctx.font=sz+'px serif';ctx.fillStyle='#fff';if(au){ctx.shadowColor=au;ctx.shadowBlur=sz*.35}ctx.fillText(m.e,m.x,m.y);ctx.shadowBlur=0}
+  if(gx)galaxyField(m,true)}
 function drawMonLabel(m){if(typeof skinLabel==='function'&&skinLabel(m))return;const sz=monSize(m),au=auraOf(m),[,pc]=predict(m);
   ctx.font='bold 11px "Noto Sans KR",sans-serif';ctx.lineWidth=3;ctx.strokeStyle='#000';
   const lab=m.kind==='n'?`Lv.${fmt(m.tier)}`:`${BOSS_ROLE[m.bi]} Lv.${fmt(m.tier)}`,ly=typeof skinTop==='function'&&skinTop(m)||m.y-sz/2-8;
@@ -1546,12 +1657,13 @@ function draw(){
   ctx.save();ctx.translate(-Math.round(cam.x),-Math.round(cam.y));
   ctx.textAlign='center';ctx.textBaseline='middle';
   if(world.town)drawTown();
+  if(typeof drawStarRoom==='function'){drawStarRoom(ctx);drawStarGate(ctx)} // v22 C2
   else if(S.maxRegion>world.r&&world.r%4!==3){ctx.font='34px serif';ctx.fillText('🌀',world.portal.x,world.portal.y);ctx.font='bold 11px "Noto Sans KR",sans-serif';ctx.fillStyle='#fff';ctx.fillText('다음 지역',world.portal.x,world.portal.y-26)}
   // v15: 나무·장애물·몹·주인공을 발밑 y 순서로 그려서 나무 뒤로 숨을 수 있게. 이름표는 맨 위에 따로
   const tt=performance.now()/1000,x0=cam.x-80,x1=cam.x+CW+80,y0=cam.y-40,y1=cam.y+CH+40,vis=[],L=[];
   if(!world.town)drawObjShadows(ctx,x0,y0,x1,y1,tt);
   if(world.objs)for(const ob of world.objs)if(ob.x>x0&&ob.x<x1&&ob.y>y0&&ob.y<y1+90)L.push([ob.y,0,ob]);
-  for(const m of mons){if(m.x<cam.x-60||m.x>cam.x+CW+60||m.y<cam.y-60||m.y>cam.y+CH+60)continue;vis.push(m);L.push([m.y+monSize(m)*.38,1,m])}
+  for(const m of mons){if(m.x<cam.x-160||m.x>cam.x+CW+160||m.y<cam.y-120||m.y>cam.y+CH+220)continue;vis.push(m);L.push([m.y+monSize(m)*.38,1,m])}
   L.push([hero.y+11,2,null]);L.sort((a,b)=>a[0]-b[0]);
   for(const [,k,o] of L){if(k===0)drawObj(ctx,o,tt);else if(k===1)drawMonF(o);else{if(hero.inv>0)ctx.globalAlpha=Math.floor(tt*12)%2?.35:1;drawHeroF();ctx.globalAlpha=1}} // 부활 직후 무적이면 깜빡임
   for(const m of vis)if(!(m.down>0))drawMonLabel(m);
@@ -1583,7 +1695,8 @@ window.addEventListener('keyup',e=>{const k=e.key.length===1?e.key.toLowerCase()
 // v17 경험치: 같은 레벨 몹 1마리 = XP_B(L). 다음 레벨까지 같은 레벨 몹 XP_KILLS(L)마리.
 // 낮은 몹은 (몹/나)^2배(최소 0.1), 높은 몹은 최대 2배. 보스는 중간 ×3·지역 ×6·대륙 ×10. 봇으로 맞춤(1대륙 첫 환생 Lv10 안팎)
 const XP_B=L=>Math.round(10*Math.pow(L,1.5)), XP_KILLS=L=>6+1.0*L, XP_BOSS=[2,3,5]; // v18: 레벨은 아주 천천히(상한 없음);
-const xpNeedAt=L=>Math.round(XP_KILLS(L)*XP_B(L));
+const XP_NEED_K=.5; // v22 사용자 요청: 레벨 오르는 속도 2배(레벨당 필요 경험치 절반, 레벨당 능력치는 그대로)
+const xpNeedAt=L=>Math.max(1,Math.round(XP_KILLS(L)*XP_B(L)*XP_NEED_K));
 function xpFor(m){const L=S.lv,M=m.tier,r=M/L;let x=XP_B(Math.min(M,L+1))*(r<1?Math.max(.1,r*r):Math.min(1.25,r))*(1+ST.xpP);if(m.kind==='b')x*=XP_BOSS[m.bi];return Math.max(1,Math.round(x))}
 function gainXp(x){
   if(!isFinite(x)||x<=0)return;
@@ -1599,7 +1712,9 @@ const xpNeed=()=>xpNeedAt(S.lv);
 function knockDown(m){m.down=1+rnd();m.hp=m.max;m.nf=0}
 // v13: 크기는 지역 안 뒤쪽 몹일수록 1.0→1.5배
 // 지역 안 일반 몹은 1.0→1.5배, 중간 보스는 가장 큰 몹의 1.4배, 지역 보스 1.7배, 대륙 보스 2.5배
-const monSize=m=>m.kind==='b'?42*BOSS_VIEW.field[m.bi]:28*(1+.5*Math.max(0,m.mi)/(MOB_N-1));
+// v22 필드(돌아다니는 화면) 몹 크기: 일반 몹 ×2, 보스 ×1.5(화면을 너무 가리지 않게). 전투 화면 크기는 그대로
+const FIELD_MOB_X=2, FIELD_BOSS_X=1.5, fieldX=m=>m.kind==='b'?FIELD_BOSS_X:FIELD_MOB_X;
+const monSize=m=>(m.kind==='b'?42*BOSS_VIEW.field[m.bi]:28*(1+.5*Math.max(0,m.mi)/(MOB_N-1)))*fieldX(m);
 // 조우 시작(지역 보스는 중간 보스를, 대륙 보스는 지역 보스를 먼저 잡아야)
 function tryEncounter(m){
   if(m.kind==='b'&&m.bi>0&&!S.runBoss[bossKey(world.r,m.bi-1)]){
@@ -1772,8 +1887,8 @@ function endRun(){
   if(fight&&fight.st==='bat')return;
   fight=null;setOv('');itemQ.length=0;$('itemWin').hidden=true;
   checkUnlock();
-  const gain=rpGain();S.rp+=gain;S.runs++;
-  S.lastRun={cont:S.cont,region:S.maxRegion+1,bosses:S.run.bosses,maxLv:S.run.maxLv,startLv:S.run.startLv||1,newFirst:S.run.newFirst,rp:gain,newU:S.run.newU.slice(),newCont:(S.run.newCont||[]).slice(),maxDmg:S.run.maxDmg||0,mxUps:S.run.mxUps||0,cx0:S.run.cx0==null?codexN():S.run.cx0,runs:S.runs};
+  const gain=0;S.runs++; // v22: 유물 포인트 없음
+  S.lastRun={cont:S.cont,region:S.maxRegion+1,bosses:S.run.bosses,maxLv:S.run.maxLv,startLv:S.run.startLv||1,newFirst:S.run.newFirst,rp:gain,rel:(S.run.rel||[]).slice(),newU:S.run.newU.slice(),newCont:(S.run.newCont||[]).slice(),maxDmg:S.run.maxDmg||0,mxUps:S.run.mxUps||0,cx0:S.run.cx0==null?codexN():S.run.cx0,runs:S.runs};
   S.runOver=true;save();dirty=true;showRunEnd();
 }
 // 판 끝: 큰 칭찬 글자 + 숫자 정리
@@ -1787,15 +1902,13 @@ function showRunEnd(){const L=S.lastRun;if(!L)return;closeSheet();clearFx();
   const op=[];
   const cn=codexN();for(const M of CODEX_MS)if(L.cx0<M.n&&cn>=M.n)op.push(`📖 도감 ${M.n}칸 보상: ${M.d}`);
   if(L.mxUps)op.push(`⬆ 장비 숙련 승급 ${L.mxUps}번`);
-  const rbN=L.runs!=null?L.runs:S.runs,rbTxt=`환생 ${rbN}회: 공격·체력 +${Math.round(REBIRTH_B*rbN*100)}%`;
   setOv(`<div class="res"><div style="font:400 40px/1.1 'Do Hyeon',sans-serif;color:${pc};text-shadow:0 0 18px ${pc}88;margin:4px 0 2px">${pt}</div>
-    <div class="note" style="margin-bottom:6px">${CONTINENTS[c].n} 탐험 끝! 환생해요. 레벨만 처음으로 돌아가고, 장비·숙련도·도감·유물은 그대로예요.</div>
-    <div class="rb-bonus">✨ ${rbTxt} <span>(다음 환생부터 영구)</span></div>
+    <div class="note" style="margin-bottom:6px">${CONTINENTS[c].n} 탐험 끝! 환생해요. 전투 횟수가 다시 채워지고 보스가 다시 나타나요. ${KEEP_LV?'레벨·':''}장비·숙련도·도감·유물은 그대로예요.</div>
     <div class="res-lt" style="margin-top:6px">이번 생의 기록</div>
     <div class="res-g"><span>간 곳</span><b>${zoneTag(zr)} ${ZONES[zr].n}</b><span>잡은 보스</span><b>${L.bosses}</b>
     <span>최고 데미지</span><b class="up">${fmt(L.maxDmg||0)}</b><span>최고 레벨</span><b>${fmt(L.maxLv)} (+${fmt(Math.max(0,L.maxLv-L.startLv))})</b>
     <span>새 도감</span><b>${L.newU.length}칸 (${codexN()}/${ITEMS.length})</b><span>보스 첫 처치</span><b>${L.newFirst?'+'+L.newFirst*FIRST_KILL_ENERGY+' 시작 횟수':'-'}</b>
-    <span>유물 포인트</span><b class="up">+${fmt(L.rp)}${CONT_RP[c]>1?' (×'+CONT_RP[c]+')':''}</b></div>${nc}
+    <span>얻은 유물</span><b class="up">${(L.rel||[]).length?(L.rel||[]).map(j=>RELICS[j]?RELICS[j].e:'').join(''):'-'}</b></div>${nc}
     ${op.length?`<div class="res-l"><div class="res-lt">이번에 열린 것</div>${op.slice(0,2).map(x=>`<div>${x}</div>`).join('')}</div>`:''}
     <div class="res-l"><div class="res-lt">새로 도감에 등록</div>${us}</div>
     <button class="main" id="toTown">${jo(CONTINENTS[c].town,'으로')} 돌아가기</button></div>`);
@@ -1803,7 +1916,8 @@ function showRunEnd(){const L=S.lastRun;if(!L)return;closeSheet();clearFx();
 // 새 판: 고른 대륙의 1지역에서 시작. 레벨은 그 대륙 바닥(1대륙은 1) + 출발선. 장비·유물·도감·첫 처치는 유지
 function newRun(c){
   if(c==null)c=S.cont||0;if(!S.contOpen[c])c=0;S.cont=c;
-  S.runSeed=1+Math.floor(rnd()*1e9);S.lv=1+rl("start");S.xp=0;S.sp={};S.region=c*4;S.maxRegion=c*4;S.dead={};S.runBoss={}; // v18: 환생하면 어느 대륙이든 Lv1부터(레벨만 초기화)
+  S.runSeed=1+Math.floor(rnd()*1e9);if(!KEEP_LV||!(S.lv>=1)){S.lv=1;S.xp=0;S.sp={}} // v22: 환생해도 레벨 유지(KEEP_LV)
+  S.region=c*4;S.maxRegion=c*4;S.dead={};S.runBoss={}; // v18: 환생하면 어느 대륙이든 Lv1부터(레벨만 초기화)
   S.run={bosses:0,newU:[],newFirst:0,maxLv:S.lv,startLv:S.lv,newCont:[],maxDmg:0,mxUps:0,cx0:codexN()};S.runOver=false;S.needRun=false;
   if(S.bestRegion<c*4)S.bestRegion=c*4;
   S.energy=startEnergy();
@@ -1877,20 +1991,28 @@ function npcLines(n){const c=world.c,C=CONTINENTS[c];
 function nextGoal(){const n=nextLocked();if(n<0)return '모든 대륙이 열렸어. 별의 바다 끝에서 아스텔을 기다리고 있으렴.';
   return `다음 목표: 「${CONTINENTS[n].n}」. 전투력 ${fmt(portalNeed(n))} 이상(지금 ${fmt(ST.power)})이거나, ${CONTINENTS[n-1].n}의 대륙 보스 「${jo(CONTINENTS[n-1].boss,'이가').replace(/(.)$/,'」$1')} 떨구는 별 조각이 있으면 열려.`}
 function talkNpc(n){npcTalk={n,i:0,lines:npcLines(n)};joy=null;hero.vx=hero.vy=0;renderTalk()}
-function renderTalk(){const t=npcTalk;if(!t)return;const n=t.n,last=t.i>=t.lines.length-1;
-  const act={smith:['강화하기','up'],sage:['도감 보기','codex'],relic:['유물 강화','relic']}[n.role];
-  let extra=vilExtra(n);
-  if(n.role==='portal')extra=`<div style="display:flex;flex-direction:column;gap:5px;margin:8px 0;text-align:left">${CONTINENTS.map((C,c)=>{const open=S.contOpen[c],here=c===world.c;
+// v22 게임식 대화창: 화면 아래 장식 상자, 왼쪽에 NPC 얼굴·이름표, 대사, 할 수 있는 일 버튼. 상점 같은 창은 버튼을 눌러야 열린다
+const NPC_ACT={chief:[['기부하기','p']],shop:[['상점 열기','p']],market:[['상점 열기','p']],inn:[['물약 사기','p']],train:[['수련하기','p']],watch:[['망루 정보','p']],
+  keeper:[['전직','p']],smith:[['강화하기','up']],sage:[['도감 보기','codex']],relic:[['유물 보기','relic']],portal:[['포탈 열기','p']]};
+function portalPanel(){const act=typeof runActive==='function'&&runActive();
+  return `<div style="display:flex;flex-direction:column;gap:5px;text-align:left">${act?`<div class="note" style="color:var(--accent)">지금은 환생 중이라 이 대륙에서만 다닐 수 있어요. 다른 대륙은 환생한 뒤에 골라요.</div>`:''}${CONTINENTS.map((C,c)=>{const open=S.contOpen[c],here=c===world.c;
     const need=!open&&c===nextLocked()?`전투력 ${fmt(portalNeed(c))} (지금 ${fmt(ST.power)}) 또는 별 조각`:open?'':'앞 대륙을 먼저 열어야 해요';
     return `<div style="display:flex;align-items:center;gap:6px;padding:5px 8px;border:1px solid ${open?C.col:'var(--line)'};border-radius:8px;${open?'':'opacity:.55'}">
       <div style="flex:1"><b style="color:${open?C.col:'var(--dim)'}">${open?'':'🔒 '}${C.n}</b> <span style="font-size:11px;color:var(--dim)">${C.town}</span>${need?`<div style="font-size:11px;color:var(--dim)">${need}</div>`:''}${S.shards[c]?'<div style="font-size:11px;color:#ffd23d">★ 별 조각</div>':''}</div>
-      ${open&&!here?`<button data-goc="${c}">이동</button>`:here?'<span style="font-size:11px;color:var(--ok)">지금 여기</span>':''}</div>`}).join('')}</div>`;
-  setOv(`<div class="enc"><div class="enc-k">${roleName[n.role]} · ${world.sanct?'별지기들의 성소':CONTINENTS[world.c].town}</div><div class="enc-n">${n.em} ${n.n}</div>
-    <div class="note" style="margin:8px 0;min-height:44px;font-size:14px;line-height:1.6;color:#fff">${t.lines[t.i]}</div>${extra}
-    <div class="enc-b">${last?'<button id="npcClose">닫기</button>':'<button id="npcClose">닫기</button><button id="npcNext">다음 ▶</button>'}${act?`<button class="main" data-npcact="${act[1]}">${act[0]}</button>`:''}</div></div>`)}
+      ${open&&!here&&!act?`<button data-goc="${c}">이동</button>`:here?'<span style="font-size:11px;color:var(--ok)">지금 여기</span>':''}</div>`}).join('')}</div>`}
+function renderTalk(){const t=npcTalk;if(!t)return;const n=t.n,last=t.i>=t.lines.length-1;
+  const acts=(NPC_ACT[n.role]||[]).concat(typeof npcActs22==='function'?npcActs22(n):[]);
+  let panel='';if(t.open){panel=t.open==='p'?(n.role==='portal'?portalPanel():vilExtra(n)):(typeof npcPanel22==='function'?npcPanel22(n,t.open):'');}
+  const face=typeof imgSrc==='function'&&imgSrc(n.key);
+  const resume=n.role==='portal'&&typeof runActive==='function'&&runActive()?`<button class="main" id="npcResume">${zoneTag(Math.max(S.cont*4,Math.min(S.lastR!=null?S.lastR:S.region||0,S.maxRegion)))}로 출발</button>`:'';
+  setOv(`<div class="dlg-wrap">${panel?`<div class="dlg-panel"><button class="dlg-x" data-npcopen="">✕</button>${panel}</div>`:''}
+    <div class="dlg"><div class="dlg-face">${face?`<img src="${face}" alt="">`:`<span>${n.em}</span>`}<div class="dlg-name">${n.n}</div></div>
+      <div class="dlg-body"><div class="dlg-role">${roleName[n.role]} · ${world.sanct?'별지기들의 성소':CONTINENTS[world.c].town}</div>
+        <div class="dlg-txt">${t.lines[t.i]}</div>
+        <div class="dlg-b">${last?'':'<button id="npcNext">다음 ▶</button>'}${resume}${acts.map(([l,k])=>`<button class="${k==='p'&&t.open==='p'||t.open===k?'on':''}" ${k==='up'||k==='codex'||k==='relic'||k==='bag'?`data-npcact="${k}"`:`data-npcopen="${k}"`}>${l}</button>`).join('')}<button id="npcClose">닫기</button></div></div></div></div>`)}
 function gateAsk(){joy=null;hero.vx=hero.vy=0;const c=world.c;
   setOv(`<div class="enc"><div class="enc-k">${CONTINENTS[c].town} 입구</div><div class="enc-n">${jo(ZONES[c*4].n,'으로')} 나갈까요?</div>
-    <div class="note" style="margin:8px 0">새로 환생해요. ${CONTINENTS[c].n}의 4지역을 돌아요.<br>전투 횟수 ${startEnergy()} · 시작 레벨 ${fmt(1+rl("start"))}${CONT_RP[c]>1?` · 유물 포인트 ×${CONT_RP[c]}`:''}</div>
+    <div class="note" style="margin:8px 0">새로 환생해요. ${CONTINENTS[c].n}의 4지역을 돌아요.<br>전투 횟수 ${startEnergy()} · ${KEEP_LV?`레벨은 그대로(Lv.${fmt(S.lv)})`:'레벨 1부터'}${typeof skipTo==='function'&&skipTo(c)>c*4?`<br>포탈지기 ${CONTINENTS[c].npc.portal[0]}에게 가면 ${zoneTag(skipTo(c))} ${jo(ZONES[skipTo(c)].n,'으로')} 바로 갈 수 있어요`:''}</div>
     <div class="enc-b"><button id="gateNo">마을에 있기</button><button class="main" id="gateGo">출발!</button></div></div>`)}
 // 마을 창의 버튼(처리했으면 true)
 function townClick(b){
@@ -1898,6 +2020,7 @@ function townClick(b){
   if(!world||!world.town)return false;
   if(vilClick(b))return true;
   if(b.id==='npcNext'&&npcTalk){npcTalk.i++;renderTalk();return true}
+  if(b.dataset.npcopen!=null&&npcTalk){npcTalk.open=npcTalk.open===b.dataset.npcopen?'':b.dataset.npcopen;renderTalk();return true}
   if(b.id==='npcClose'){npcTalk=null;setOv('');return true}
   if(b.dataset.npcact){npcTalk=null;setOv('');openSheet(b.dataset.npcact);return true}
   if(b.dataset.goc){const c=+b.dataset.goc;npcTalk=null;enterTown(c);return true}
@@ -2079,6 +2202,7 @@ function upTag(it){return it.up?` +${it.up}`:''}
 
 function renderPanel(){
   const p=$('panel');let h='';
+  {const h22=typeof uiTab22==='function'?uiTab22(tab):null;if(h22!=null){const keep=p.scrollTop;p.innerHTML=h22;p.scrollTop=keep;return}} // v22 새 화면
   if(tab==='equip'){
     h+='<div class="sec">착용 장비</div><div class="slots">';
     for(const sl of SLOTS){const it=S.eq[sl.k];
@@ -2229,7 +2353,7 @@ function renderHudExtras(){
     <div>도감 ${codexN()}/${ITEMS.length}</div>
     <div>이번 환생 최고 레벨 ${lvTxt(S.run.maxLv)}</div>
     <div>${nl>0?`다음 대륙: ${CONTINENTS[nl].n} · 전투력 ${fmt(portalNeed(nl))}${S.shards[nl-1]?' (별 조각 ✓)':' 또는 별 조각'}`:'모든 대륙이 열렸어요'}</div>`;
-  const chips=POTIONS.filter(P=>S.buff&&S.buff[P.k]>0).map(P=>`${P.e} ${P.d.replace('다음 5전투 ','')} · ${S.buff[P.k]}전투`).concat(RELICS.filter(r=>rl(r.k)>0).map(r=>r.d(rl(r.k)))); // v19 물약 버프가 맨 위
+  const chips=POTIONS.filter(P=>S.buff&&S.buff[P.k]>0).map(P=>`${P.e} ${P.d.replace('다음 5전투 ','')} · ${S.buff[P.k]}전투`).concat(typeof relicChips==='function'?relicChips():[]); // v19 물약 버프가 맨 위
   c.innerHTML=chips.map(t=>`<button data-chip="1" style="font-size:10px;padding:2px 7px;border-radius:10px;background:rgba(121,246,255,.16);border:1px solid rgba(121,246,255,.55);color:#dffcff;min-height:0">${t}</button>`).join('');
 }
 // 목표 패널: 평소에는 한 줄로 접혀 있고, 탭하면 펼쳐졌다가 5초 뒤 다시 접힌다
@@ -2241,7 +2365,7 @@ function renderStats(){
   renderHudExtras();
   $('powerV').textContent=fmt(ST.power);$('atkV').textContent=fmt(ST.atk);$('hpV').textContent=fmt(ST.hp);{const e=$('defV');if(e){e.textContent=fmt(ST.def);$('defR').textContent='받는 피해 -'+Math.round(ST.dmgRed*100)+'%'}}
   $('hudLv').textContent=fmt(S.lv);$('hudEn').textContent=S.energy;$('enV').textContent=S.energy;$('spDot').hidden=!freePts();
-  $('mStone').textContent=fmt(S.mats.stone);$('mEss').textContent=fmt(S.mats.essence);$('mCry').textContent=fmt(S.mats.crystal);$('mFrag').textContent=fmt(S.rp);updGold();
+  $('mStone').textContent=fmt(S.mats.stone);$('mEss').textContent=fmt(S.mats.essence);$('mCry').textContent=fmt(S.mats.crystal);$('mFrag').textContent=typeof relicLv==='function'?relicLv():fmt(S.rp);updGold();
   $('xpBar').style.width=Math.min(100,S.xp/xpNeed()*100)+'%';
 }
 
@@ -2317,7 +2441,7 @@ function bagIconBox(it){const g=gainOf(it);
 // ---------- 가방 거르기·정렬 ----------
 const BAG_TYPES=['helm','top','bottom','gloves','boots','cape','weapon','neck','ear','ring'];
 const BAG_SORT=[['g','등급순'],['new','새것순'],['pow','전투력순']];
-function bagView(){const f=S.opt.bagF||'all',s=S.opt.bagS||'new';let a=S.bag.filter(it=>f==='all'||it.type===f);
+function bagView(){const f=S.opt.bagF||'all',s=S.opt.bagS||'new';const G=typeof BAG_GROUP!=='undefined'&&BAG_GROUP[f]!==undefined?BAG_GROUP[f]:f==='all'?null:[f];let a=S.bag.filter(it=>!G||G.includes(it.type)); /* v22 묶음 탭 */
   if(s==='g')a.sort((x,y)=>y.g-x.g||y.id-x.id);else if(s==='pow')a.sort((x,y)=>gainOf(y)-gainOf(x)||scoreOf(y)-scoreOf(x));else a.sort((x,y)=>y.id-x.id);return a}
 function bagBarHtml(){const f=S.opt.bagF||'all',s=S.opt.bagS||'new',n=t=>S.bag.filter(it=>t==='all'||it.type===t).length;
   return `<div class="bagf">${[['all','전체'],...BAG_TYPES.map(t=>[t,TYPES[t].n])].map(([k,nm])=>`<button data-bf="${k}" class="${f===k?'on':''}">${nm}<small>${n(k)}</small></button>`).join('')}</div>
@@ -2381,8 +2505,419 @@ invEl.addEventListener('click',e=>{if(e.target===invEl){closeInv();return}const 
     const w=$('itemWin');if(!w.hidden&&+w.dataset.id===it.id){w.hidden=true;showItem()}}});
 // 가방·장비 탭: 칸(버튼 말고)을 누르면 상세 카드. 거르기·정렬 버튼
 $('panel').addEventListener('click',e=>{const b=e.target.closest('button');
-  if(b){if(b.dataset.cmp)openCompare(+b.dataset.cmp);else if(b.dataset.bf){S.opt.bagF=b.dataset.bf;save();dirty=true}else if(b.dataset.bs){S.opt.bagS=b.dataset.bs;save();dirty=true}return}
+  if(b){if(b.dataset.card)openItemCard(+b.dataset.card);else if(b.dataset.cmp)openCompare(+b.dataset.cmp);else if(b.dataset.bf){S.opt.bagF=b.dataset.bf;save();dirty=true}else if(b.dataset.bs){S.opt.bagS=b.dataset.bs;save();dirty=true}return}
   const c=e.target.closest('[data-card]');if(c)openItemCard(+c.dataset.card)});
+</script>
+<script>
+// v22 화면 개편: 장비 배치 판, 가방 격자, 도감 격자(+유물 탭), 간단한 환생 화면, 던전에서 마을로, 지도 몬스터 정보
+'use strict';
+let eqSel=null, codexSub='codex', rebHelp=false, wmRegSel=null;
+const imgSrc=k=>k&&typeof SPRITES!=='undefined'&&(SPRITES[k]||(typeof IMG!=='undefined'&&IMG[k]&&IMG[k].src))||'';
+
+// 메뉴 탭 내용(null이면 ui.js의 예전 화면)
+function uiTab22(t){
+  if(t==='relic'){tab='codex';codexSub='relic';document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.tab==='codex'?'true':'false'));t='codex'}
+  if(t==='equip')return tabEquip22();
+  if(t==='bag')return tabBag22();
+  if(t==='codex')return codexSub==='relic'?tabRelic22():tabCodex22();
+  if(t==='reb')return tabReb22();
+  return null}
+
+// ---------- A2 장비: 몸 모양 배치 판 ----------
+const PD_AREAS="'ear helm neck' 'weapon hero top' 'gloves hero bottom' 'ring1 hero cape' 'ring2 boots .'";
+let slotGainSig='',slotGainMap={};
+function slotGain(it,k){gainOf(it);if(slotGainSig!==gainSig){slotGainSig=gainSig;slotGainMap={}}
+  const key=it.id+':'+it.g+':'+it.up+':'+k;if(key in slotGainMap)return slotGainMap[key];return slotGainMap[key]=statsWith(it,k).power-stats().power}
+const slotCands=k=>{const sl=SLOTS.find(s=>s.k===k);return S.bag.filter(it=>it.type===sl.t)};
+function heroPic(){const k=['h'+S.cls,'h'+S.cls+'_0'].find(x=>imgSrc(x));return k?`<img src="${imgSrc(k)}" alt="" style="width:76px;height:76px;image-rendering:pixelated;object-fit:contain">`:`<div style="font-size:52px">${CLASSES[S.cls||0].e}</div>`}
+function tabEquip22(){
+  const thr=Math.max(1,ST.power*.0005);
+  const cell=k=>{const sl=SLOTS.find(s=>s.k===k),it=S.eq[k],up=slotCands(k).some(c=>slotGain(c,k)>thr);
+    return `<button class="pd-s ${it?'bd'+it.g:''}${eqSel===k?' on':''}" data-eqs="${k}" style="grid-area:${k}"><span class="pd-n">${sl.n}${k.startsWith('ring')?' '+k.slice(4):''}</span>${it?itemIcon(it,30):'<span class="pd-e">+</span>'}${it?`<span class="pd-g g${it.g}">${gradeName(it)}${it.up?' +'+it.up:''}</span>`:''}${up?'<i class="pd-up">▲</i>':''}</button>`};
+  let h=`<div class="pd" style="grid-template-areas:${PD_AREAS}">${SLOTS.map(s=>cell(s.k)).join('')}
+    <div class="pd-h" style="grid-area:hero">${heroPic()}<b>${ST.c.n}</b><small>${promoName()}</small><small>전투력 <b class="num" style="color:var(--accent)">${fmt(ST.power)}</b></small></div></div>`;
+  if(!eqSel)h+='<div class="note" style="text-align:center;margin:6px 0">칸을 누르면 그 부위의 가진 장비가 아래에 나와요. 초록 ▲는 더 좋은 장비가 있다는 뜻이에요.</div>';
+  else{const sl=SLOTS.find(s=>s.k===eqSel),cur=S.eq[eqSel],L=slotCands(eqSel).map(it=>({it,g:slotGain(it,eqSel)})).sort((a,b)=>b.g-a.g);
+    h+=`<div class="sec">${sl.n}${eqSel.startsWith('ring')?' '+eqSel.slice(4):''} · 가진 장비 ${L.length}개</div><div class="list">`;
+    h+=cur?`<div class="row bd${cur.g}" data-card="${cur.id}">${itemIconBox(cur,32)}<div class="grow"><div class="t g${cur.g}">${itemName(cur)}${upTag(cur)} <span class="ic-on" style="font-size:11px">착용 중</span></div><div class="s">${gradeName(cur)} · ${mxTag(cur)} · ${statLine(cur)}</div></div></div>`
+      :'<div class="note">지금 비어 있어요.</div>';
+    if(!L.length)h+='<div class="note">가방에 이 부위 장비가 없어요.</div>';
+    for(const {it,g} of L)h+=`<div class="row bd${it.g}" data-cmp2="${it.id}">${bagIconBox(it)}<div class="grow"><div class="t g${it.g}">${itemName(it)}${upTag(it)}</div><div class="s">${gradeName(it)} · ${statLine(it)} <span class="${g>thr?'better':g<-thr?'neg':''}" style="white-space:nowrap">${g>thr?'▲ +'+fmt(g):g<-thr?'▼ -'+fmt(-g):'='}</span></div></div><div class="acts"><button data-cmp2="${it.id}">비교</button></div></div>`;
+    h+='</div>'}
+  // 세트 효과·캐릭터 정보(예전 장비 탭 내용)
+  const sets=setInfo();h+='<div class="sec">세트 효과</div><div class="setbox">';
+  if(!sets.length)h+='<div class="note">보스 세트: 지역마다 중간 보스(2개)와 지역 보스(3개)가 떨구는 장비 5개가 한 세트예요(도감에 ★).</div>';
+  for(const s of sets){h+=`<div><b class="g${s.minG}">${regionData(s.set).set}</b> (${s.c}/5)</div>`;for(const [on,t] of setEffLines(s.set,s.c))h+=`<div class="${on?'on':'off'}">${t}</div>`}
+  const st=ST;h+=`</div><div class="sec">${st.c.n} · ${promoName()}</div><div class="note">방어력 ${fmt(st.def)} (받는 피해 -${Math.round(st.dmgRed*100)}%) · 전직 ${S.promo||0}/5 · 수련 ${S.train||0}단계 · 공격 속도 ${st.aspd.toFixed(2)}회/초 · 치명타 ${Math.round(st.crit*100)}% (×${st.critM}) · 스킬 「${st.c.sk}」 ${(st.skill*100).toFixed(0)}% (×${st.skillM})</div>`;
+  return h}
+
+// ---------- A3 가방: 격자 ----------
+const BAG_GROUP={all:null,w:['weapon'],a:['helm','top','bottom','gloves','boots','cape'],j:['neck','ear','ring']};
+const BAG_GTAB=[['all','전체','🎒'],['w','무기','⚔️'],['a','방어구','🛡️'],['j','장신구','💍']];
+const BAG_SORT2=[['g','등급','★'],['new','새것','🆕'],['pow','전투력','⚡']];
+function tabBag22(){const f=BAG_GROUP[S.opt.bagF]!==undefined?S.opt.bagF:'all',s=S.opt.bagS||'new',thr=Math.max(1,ST.power*.0005);
+  const n=g=>S.bag.filter(it=>!BAG_GROUP[g]||BAG_GROUP[g].includes(it.type)).length;
+  let h=`<div class="bg-top"><label><input type="checkbox" id="optAE" ${S.opt.autoEquip?'checked':''}> 더 좋으면 자동 장착</label><span>가방 <b>${S.bag.length}</b>/${BAG_MAX}</span></div>
+    <div class="bg-tabs">${BAG_GTAB.map(([k,nm,ic])=>`<button data-bf="${k}" class="${f===k?'on':''}" aria-label="${nm}"><span>${ic}</span>${nm}<small>${n(k)}</small></button>`).join('')}</div>
+    <div class="bg-sort">${BAG_SORT2.map(([k,nm,ic])=>`<button data-bs="${k}" class="${s===k?'on':''}">${ic} ${nm}</button>`).join('')}<button id="disAll" class="bg-dis" title="도감 번호가 없는 옛 장비 S 이하를 모두 파쇄">옛 장비 파쇄</button></div>`;
+  const view=bagView();
+  if(!view.length)h+=`<div class="note" style="margin:10px 0">${S.bag.length?'이 종류 장비가 가방에 없어요.':'아직 가방이 비어 있어요. 몬스터를 잡으면 장비가 떨어져요.'}</div>`;
+  h+='<div class="bg-grid">'+view.map(it=>{const g=gainOf(it);return `<button class="bg-c bd${it.g}" data-card="${it.id}" title="${itemName(it)}">${itemIcon(it,34)}<span class="bg-gr g${it.g}">${gradeName(it)}</span>${it.up?`<span class="bg-up">+${it.up}</span>`:''}${g>thr?'<i class="bg-b">▲</i>':''}${it.nb?'<i class="bg-new"></i>':''}${it.lk?'<i class="bg-lk">🔒</i>':''}</button>`}).join('')+
+    Array.from({length:(5-view.length%5)%5+(view.length?0:5)},()=>'<div class="bg-c bg-empty"></div>').join('')+'</div>';
+  h+='<div class="note" style="margin-top:8px;text-align:center">칸을 누르면 자세히 · 비교 · 잠금 · 파쇄. 초록 ▲는 끼면 전투력이 올라요.</div>';
+  return h}
+
+// ---------- A4 도감: 지역별 격자 + 유물 탭 ----------
+const codexSubTabs=()=>`<div class="cx-sub"><button data-cxs="codex" class="${codexSub==='codex'?'on':''}">📖 도감</button><button data-cxs="relic" class="${codexSub==='relic'?'on':''}">🏺 유물</button></div>`;
+function tabCodex22(){const n=codexN(),cc=codexTab;let cx=0;for(const k in S.codex)cx+=CODEX_G[S.codex[k]]||0;
+  const pc=Math.round(n/ITEMS.length*100),nx=CODEX_MS.find(M=>n<M.n);
+  let h=codexSubTabs()+`<div class="cx-top"><div><b>${n}</b> / ${ITEMS.length} <span>(${pc}%)</span><span style="float:right;color:var(--ok)">보너스 공격·체력 +${(cx*100).toFixed(1)}%</span></div><div class="wm-bar"><i style="width:${pc}%"></i></div>${nx?`<small>다음 보상 ${nx.n}칸: ${nx.d}</small>`:'<small>모든 칸 보상을 받았어요</small>'}</div>`;
+  h+='<div class="cx-cont">'+CONTINENTS.map((C,c)=>`<button data-cxr="${c}" class="${c===cc?'on':''}" style="${c===cc?`border-color:${C.col};color:${C.col}`:''}">${S.contOpen[c]?C.n.replace('의 대륙','').replace('대륙',''):'🔒'}<small>${codexContN(c)}/${contItemN(c)}</small></button>`).join('')+'</div>';
+  for(let R=cc*4;R<cc*4+4;R++){const Z=ZONES[R],seen=R<=S.bestRegion;
+    h+=`<div class="cx-rh"><b>${zoneTag(R)} ${seen?Z.n:'???'}</b><span>${codexRegionN(R)}/${zoneItemN(R)}</span></div><div class="cx-grid">`;
+    for(let i=ZONE_ITEMS[R][0];i<ZONE_ITEMS[R][1];i++){const d=ITEMS[i],g=S.codex[i],fake={type:d.t,g:g==null?0:g,wc:S.cls,ci:i};
+      h+=g!=null?`<button class="cx-c bd${g}" data-cxi="${i}">${itemIcon(fake,28)}<span class="g${g}">${GRADES[g].n}</span>${d.set!=null?'<i>★</i>':''}</button>`
+        :`<button class="cx-c cx-no" data-cxi="${i}">${seen?`<span class="cx-sil">${itemIcon(fake,28)}</span>`:'<b>?</b>'}</button>`}
+    h+='</div>'}
+  return h}
+function codexInfo(i){const d=ITEMS[i],Z=ZONES[d.r],g=S.codex[i],seen=d.r<=S.bestRegion;
+  const src=d.src.k==='b'?[Z.mid,Z.boss,Z.cb][d.src.i][0]:Z.mons[d.src.i][0];
+  toast(`${g!=null?`<b class="g${g}">${d.ws?d.n+' '+WSUF[S.cls||0]:d.n} ${GRADES[g].n}</b>`:'<b>??? (아직 못 얻음)</b>'}<br>${TYPES[d.t].n} · ${zoneTag(d.r)} ${seen?src:'???'}${d.fx&&g!=null?'<br>'+d.d:''}`,g!=null?'var(--g'+g+')':'var(--dim)')}
+// 유물 탭(B1 전까지는 예전 유물 강화)
+function tabRelic22(){let h=codexSubTabs();
+  if(typeof relicTab22==='function')return h+relicTab22();
+  h+=`<div class="note" style="margin-bottom:8px">환생하면 유물 포인트를 받아요. 유물은 영원히 남아요. 유물 포인트 <b style="color:var(--accent)">${fmt(S.rp)}</b></div><div class="list">`;
+  for(const r of RELICS){const l=rl(r.k),mx=l>=r.mx,c=relicCost(r);
+    h+=`<div class="row ${l?'bd7':''}"><div class="grow"><div class="t ${l?'g7':''}">${r.n} ${l}/${r.mx}</div><div class="s">${l?r.d(l):'아직 없음'}${mx?'':' → '+r.d(l+1)}</div></div><div class="acts"><button data-rup="${r.k}" ${!mx&&S.rp>=c?'':'disabled'}>${mx?'최대':'강화 '+fmt(c)}</button></div></div>`}
+  return h+'</div>'}
+
+// ---------- A5 환생: 간단하게 ----------
+function rebLines(){return typeof rebLines22==='function'?rebLines22():['레벨과 이번 환생에 잡은 보스가 처음으로 돌아가요',`장비·도감·유물·마을·전직은 그대로예요`,`환생할 때마다 공격·체력 +${Math.round(REBIRTH_B*100)}% (지금 ${S.runs}회, +${Math.round(REBIRTH_B*S.runs*100)}%)`]}
+function tabReb22(){const town=world&&world.town,active=!S.runOver&&S.run;
+  let h=`<div class="rb2-h"><b>환생</b><button id="rbHelp" aria-label="자세한 설명">${rebHelp?'✕':'?'}</button></div>
+    <div class="rb2-en"><small>남은 전투 횟수</small><b class="num">${S.runOver?0:S.energy}</b><small>다음 환생 시작 횟수 ${startEnergy()}</small></div>
+    <ul class="rb2-l">${rebLines().map(x=>`<li>${x}</li>`).join('')}</ul>`;
+  if(S.runOver&&!town)h+=`<button class="main rb2-b" id="newRunBtn">마을로 돌아가기</button>`;
+  else if(S.runOver&&town)h+=`<div class="note rb2-n">마을 오른쪽 입구 문으로 나가면 새 환생이 시작돼요.</div>`;
+  else if(!rebirthConfirm)h+=`<button class="main rb2-b" id="rebBtn">지금 환생하기</button>`;
+  else h+=`<div class="note rb2-n">정말 끝낼까요? 남은 전투 횟수 ${S.energy}회는 사라져요.</div><div style="display:flex;gap:6px"><button class="main rb2-b" id="rebYes" style="flex:1">네, 환생할게요</button><button id="rebNo" class="rb2-b" style="flex:1">취소</button></div>`;
+  if(rebHelp){const P=startEnergyParts();
+    h+=`<div class="sec">시작 전투 횟수 ${startEnergy()} / ${MAX_START_ENERGY}</div><div class="note">기본 ${P.base} · 보스 첫 처치 +${P.first} · 모래시계 +${P.hour} · 장신구 +${P.acc} · 세트 완성 +${P.sets} · 망루 +${P.watch}</div>`;
+    if(active)h+=`<div class="note" style="margin-top:6px">이번 환생: ${CONTINENTS[S.cont].n} ${zoneTag(S.maxRegion)}까지 · 보스 ${S.run.bosses}마리 · 최고 Lv.${fmt(S.run.maxLv)}${typeof rpGain==='function'&&S.rp!=null&&!window.REL22?` · 지금 끝내면 유물 포인트 +${fmt(rpGain())}`:''}</div>`;
+    h+=`<div class="note" style="margin-top:6px">${ZONES.map((Z,R)=>R>S.bestRegion?'':`${zoneTag(R)} ${Z.n}: `+[Z.mid,Z.boss,Z.cb].filter(Boolean).map((b,i)=>`${S.firstKill[R+'_'+i]?'✓':'·'}${b[0]}${S.runBoss[R+'_'+i]?'(이번 환생)':''}`).join(' ')).filter(Boolean).join('<br>')}</div>`;
+    h+=`<div class="sec">저장 옮기기</div><div style="display:flex;gap:6px;margin-top:6px"><button id="expBtn" style="flex:1">저장 내보내기</button><button id="impOpen" style="flex:1">저장 불러오기</button></div>`;
+    if(saveBox==='exp')h+=`<textarea id="expTxt" readonly style="width:100%;height:80px;margin-top:6px;font-size:11px;word-break:break-all">${exportSave()}</textarea><button class="main" id="expCopy" style="width:100%;margin-top:4px">복사하기</button>`;
+    if(saveBox==='imp')h+=`<textarea id="impTxt" placeholder="여기에 저장 코드를 붙여 넣으세요" style="width:100%;height:80px;margin-top:6px;font-size:11px;word-break:break-all"></textarea><div class="note" style="margin:4px 0">지금 진행은 덮어써져요(한 칸 백업은 남아요).</div><button class="main" id="impOk" style="width:100%">이 코드로 불러오기</button>`;
+    h+=`<div class="sec">기록 지우기</div><button id="resetBtn" style="margin-top:6px">${resetConfirm?'한 번 더 누르면 모두 지워져요':'처음부터 다시 하기'}</button>`}
+  return h}
+
+// 메뉴 칸 누르기(ui.js 버튼 처리와 함께 돈다)
+$('panel').addEventListener('click',e=>{const b=e.target.closest('button,[data-cmp2]');if(!b)return;
+  if(b.dataset.eqs){eqSel=eqSel===b.dataset.eqs?null:b.dataset.eqs;dirty=true;return}
+  if(b.dataset.cmp2){e.stopPropagation();openCompare(+b.dataset.cmp2,eqSel);return}
+  if(b.dataset.cxs){codexSub=b.dataset.cxs;dirty=true;$('panel').scrollTop=0;return}
+  if(b.dataset.cxi){codexInfo(+b.dataset.cxi);return}
+  if(b.id==='rbHelp'){rebHelp=!rebHelp;dirty=true;return}});
+
+// ---------- A1 던전에서 마을로 ----------
+const runActive=()=>!!(S.run&&!S.runOver&&!S.needRun);
+function goTown(){if(!world||world.town||fight)return;if(S.runOver){endRun();return}
+  S.lastR=world.r;save();enterTown(S.cont);setTimeout(()=>{if(typeof npcTalk!=='undefined'&&npcTalk&&npcTalk.open)return;toast(`🏠 마을이에요 · 전투 ${S.energy}회 남음<br>포탈에서 ${zoneTag(S.lastR)}로 다시 가요`,'var(--accent)')},900)}
+function resumeRun(){if(!runActive())return false;const r=Math.max(S.cont*4,Math.min(S.lastR!=null?S.lastR:S.region||0,S.maxRegion));npcTalk=null;setOv('');enterRegion(r);return true}
+{const b=document.createElement('button');b.id='goTownBtn';b.setAttribute('aria-label','마을로');b.textContent='🏠';b.style.cssText='padding:2px 6px;margin-right:4px';const m=$('mapBtn');m.parentNode.insertBefore(b,m);
+  b.addEventListener('click',()=>{if(fight)return;goTown()})}
+// 마을에서 출발: 환생 중이면 마지막 지역으로 이어서
+{const _g=gateAsk;gateAsk=function(){if(!runActive())return _g();joy=null;hero.vx=hero.vy=0;const r=Math.max(S.cont*4,Math.min(S.lastR!=null?S.lastR:S.region||0,S.maxRegion));
+  setOv(`<div class="enc"><div class="enc-k">${CONTINENTS[world.c].town} 입구</div><div class="enc-n">${jo(ZONES[r].n,'으로')} 돌아갈까요?</div>
+    <div class="note" style="margin:8px 0">환생 중이에요. 남은 전투 횟수 ${S.energy}회 그대로 ${zoneTag(r)}에서 이어 가요.</div>
+    <div class="enc-b"><button id="gateNo">마을에 있기</button><button class="main" id="gateResume">${zoneTag(r)}로 출발!</button></div></div>`)}}
+{const _t=townClick;townClick=function(b){if(b.id==='gateResume'||b.id==='npcResume'){resumeRun();return true}return _t(b)}}
+// 마을 안에서 다시 그리기(🏠 버튼은 던전에서만)
+setInterval(()=>{const b=$('goTownBtn');if(b)b.style.display=world&&!world.town?'':'none'},400);
+
+// ---------- A7 지도: 지역 칸 → 몬스터·드랍 ----------
+function monImg(R,kind,i){const Z=ZONES[R],A=monArtR(R);if(kind==='n')return imgSrc(Z.mons[i][2])||imgSrc(A>=0?'z'+A+'m'+i:null);
+  const D=[Z.mid,Z.boss,Z.cb][i];return imgSrc(Z.bk&&Z.bk[i])||(i===2?(Z.cbk||['c'+Z.c+'boss']).map(imgSrc).find(Boolean):imgSrc(A>=0?'z'+A+(i?'boss':'mid'):null))||imgSrc(D[2])}
+function dropsOf(R,kind,i){const out=[];ITEMS.forEach((u,ci)=>{if(u.r===R&&(kind==='b'?(u.src.k==='b'&&u.src.i===i):(u.src.k==='m'&&u.src.i===i)))out.push(ci)});return out}
+function wmRegionDetail(R){const Z=ZONES[R],been=R<=S.bestRegion||!!WM_SEEN[R];
+  if(!been)return '<div class="note">아직 가 보지 않은 지역이에요.</div>';
+  const row=(kind,i)=>{const D=kind==='n'?Z.mons[i]:[Z.mid,Z.boss,Z.cb][i],src=monImg(R,kind,i),dr=dropsOf(R,kind,i);
+    const lv=kind==='n'?`Lv.${monLv(R,monPos(i,0))}~${monLv(R,monPos(i,1))}`:`Lv.${bossLv(R,i)}`;
+    const pos=kind==='n'?(i<3?`입구~가운데 ${i+1}번째`:`가운데~굴 ${i-2}번째`):['맵 가운데','보스의 굴','굴 맨 안쪽'][i];
+    const nm=kind==='b'?(bossNm(R,i)?`${D[0]} 「${bossNm(R,i)}」`:D[0]):D[0];
+    const rel=kind==='b'&&typeof bossRelics==='function'?bossRelics(R,i):[];
+    return `<div class="wr-m${kind==='b'?' boss':''}"><div class="wr-p">${src?`<img src="${src}" alt="">`:`<span>${D[1]}</span>`}</div><div class="wr-i"><b>${nm}</b><small>${kind==='b'?BOSS_ROLE[i]+' · ':''}${lv} · ${pos}${kind==='b'&&S.firstKill[bossKey(R,i)]?' · ✓ 처치':''}</small>
+      <div class="wr-d">${dr.map(ci=>{const g=S.codex[ci],d=ITEMS[ci];return `<span class="wr-it ${g!=null?'bd'+g:'no'}" title="${d.n}">${itemIcon({type:d.t,g:g||0,wc:S.cls,ci},20)}${g!=null?'':'<i>?</i>'}</span>`}).join('')}${rel.map(x=>`<span class="wr-it wr-rel ${x.have?'have':'no'}" title="${x.n}">${x.e}</span>`).join('')}</div>
+      ${kind==='b'?`<small style="color:${rel.length?'#ffd23d':'var(--dim)'}">${rel.length?`유물: ${rel.map(x=>x.n+(x.have?' ✓':'')).join(', ')} (낮은 확률)`:i===0?'유물 없음':'유물: 다음 업데이트'}</small>`:''}</div></div>`};
+  let h=`<div class="wr-t">${zoneTag(R)} ${Z.n} · 도감 ${codexRegionN(R)}/${zoneItemN(R)}</div>`;
+  for(let i=0;i<Z.mons.length;i++)h+=row('n',i);
+  h+=row('b',0)+row('b',1)+(Z.cb?row('b',2):'');
+  return h+'<div class="note" style="margin-top:4px">아이콘 테두리 색 = 도감 최고 등급, ? = 아직 못 얻음. 몬스터 자리는 늘 같아요.</div>'}
+{const _w=wmRegion;wmRegion=function(Z,R){const h=_w(Z,R),been=R<=S.bestRegion||!!WM_SEEN[R];return been?h.replace(/<\/div>$/,`<button data-wmr="${R}" class="wr-btn">몬스터 · 드랍 보기</button></div>`):h}}
+{const _o=openWorldMap;openWorldMap=function(sel){if(wmRegSel==null)return _o(sel);if(fight)return;joy=null;
+  setOv(`<div class="res" style="padding:12px;max-height:86%;overflow-y:auto;top:50%"><div style="display:flex;justify-content:space-between;align-items:center"><b style="font-size:16px">지역 정보</b><button id="wmClose" style="width:auto;margin:0;padding:6px 14px;font-size:13px">닫기</button></div>
+    <button id="wmRBack" style="width:auto;margin:6px 0;padding:4px 12px;font-size:12px">← ${CONTINENTS[ZONES[wmRegSel].c].n}</button><div style="text-align:left">${wmRegionDetail(wmRegSel)}</div></div>`)}}
+$('ov').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.wmr!=null){wmRegSel=+b.dataset.wmr;openWorldMap(null);e.stopImmediatePropagation();return}
+  if(b.id==='wmRBack'){const c=ZONES[wmRegSel].c;wmRegSel=null;openWorldMap(c);e.stopImmediatePropagation();return}
+  if(b.id==='wmClose'){wmRegSel=null}},true);
+$('mapBtn').addEventListener('click',()=>{wmRegSel=null},true);
+</script>
+<script>
+// v22 B 시스템: 보스 유물·유물 경험치(유물 상점·유물 포인트는 없앰), 환생 단순화 글, 포탈지기 건너뛰기, NPC 역할(오늘의 의뢰, 장비 팔기, 여관 휴식, 망루 보스 정보, 학자)
+'use strict';
+window.REL22=true;
+// ---------- 보스 유물 ----------
+// 지역 보스는 유물 1개, 대륙 보스는 2개를 낮은 확률로 떨군다(중간 보스는 없음). 효과는 작고 영원하다.
+// 유물을 얻을 때마다 유물 경험치가 쌓이고, 유물 레벨마다 공격·체력·방어 +1%. 이미 가진 유물은 경험치만.
+const RELIC_P=[0,.25,.2];                  // 보스 종류별(0 중간, 1 지역, 2 대륙) 유물 하나당 드랍 확률
+const RELIC_XP_NEW=100, RELIC_XP_DUP=25;    // × (대륙 번호+1)
+const RELIC_LV_B=.02;                       // 유물 레벨 1당 공격·체력·방어 +2% (예전 환생 보너스 자리를 메운다, 봇으로 맞춤)
+const relicNeed=L=>25*L*(L+1);              // 유물 레벨 L까지 필요한 누적 경험치(1레벨 50, 2레벨 150, 3레벨 300, 4레벨 500 …)
+const relicsOf=(R,bi)=>RELICS.map((x,j)=>x.R===R&&x.bi===bi?j:-1).filter(j=>j>=0);
+function relicSum(k){let v=0;const m=S.rel||{};for(const j in m){const X=RELICS[j];if(X&&X.k===k)v+=X.v}return v}
+function relicLv(){const x=S.rxp||0;let L=0;while(L<999&&relicNeed(L+1)<=x)L++;return L}
+const relicN=()=>Object.keys(S.rel||{}).length;
+function bossRelics(R,bi){return relicsOf(R,bi).map(j=>{const X=RELICS[j];return{n:X.n,e:X.e,have:!!(S.rel||{})[j]}})}
+function relicDrop(m,R){if(!(m.bi>=1))return '';S.rel=S.rel||{};let h='';const c=Math.floor(R/4);
+  for(const j of relicsOf(R,m.bi)){if(rnd()>=RELIC_P[m.bi])continue;const X=RELICS[j],had=S.rel[j],xp=(had?RELIC_XP_DUP:RELIC_XP_NEW)*(1+c),l0=relicLv();
+    S.rel[j]=(had||0)+1;S.rxp=(S.rxp||0)+xp;const l1=relicLv();if(S.run)(S.run.rel=S.run.rel||[]).push(j);
+    h+=had?`<div class="res-x" style="color:#c9b8ff">${X.e} 유물 「${X.n}」 또 나왔어요 · 유물 경험치 +${xp}</div>`
+      :`<div class="res-x" style="color:#ffd23d;font-size:15px">${X.e} 새 유물 「${X.n}」! ${X.d} · 유물 경험치 +${xp}</div>`;
+    if(!had)newFx('새 유물!',`${X.n} · ${X.d}`,6);
+    if(l1>l0)h+=`<div class="res-x" style="color:#ffd23d">유물 레벨 ${l1}! 공격·체력·방어 +${Math.round(RELIC_LV_B*l1*100)}%</div>`}
+  if(h)recalc();return h}
+// 메뉴 위 효과 줄(물약 다음)
+function relicChips(){const L=relicLv(),out=[];if(L)out.push(`🔮 유물 Lv.${L}: 공격·체력·방어 +${Math.round(RELIC_LV_B*L*100)}%`);
+  for(const k in RELIC_FX){const v=relicSum(k);if(v)out.push(`${RELIC_FX[k].e} ${RELIC_FX[k].d(v)}`)}return out}
+// 도감 안 유물 탭
+function relicTab22(){const L=relicLv(),x=S.rxp||0,a=relicNeed(L),b=relicNeed(L+1),pc=Math.floor((x-a)/(b-a)*100);
+  let h=`<div class="rl-h"><div><b>🔮 유물 Lv.${L}</b> <small>공격·체력·방어 +${Math.round(RELIC_LV_B*L*100)}%</small></div><small>${relicN()}/${RELICS.length}개</small></div>
+    <div class="wm-bar" style="margin:4px 0"><i style="width:${pc}%"></i></div><div class="note" style="margin-bottom:6px">유물 경험치 ${fmt(x-a)} / ${fmt(b-a)} · 다음 레벨 +${Math.round(RELIC_LV_B*100)}%</div>
+    <div class="note" style="margin-bottom:8px">지역 보스(1개)와 대륙 보스(2개)가 낮은 확률로 떨궈요. 새 유물은 경험치 +${RELIC_XP_NEW}×대륙, 이미 가진 유물은 경험치 +${RELIC_XP_DUP}×대륙만 받아요. 유물은 환생해도 영원히 남아요.</div>`;
+  const ch=relicChips().slice(L?1:0);if(ch.length)h+=`<div class="note" style="margin-bottom:8px;color:var(--ok)">지금 효과: ${ch.join(' · ')}</div>`;
+  for(let c=0;c<CONTINENTS.length;c++){if(!S.contOpen[c]&&c>0)break;
+    h+=`<div class="sec" style="color:${CONTINENTS[c].col}">${CONTINENTS[c].n}</div><div class="rl-g">`;
+    RELICS.forEach((X,j)=>{if(Math.floor(X.R/4)!==c)return;const have=(S.rel||{})[j];
+      h+=`<div class="rl-c ${have?'have':''}"><span class="rl-e">${X.e}</span><div><b>${have?X.n:'???'}</b><small>${X.d}</small><small>${zoneTag(X.R)} ${BOSS_ROLE[X.bi]} ${X.boss}${have>1?` · ${have}번`:''}</small></div></div>`});
+    h+='</div>'}
+  return h}
+// 옛 유물 변환 알림(처음 한 번)
+setTimeout(()=>{if(relicConvMsg>0){toast(`유물 상점이 없어지고 보스 유물로 바뀌었어요<br>옛 유물·유물 포인트를 유물 경험치 ${fmt(relicConvMsg)}로 바꿨어요 (유물 Lv.${relicLv()})`,'#c9b8ff');relicConvMsg=0;recalc();dirty=true}},3200);
+// 골드 유물
+{const _g=goldFor;goldFor=function(m,R){return Math.max(1,Math.round(_g(m,R)*(1+relicSum('gold')*.05)))}}
+
+// ---------- 환생 글 ----------
+function rebLines22(){return['전투 횟수가 다시 채워지고, 잡은 보스가 다시 나타나요',
+  KEEP_LV?`레벨(Lv.${fmt(S.lv)})·장비·도감·유물·마을·전직은 그대로예요`:'레벨만 1로 돌아가고, 장비·도감·유물·마을·전직은 그대로예요',
+  '보스를 다시 잡아 장비와 유물을 또 노려 보세요']}
+
+// ---------- 포탈지기 건너뛰기 ----------
+// 도감 장비와 유물을 다 모은 지역은 건너뛰고, 그다음 지역에서 바로 시작한다(가 본 지역까지만)
+const regionDone=R=>codexRegionN(R)>=zoneItemN(R)&&relicsOf(R,1).concat(relicsOf(R,2)).every(j=>(S.rel||{})[j]);
+function skipTo(c){let R=c*4;while(R<c*4+3&&R+1<=S.bestRegion&&regionDone(R))R++;return R}
+function skipPanel(){const c=world.c,T=skipTo(c);
+  let h=`<div class="note" style="text-align:left;margin-bottom:6px">이 지역의 <b>도감 장비</b>와 <b>보스 유물</b>을 전부 모으면, 그 지역은 건너뛰고 다음 지역으로 바로 보내 줘요. 한 번 가 본 지역까지만 갈 수 있어요.</div>`;
+  for(let R=c*4;R<c*4+4;R++){const rel=relicsOf(R,1).concat(relicsOf(R,2)),rh=rel.filter(j=>(S.rel||{})[j]).length,done=regionDone(R);
+    h+=`<div class="sk-r ${done?'ok':''}"><b>${done?'✓':'·'} ${zoneTag(R)} ${ZONES[R].n}</b><small>도감 ${codexRegionN(R)}/${zoneItemN(R)} · 유물 ${rh}/${rel.length}</small></div>`}
+  h+=T>c*4?`<button class="main" id="skipGo" style="width:100%;margin-top:6px">${zoneTag(T)} ${jo(ZONES[T].n,'으로')} 바로 가기</button>`
+    :`<div class="note" style="margin-top:6px">${zoneTag(c*4)} ${ZONES[c*4].n}의 도감과 유물을 다 모으면 건너뛸 수 있어요.</div>`;
+  return h}
+function doSkip(){const c=world.c,T=skipTo(c);if(T<=c*4)return;npcTalk=null;setOv('');
+  if(!(typeof runActive==='function'&&runActive()))newRun(c);
+  S.maxRegion=Math.max(S.maxRegion,T);S.lastR=T;enterRegion(T);save();dirty=true;
+  setTimeout(()=>toast(`🌀 테오가 ${zoneTag(T)} ${jo(ZONES[T].n,'으로')} 보내 줬어요<br>앞 지역은 도감과 유물을 다 모아서 건너뛰었어요`,'var(--accent)'),600)}
+
+// ---------- 오늘의 의뢰(촌장) ----------
+const DQ_NEED=30;
+const dqDay=()=>{const d=new Date();return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`};
+function dqToday(){const k=dqDay();if(!S.dq||S.dq.day!==k)S.dq={day:k,n:0,need:DQ_NEED,got:0};return S.dq}
+const dqReward=()=>{const R=Math.max(0,S.bestRegion||0);return{gold:Math.round(40*GOLD_B(R)),stone:10*(1+R)}};
+function dqKill(){const q=dqToday();if(!q.got&&q.n<q.need){q.n++;if(q.n===q.need)setTimeout(()=>toast('📜 오늘의 의뢰 완료! 마을 촌장에게 보상을 받으세요','#ffd23d'),1200)}}
+function dqPanel(){const q=dqToday(),w=dqReward(),pc=Math.floor(q.n/q.need*100);
+  return `<div style="font-size:13px;text-align:left"><b>📜 오늘의 의뢰: 몬스터 ${q.need}마리 잡기</b><div style="font-size:11px;color:var(--dim)">보상: 🪙 ${fmt(w.gold)} 골드 · 강화석 ${fmt(w.stone)} · 매일 새로 생겨요</div>
+    <div class="wm-bar" style="margin:5px 0"><i style="width:${pc}%"></i></div><div style="font-size:11px">${q.n} / ${q.need}</div></div>
+    ${q.got?'<div class="note" style="color:var(--ok)">✓ 오늘 보상을 받았어요. 내일 또 와 주렴.</div>':q.n>=q.need?'<button class="main" id="dqGet" style="width:100%;margin-top:6px">보상 받기</button>':''}`}
+function dqClaim(){const q=dqToday();if(q.got||q.n<q.need)return;const w=dqReward();q.got=1;addGold(w.gold);S.mats.stone+=w.stone;
+  toast(`📜 의뢰 보상! 🪙 ${fmt(w.gold)} · 강화석 ${fmt(w.stone)}`,'#ffd23d');save();dirty=true}
+
+// ---------- 장비 팔기(시장) ----------
+const sellR=it=>isC(it)?ITEMS[it.ci].r:(it.set!=null?it.set:0);
+const sellPrice=it=>Math.max(1,Math.round(GOLD_B(sellR(it))*(2+it.g*1.5)*(1+(it.up||0)*.2)));
+const sellable=()=>S.bag.filter(it=>!it.lk);
+function sellPanel(){const L=sellable().map(it=>({it,gn:typeof gainOf==='function'?gainOf(it):0})).sort((a,b)=>a.gn-b.gn||a.it.g-b.it.g);
+  const junk=L.filter(x=>!(x.gn>0));
+  let h=`<div style="font-size:12px;color:#ffd23d;text-align:right">🪙 ${fmt(S.gold||0)}</div><div class="note" style="text-align:left">끼고 있거나 🔒 잠근 장비는 팔지 않아요. 초록 ▲(끼면 전투력이 오르는 장비)는 맨 아래에 있어요.</div>`;
+  if(junk.length)h+=`<button class="main" id="sellAll" style="width:100%;margin:6px 0">▲ 없는 장비 ${junk.length}개 모두 팔기 · 🪙 ${fmt(junk.reduce((s,x)=>s+sellPrice(x.it),0))}</button>`;
+  if(!L.length)return h+'<div class="note">팔 수 있는 장비가 없어요.</div>';
+  h+=`<div style="display:flex;flex-direction:column;gap:5px;max-height:36vh;overflow:auto;text-align:left">`;
+  for(const {it,gn} of L.slice(0,40))h+=`<div style="display:flex;align-items:center;gap:6px;padding:4px 8px;border:1px solid var(--line);border-radius:8px">${itemIconBox(it,24)}<div style="font-size:12px;line-height:1.3;flex:1"><b class="g${it.g}">${itemName(it)} ${GRADES[it.g].n}${it.up?' +'+it.up:''}</b>${gn>0?` <span style="color:var(--ok)">▲</span>`:''}</div><button data-sell="${it.id}" style="min-height:0;padding:4px 8px;font-size:12px">🪙 ${fmt(sellPrice(it))}</button></div>`;
+  return h+'</div>'}
+function sellItem(ids){let g=0,n=0;const set=new Set(ids);S.bag=S.bag.filter(it=>{if(set.has(it.id)&&!it.lk){g+=sellPrice(it);n++;return false}return true});
+  if(!n)return;addGold(g);toast(`장비 ${n}개를 팔았어요 · 🪙 +${fmt(g)}`,'#ffd23d');recalc();save();dirty=true}
+
+// ---------- 여관 휴식 ----------
+const REST_N=10, REST_HEAL=.01, restCost=()=>Math.round(25*GOLD_B(Math.max(0,S.bestRegion||0)));
+function restPanel(){const b=(S.buff||{}).rest||0;
+  return `<div style="font-size:12px;color:#ffd23d;text-align:right">🪙 ${fmt(S.gold||0)}</div><div style="font-size:13px;text-align:left"><b>🛏️ 푹 쉬기</b><div style="font-size:11px;color:var(--dim)">다음 ${REST_N}번의 전투 동안 때릴 때마다 최대 체력의 ${Math.round(REST_HEAL*100)}%가 돌아와요${b?` · 남은 ${b}전투`:''}</div></div>
+    <button class="main" id="restGo" style="width:100%;margin-top:6px">쉬기 · 🪙 ${fmt(restCost())}</button><div class="note" style="margin-top:4px">물약은 상인 모아에게서 살 수 있어요.</div>`}
+function doRest(){S.buff=S.buff||{};if((S.buff.rest||0)+REST_N>POTION_MAX){toast(`한 번에 ${POTION_MAX}전투까지만 쌓을 수 있어요`,'var(--dim)');return}
+  if(!payGold(restCost()))return;S.buff.rest=(S.buff.rest||0)+REST_N;recalc();toast(`🛏️ 푹 쉬었어요! 다음 ${REST_N}전투 동안 때릴 때마다 체력 회복`,'var(--ok)');save();dirty=true}
+POTIONS.push({k:'rest',n:'여관 휴식',e:'🛏️',d:`다음 ${REST_N}전투 때릴 때마다 체력 회복`,cost:0,hide:1});
+
+// ---------- 망루: 다음 보스 정보 ----------
+function nextBoss(c){for(let R=c*4;R<c*4+4;R++){const Z=ZONES[R];for(let bi=0;bi<(Z.cb?3:2);bi++)if(!S.firstKill[bossKey(R,bi)])return[R,bi]}
+  for(let R=c*4+3;R>=c*4;R--){const Z=ZONES[R];for(let bi=(Z.cb?2:1);bi>=0;bi--)if(!S.runBoss[bossKey(R,bi)])return[R,bi]}return[c*4+3,2]}
+function watchPanel(){const c=world.c,[R,bi]=nextBoss(c),Z=ZONES[R],D=[Z.mid,Z.boss,Z.cb][bi],nm=bossNm(R,bi),s=monStats(bossLv(R,bi),R,bi+1,1);
+  const m={R,tier:bossLv(R,bi),kind:'b',bi,max:s.hp,hp:s.hp,atk:s.atk,iv:s.iv},[p]=winRate(m);
+  const dps=ST.atk*ST.aspd*(1+ST.dbl)*(1+ST.crit*(ST.critM-1))*(1+ST.skill*(ST.skillM-1))*(1+ST.bossDmg),tKill=s.hp/dps,tDie=ST.hp/(s.atk*defMul(ST.def,R)/s.iv);
+  const weak=tKill>tDie?'체력이 아주 많아요. <b>공격력</b>(무기·장갑·장신구)을 올리면 빨리 쓰러져요.':'때리는 힘이 세요. <b>체력·방어력</b>(투구·상의·하의·신발·망토)을 올리면 버틸 수 있어요.';
+  const weakT=(p>=.9?'지금 장비로 넉넉해요. 굳이 꼽자면 ':'')+weak;const src=typeof monImg==='function'&&monImg(R,'b',bi);
+  return `<div style="display:flex;gap:8px;align-items:center;text-align:left">${src?`<img src="${src}" style="width:56px;height:56px;object-fit:contain;image-rendering:pixelated" alt="">`:`<span style="font-size:36px">${D[1]}</span>`}
+    <div style="font-size:12px;line-height:1.45"><b style="font-size:14px">${D[0]}${nm?` 「${nm}」`:''}</b><br>${zoneTag(R)} ${Z.n} · ${BOSS_ROLE[bi]} · Lv.${bossLv(R,bi)}<br>지금 이길 확률 <b style="color:${p>=.9?'var(--ok)':p>=.6?'#ffb347':'#ff5d73'}">${Math.round(p*100)}%</b></div></div>
+    <div class="note" style="text-align:left;margin-top:6px">약점: ${weakT}</div>
+    ${bi?`<div class="note" style="text-align:left">떨구는 유물: ${bossRelics(R,bi).map(x=>x.e+' '+x.n+(x.have?' ✓':'')).join(', ')}</div>`:''}
+    <div class="note" style="text-align:left;margin-top:4px">망루 덕분에 환생할 때마다 시작 전투 횟수 +${watchEnergy()}</div>`}
+
+// ---------- 학자: 도감 보상 · 몬스터 정보 ----------
+function cxRewardPanel(){const cn=codexN();
+  return `<div style="text-align:left;font-size:12px"><b>도감 ${cn}/${ITEMS.length}칸</b><div style="font-size:11px;color:var(--dim)">칸마다 최고 등급만큼 공격·체력이 오르고, 칸 수마다 보상이 있어요</div>
+    ${CODEX_MS.map(M=>`<div style="padding:3px 0;${cn>=M.n?'color:var(--ok)':''}">${cn>=M.n?'✓':'·'} ${M.n}칸: ${M.d}</div>`).join('')}
+    <div style="padding:3px 0;color:var(--dim)">대륙 하나의 도감을 다 채우면 공격력 +${Math.round(CODEX_CONT_ATK*100)}%와 칭호</div></div>`}
+function monInfoPanel(){const c=world.c;let h='<div class="note" style="text-align:left;margin-bottom:6px">지역을 고르면 몬스터 그림, 레벨, 자리, 떨구는 장비와 유물이 나와요.</div><div style="display:flex;flex-direction:column;gap:5px">';
+  for(let R=c*4;R<c*4+4;R++){const been=R<=S.bestRegion;h+=`<button ${been?`data-wmr="${R}"`:'disabled'} style="text-align:left">${zoneTag(R)} ${ZONES[R].n} <small style="color:var(--dim)">${been?`도감 ${codexRegionN(R)}/${zoneItemN(R)}`:'아직 못 가 봄'}</small></button>`}
+  return h+'</div>'}
+
+// ---------- NPC 버튼·창 ----------
+NPC_ACT.chief=[['기부하기','p'],['오늘의 의뢰','dq']];
+NPC_ACT.shop=[['상점 열기','p']];
+NPC_ACT.market=[['장비 팔기','sell']];
+NPC_ACT.inn=[['쉬어 가기','rest']];
+NPC_ACT.watch=[['다음 보스 정보','watch']];
+NPC_ACT.smith=[['강화하기','up'],['가방(파쇄)','bag']];
+NPC_ACT.sage=[['도감 보기','codex'],['도감 보상','cxr'],['몬스터 정보','mon']];
+NPC_ACT.portal=[['포탈 열기','p'],['지역 건너뛰기','skip']];
+roleName.sage='학자';roleName.shop='상인';delete roleName.relic;
+function npcPanel22(n,k){if(k==='dq')return dqPanel();if(k==='sell')return sellPanel();if(k==='rest')return restPanel();if(k==='watch')return watchPanel();
+  if(k==='cxr')return cxRewardPanel();if(k==='mon')return monInfoPanel();if(k==='skip')return skipPanel();return ''}
+// 상인 모아: 물약 + 도감 장비(D, 시장 단계부터 C)
+{const _v=vilExtra;vilExtra=function(n){if(n.role==='shop'){const gold=`<div style="font-size:12px;color:#ffd23d;text-align:right">🪙 ${fmt(S.gold||0)}</div>`;
+    const pot=POTIONS.filter(P=>!P.hide).map(P=>`<div style="display:flex;align-items:center;gap:6px;padding:5px 8px;border:1px solid var(--line);border-radius:8px"><div style="font-size:13px;text-align:left">${P.e} <b>${P.n}</b><div style="font-size:11px;color:var(--dim)">${P.d}${S.buff&&S.buff[P.k]?` · 남은 ${S.buff[P.k]}전투`:''}</div></div><div style="flex:1"></div><button data-pot="${P.k}" style="min-height:0;padding:4px 8px;font-size:12px">🪙 ${P.cost}</button></div>`).join('');
+    const it=_v(n).replace(gold,'');return gold+`<div style="font-size:12px;text-align:left;margin:4px 0 2px"><b>물약</b></div><div style="display:flex;flex-direction:column;gap:5px">${pot}</div><div style="font-size:12px;text-align:left;margin:8px 0 0"><b>장비</b></div>`+it}
+  if(n.role==='watch')return watchPanel();if(n.role==='inn')return restPanel();if(n.role==='market')return sellPanel();return _v(n)}}
+{const _c=vilClick;vilClick=function(b){
+  if(b.id==='dqGet'){dqClaim();if(npcTalk)renderTalk();return true}
+  if(b.dataset.sell){sellItem([+b.dataset.sell]);if(npcTalk)renderTalk();return true}
+  if(b.id==='sellAll'){sellItem(sellable().filter(it=>!(typeof gainOf==='function'&&gainOf(it)>0)).map(it=>it.id));if(npcTalk)renderTalk();return true}
+  if(b.id==='restGo'){doRest();if(npcTalk)renderTalk();return true}
+  if(b.id==='skipGo'){doSkip();return true}
+  return _c(b)}}
+// 상인은 대륙마다 떠돌이 상인(예전 유물 상인 자리의 이름·그림)
+{const _n=npcNameOf;npcNameOf=function(c,role){return role==='shop'?CONTINENTS[c].npc.relic:_n(c,role)}}
+{const _k=npcKeyOf;npcKeyOf=function(c,role){return role==='shop'?pickImg('npc'+c+'_relic','npc0_relic'):_k(c,role)}}
+// 대사 덧붙이기: 촌장 의뢰, 포탈 건너뛰기 안내
+{const _l=npcLines;npcLines=function(n){const L=_l(n);
+  if(n.role==='chief'){const q=dqToday();L.push(q.got?'오늘 의뢰는 끝났구나. 고맙다. 내일 또 부탁하마.':`오늘의 의뢰도 있단다. 몬스터 ${q.need}마리를 잡아 오면 골드와 강화석을 주마. (${q.n}/${q.need})`)}
+  if(n.role==='portal'){const T=skipTo(world.c);if(T>world.c*4)L.push(`${zoneTag(world.c*4)}부터 ${zoneTag(T-1)}까지는 도감과 유물을 다 모았구먼. 원하면 ${zoneTag(T)} ${jo(ZONES[T].n,'으로')} 바로 보내 주마.`)}
+  return L}}
+</script>
+<script>
+// v22 C: 대륙 보스 은하수 오라(C1), 별의 문과 대륙 보스 전용 공간(C2), 입장 대화(C3)
+// 먼저 1대륙(노크투스)에만 켠다. 다른 대륙도 켜려면 C22_CONT에 번호를 더하면 된다
+'use strict';
+const C22_CONT=new Set([0]);
+const c22On=R=>R!=null&&R%4===3&&!!ZONES[R].cb&&C22_CONT.has(Math.floor(R/4));
+const isGalaxy=m=>m&&m.kind==='b'&&m.bi===2&&C22_CONT.has(Math.floor((m.R??world.r)/4));
+
+// ---------- C1 은하수 오라 ----------
+// 보스 둘레를 천천히 도는 별가루 띠 + 작게 반짝이는 별 + 은은한 보라·남색·하늘색 성운. 대륙마다 별 색만 다르게
+const GAL_COL=[['#ffd86b','#fff3c2'],['#ff6b6b','#ffc0b0'],['#f3c969','#6fd6ff'],null,['#ffffff','#d8ecff']];
+function galCol(ci,i,t){const C=GAL_COL[ci];if(!C)return `hsl(${Math.round((i*37+t*70)%360)},95%,75%)`;return C[i%2]}
+// x: 가운데, fy: 발밑 y, w·h: 보스 그림 크기, front: 앞쪽 반(보스 앞에 그림) / 뒤쪽 반 + 성운
+function galaxy(c,x,fy,w,h,t,ci,front){const cy=fy-h*.42,rx=w*.62,ry=Math.max(10,h*.13);c.save();c.globalCompositeOperation='lighter';
+  if(!front){const pul=.8+.2*Math.sin(t*.7);
+    [['150,90,255',.20],['60,70,210',.18],['110,200,255',.13]].forEach(([col,a],i)=>{const q=t*.12+i*2.1,ox=Math.cos(q)*w*.16,oy=Math.sin(q)*h*.07,r=Math.max(w,h)*(.5+.12*i);
+      const g=c.createRadialGradient(x+ox,cy+oy,0,x+ox,cy+oy,r);g.addColorStop(0,`rgba(${col},${a*pul})`);g.addColorStop(1,`rgba(${col},0)`);c.fillStyle=g;c.beginPath();c.ellipse(x+ox,cy+oy,r,r*.85,0,0,6.283);c.fill()})}
+  // 별가루 띠 두 겹(기울어진 타원 궤도)
+  for(const [k,N,sp,tilt,ys] of [[1,54,.32,-.22,0],[1.25,34,-.2,.18,-h*.18]]){
+    for(let i=0;i<N;i++){const a=t*sp+i/N*6.283+(i%3)*.07,s=Math.sin(a);if(front?s<=0:s>0)continue;
+      const px=Math.cos(a)*rx*k,py=s*ry*k,X=x+px*Math.cos(tilt)-py*Math.sin(tilt),Y=cy+ys+px*Math.sin(tilt)+py*Math.cos(tilt);
+      const tw=.45+.55*Math.abs(Math.sin(t*2.3+i*1.37)),r=(i%5===0?2.2:1.3)*(front?1.15:.9);
+      c.globalAlpha=tw*(front?1:.6);c.fillStyle=galCol(ci,i,t);c.beginPath();c.arc(X,Y,r,0,6.283);c.fill()}}
+  // 반짝이는 별(네 갈래)
+  if(front)for(let i=0;i<14;i++){const hx=((i*73)%100)/100-.5,hy=((i*41+17)%100)/100,X=x+hx*w*1.3,Y=fy-hy*h*1.15,a=Math.max(0,Math.sin(t*1.6+i*2.1));if(a<.05)continue;
+    const L=2+a*4;c.globalAlpha=a;c.strokeStyle=galCol(ci,i+1,t);c.lineWidth=1.2;c.beginPath();c.moveTo(X-L,Y);c.lineTo(X+L,Y);c.moveTo(X,Y-L);c.lineTo(X,Y+L);c.stroke()}
+  c.restore()}
+function galaxyField(m,front){const sz=monSize(m),fy=m.y+sz*.42,top=(typeof skinTop==='function'&&skinTop(m))||(m.y-4-sz*.725),h=Math.max(40,fy-top),w=h*.85;
+  galaxy(ctx,m.x,fy,w,h,performance.now()/1000+(m.x%7),Math.floor((m.R??world.r)/4),front)}
+
+// ---------- C2 별의 문 · 대륙 보스 전용 공간 ----------
+const starGateOpen=R=>c22On(R)&&!!(S.runBoss[bossKey(R,1)]||S.runBoss[bossKey(R,2)]); // 이번 환생에 지역 보스(또는 대륙 보스)를 잡았으면 열림
+const SRW=15,SRH=17;
+function buildStarRoom(R){const g=new Uint8Array(SRW*SRH),ci=Math.floor(R/4);
+  for(let y=0;y<SRH;y++)for(let x=0;x<SRW;x++){const dx=(x+.5-SRW/2)/(SRW/2-1),dy=(y+.5-SRH/2)/(SRH/2-1);g[y*SRW+x]=dx*dx+dy*dy>1?1:0}
+  const off=document.createElement('canvas');off.width=SRW*T;off.height=SRH*T;const o=off.getContext('2d'),W=off.width,H=off.height,rr=srand(R*91+5);
+  const bg=o.createRadialGradient(W/2,H*.42,20,W/2,H/2,Math.max(W,H)*.7);bg.addColorStop(0,'#2a1d4f');bg.addColorStop(.55,'#130f2c');bg.addColorStop(1,'#06050f');o.fillStyle=bg;o.fillRect(0,0,W,H);
+  for(let i=0;i<500;i++){const x=rr()*W,y=rr()*H,b=rr();o.globalAlpha=.25+b*.6;o.fillStyle=b>.9?GAL_COL[ci]?GAL_COL[ci][0]:'#fff':'#dfe6ff';o.fillRect(x,y,b>.85?2:1,b>.85?2:1)}
+  o.globalAlpha=.18;for(let i=0;i<900;i++){const u=rr(),v=(rr()-.5)*(.25+.15*rr()),x=u*W,y=H*.25+u*H*.5+v*H*.5;o.fillStyle=i%3?'#b9a8ff':'#8fd8ff';o.fillRect(x,y,1,1)}o.globalAlpha=1;
+  // 바깥은 어둡게(못 가는 곳)
+  for(let y=0;y<SRH;y++)for(let x=0;x<SRW;x++)if(g[y*SRW+x]){o.fillStyle='rgba(4,3,10,.82)';o.fillRect(x*T,y*T,T,T)}
+  // 가운데 제단(마법진 바닥)
+  const ax=W/2,ay=6.6*T;o.strokeStyle='rgba(201,184,255,.55)';o.lineWidth=3;o.beginPath();o.ellipse(ax,ay+38,92,30,0,0,6.283);o.stroke();o.lineWidth=1.5;o.beginPath();o.ellipse(ax,ay+38,70,22,0,0,6.283);o.stroke();
+  o.fillStyle='rgba(120,90,220,.25)';o.beginPath();o.ellipse(ax,ay+38,92,30,0,0,6.283);o.fill();
+  // 나가는 문(아래)
+  const ex=W/2,ey=(SRH-2.3)*T;o.strokeStyle='rgba(140,220,255,.7)';o.lineWidth=2;o.beginPath();o.ellipse(ex,ey,26,10,0,0,6.283);o.stroke();
+  o.font='bold 12px "Noto Sans KR",sans-serif';o.textAlign='center';o.fillStyle='#cfe8ff';o.fillText('나가기 ↓',ex,ey+24);
+  world={r:R,star:true,c:ci,W:SRW,H:SRH,g,img:off,objs:[],entry:{x:ex,y:ey-34},exit:{x:ex,y:ey},salt:{x:ax,y:ay},portal:{x:-999,y:-999}}}
+function starBossPreview(R){const w0=world;world={r:R};const m=makeMon(0,0,bossLv(R,2),'b',2);world=w0;return m}
+function enterStarRoom(R,quiet){if(!c22On(R))return;buildStarRoom(R);hero.x=world.entry.x;hero.y=world.entry.y;mons=[];parts=[];queue=[];fight=null;setOv('');cam.ok=false;
+  const alive=!S.runBoss[bossKey(R,2)];if(alive){const m=makeMon(world.salt.x,world.salt.y,bossLv(R,2),'b',2);m.wait=true;mons.push(m)}
+  world.exitWait=true;updTop();dirty=true;if(quiet)return;
+  const Z=ZONES[R],nm=bossNm(R,2);showBanner(`${CONTINENTS[Z.c].n} · ${BOSS_ROLE[2]}`,`${Z.cb[0]}${nm?' 「'+nm+'」':''}`,'#c9b8ff');
+  const ci=Z.c,TK=CB_TALK[ci];if(!TK)return;S.cbTalk=S.cbTalk||{};
+  if(alive&&!S.cbTalk[ci]){S.cbTalk[ci]=1;save();setTimeout(()=>cbTalkShow(R,TK.intro),1300)}
+  else setTimeout(()=>cbTalkShow(R,[['b',alive?TK.again:TK.dead]]),1300)}
+function exitStarRoom(){const R=world.r;enterRegion(R);const b=world.bossHome;hero.x=b.x-70;hero.y=b.y+40;cam.ok=false;world.sgWait=true}
+// 별의 문: 지역 보스 자리에 빛 기둥
+function drawStarGate(c){if(!world||world.town||world.star||!starGateOpen(world.r))return;const b=world.bossHome,t=performance.now()/1000,ci=Math.floor(world.r/4);
+  c.save();c.globalCompositeOperation='lighter';const H=150,pul=.75+.25*Math.sin(t*2.2);
+  const g=c.createLinearGradient(0,b.y-H,0,b.y+10);g.addColorStop(0,'rgba(180,160,255,0)');g.addColorStop(.6,`rgba(180,160,255,${.35*pul})`);g.addColorStop(1,`rgba(255,240,200,${.6*pul})`);
+  c.fillStyle=g;c.fillRect(b.x-22,b.y-H,44,H+10);c.fillStyle=`rgba(255,255,255,${.5*pul})`;c.fillRect(b.x-5,b.y-H,10,H+10);
+  for(let i=0;i<14;i++){const life=(t*.5+i/14)%1;c.globalAlpha=1-life;c.fillStyle=galCol(ci,i,t);c.beginPath();c.arc(b.x+Math.sin(i*2.4+t)*18,b.y-life*H,1.8,0,6.283);c.fill()}
+  c.globalAlpha=1;c.strokeStyle=`rgba(201,184,255,${.8*pul})`;c.lineWidth=2;c.beginPath();c.ellipse(b.x,b.y+8,34,11,0,0,6.283);c.stroke();c.restore();
+  c.font='bold 12px "Noto Sans KR",sans-serif';c.textAlign='center';c.lineWidth=3;c.strokeStyle='#000';c.strokeText('별의 문',b.x,b.y-H-6);c.fillStyle='#e7dcff';c.fillText('별의 문',b.x,b.y-H-6)}
+// 전용 공간: 흐르는 별과 제단 빛
+function drawStarRoom(c){if(!world||!world.star)return;const t=performance.now()/1000,W=SRW*T,H=SRH*T,ci=world.c;c.save();c.globalCompositeOperation='lighter';
+  for(let i=0;i<60;i++){const sp=12+(i%7)*6,x=((i*97)%W+t*sp*.35)%W,y=((i*53)%H+t*sp)%H;c.globalAlpha=.25+.35*((i%5)/4);c.fillStyle=i%4?'#cdd8ff':galCol(ci,i,t);c.fillRect(x,y,1.5,1.5)}
+  const a=world.salt,pul=.6+.4*Math.sin(t*1.8),g=c.createRadialGradient(a.x,a.y+38,0,a.x,a.y+38,110);g.addColorStop(0,`rgba(190,160,255,${.35*pul})`);g.addColorStop(1,'rgba(190,160,255,0)');
+  c.globalAlpha=1;c.fillStyle=g;c.beginPath();c.ellipse(a.x,a.y+38,110,40,0,0,6.283);c.fill();c.restore()}
+// 필드 갱신: 문에 닿으면 들어가고, 전용 공간 아래 문에 닿으면 나간다(처리했으면 true)
+function c22Field(){if(!world||world.town)return false;
+  if(world.star){$('killInfo').textContent=`${BOSS_ROLE[2]}의 제단 · 아래 문으로 나가요`;const d=dist(hero,world.exit);if(world.exitWait){if(d>44)world.exitWait=false}else if(d<24){exitStarRoom();return true}return false}
+  if(starGateOpen(world.r)){const d=dist(hero,world.bossHome);if(world.sgWait){if(d>60)world.sgWait=false}else if(d<30){enterStarRoom(world.r);return true}}
+  return false}
+{const _u=updTop;updTop=function(){_u();if(world&&world.star)$('regionName').textContent=`${zoneTag(world.r)} 별의 제단`;const b=$('starExit');if(b)b.style.display=world&&world.star?'':'none'}}
+// 위쪽 나가기 버튼
+{const b=document.createElement('button');b.id='starExit';b.textContent='↩ 나가기';b.style.cssText='padding:2px 8px;margin-right:4px;display:none';const m=$('mapBtn');if(m){m.parentNode.insertBefore(b,m);b.addEventListener('click',()=>{if(!fight&&world&&world.star)exitStarRoom()})}}
+// 지역 보스를 잡으면 별의 문이 열린다는 알림
+{const _w=winFight;winFight=function(){const m=fight&&fight.m,op=m&&m.kind==='b'&&m.bi===1&&c22On(world.r)&&!S.runBoss[bossKey(world.r,1)];const r=_w();
+  if(op){setTimeout(()=>{toast('✦ 별의 문이 열렸다 ✦<br>보스의 굴에 생긴 빛 기둥으로 들어가면 대륙 보스가 기다려요','#c9b8ff');newFx('별의 문!','별의 문이 열렸다',6)},600)}
+  if(m&&m.kind==='b'&&m.bi===2&&world&&world.star&&CB_TALK[world.c])cbDeadPending=world.r;return r}}
+let cbDeadPending=null;
+// 대륙 보스를 쓰러뜨린 뒤 결과·아이템 창이 다 닫히면 보스의 마지막 한 줄
+setInterval(()=>{if(cbDeadPending==null||fight||cbT||lootWait||!$('ov').hidden||!$('itemWin').hidden)return;const R=cbDeadPending;cbDeadPending=null;if(world&&world.star)cbTalkShow(R,[['b',CB_TALK[Math.floor(R/4)].dead]])},350);
+
+// ---------- C3 대륙 보스 대화 ----------
+let cbT=null;
+function cbTalkShow(R,lines){if(!lines||!lines.length)return;cbT={R,lines,i:0};joy=null;hero.vx=hero.vy=0;cbTalkRender()}
+function cbTalkRender(){const t=cbT;if(!t)return;const [who,txt]=t.lines[t.i],Z=ZONES[t.R],nm=bossNm(t.R,2)||Z.cb[0],hk=['h'+S.cls,'h'+S.cls+'_0'].find(k=>imgSrc(k)),bk=typeof monImg==='function'&&monImg(t.R,'b',2);
+  const face=(src,em,on,side)=>`<div class="cbt-f ${side} ${on?'on':''}">${src?`<img src="${src}" alt="">`:`<span>${em}</span>`}</div>`;
+  setOv(`<div class="cbt-wrap" id="cbtNext"><div class="cbt">${face(hk&&imgSrc(hk),CLASSES[S.cls||0].e,who==='h','l')}
+    <div class="cbt-b"><div class="cbt-n ${who==='b'?'b':''}">${who==='b'?nm:'나'}</div><div class="cbt-t">${txt}</div><small>${t.i+1}/${t.lines.length} · 탭해서 넘기기</small></div>
+    ${face(bk,Z.cb[1],who==='b','r')}</div>${t.lines.length>1?'<button id="cbtSkip" class="cbt-s">건너뛰기 ⏭</button>':''}</div>`)}
+$('ov').addEventListener('click',e=>{if(!cbT)return;const b=e.target.closest('button');
+  if(b&&b.id==='cbtSkip'){cbT=null;setOv('');e.stopImmediatePropagation();return}
+  if(e.target.closest('#cbtNext')){cbT.i++;if(cbT.i>=cbT.lines.length){cbT=null;setOv('')}else cbTalkRender();e.stopImmediatePropagation()}},true);
 </script>
 <script>
 // 자동 생성(tools/pw_pack.py). Pixelwright 무료 팩 그림: 게임 안에서만 쓰기, 파일 재배포·AI 학습 금지
@@ -2436,22 +2971,23 @@ const pwLoop=(ch,an,dir,t)=>Math.floor(t*ch[an].fps)%pwN(ch,an,dir);
 // v16 필드 크기: 크리처와 주인공은 같은 비율로 그린 그림이라 배율도 맞춘다.
 // 주인공 1.25배(땅 타일 32px에 맞음), 일반 몹 1.5배, 보스는 일반 몹의 2배(중간)·2.8배(지역)·3.5배(대륙)
 const PW_MOB_K=1.5,PW_BOSS_X=BOSS_VIEW.pwField; // v19: 보스 크기는 world.js BOSS_VIEW에서
-const pwMobK=m=>m.kind==='b'?Math.min(m.bi===0?2:99,PW_MOB_K*PW_BOSS_X[m.bi]):PW_MOB_K; // PW 크리처 중간 보스는 2배까지(크게 키우면 흐릿함)
+const pwMobK=m=>(m.kind==='b'?Math.min(m.bi===0?2:99,PW_MOB_K*PW_BOSS_X[m.bi]):PW_MOB_K)*fieldX(m); // v22 필드 ×2(보스 ×1.5) // PW 크리처 중간 보스는 2배까지(크게 키우면 흐릿함)
 // 보스 연출(하린 소품 design/v15-boss-props.md): 갈라진 땅 bc → 발밑 오라 고리 ba(0.15초) → 보스 → 떠오르는 입자 bp. 대륙 보스 앞에는 경고 표지판 bw
 function pwImg(c,key,x,y,s,ax,ay){const im=IMG[key];if(!im)return false;c.imageSmoothingEnabled=false;c.drawImage(im,Math.round(x-im.width*s*ax),Math.round(y-im.height*s*ay),im.width*s,im.height*s);return true}
 function skinMob(c,m,sz,au){const ch=PW_BY_KEY[m.e];if(!ch)return false;const k=pwMobK(m),t=PT(),fy=m.y+sz*.42,BG=PW_BIG[m.e],bw=BG?pwBigW(BG,pwBigFieldS(m)):ch.idle.cw*k,bh=BG?pwBigH(BG,pwBigFieldS(m)):ch._h*k;
-  if(m.kind==='b'){const b=m.bi,s=b===2?3:2,ph=(m.x%13)*.1;
+  const gx=typeof isGalaxy==='function'&&isGalaxy(m); // v22 C1: 은하수 오라를 쓰는 대륙 보스는 해골 표지판·갈라진 땅·고리·입자를 빼요
+  if(m.kind==='b'&&!gx){const b=m.bi,s=(b===2?3:2)*FIELD_BOSS_X,ph=(m.x%13)*.1;
     pwImg(c,'bc'+b,m.x,fy,s,.5,.55);
     if(!pwImg(c,'ba'+b+'_'+(Math.floor((t+ph)/.15)%4),m.x,fy,s,.5,.5)){c.fillStyle='rgba(0,0,0,.38)';c.beginPath();c.ellipse(m.x,fy,30*s,9*s,0,0,6.283);c.fill()}
     const d=dist(m,hero);if(d<170){const a=PWFX.summon_circle_violet;if(a&&a.im.complete){const fr=Math.floor(t*a.fps)%a.n;c.globalAlpha=Math.min(1,(170-d)/80)*.7; // 아주 가까우면 소환진
       c.drawImage(a.im,fr*a.w,0,a.w,a.h,m.x-a.px*3,fy-a.py*3*.5,a.w*3,a.h*3*.5);c.globalAlpha=1}}
     if(b===2){const f=Math.floor(t/.4)%2;pwImg(c,'bw_'+f,m.x-bw*.55,fy+6,2,.5,1)}}
   const r=BG?pwBigDraw(c,BG,m.x,fy,pwBigFieldS(m),t+(m.x%7)*.37,{}):pwFrame(c,ch,'idle','left',pwLoop(ch,'idle','left',t+(m.x%7)*.37),m.x,fy,k,m.kind==='b'?null:au);
-  if(m.kind==='b'){const b=m.bi,n=6+b*3;for(let i=0;i<n;i++){const life=((t*.9+i/n+(m.x%5)*.13)%1),ang=i*2.399,rr=bw*.35;
+  if(m.kind==='b'&&!gx){const b=m.bi,n=6+b*3;for(let i=0;i<n;i++){const life=((t*.9+i/n+(m.x%5)*.13)%1),ang=i*2.399,rr=bw*.35;
     pwImg(c,'bp'+b+'_'+Math.min(3,Math.floor(life*4)),m.x+Math.cos(ang)*rr,fy-bh*.15-life*bh*.8+Math.sin(ang)*6,2+(b===2?1:0),.5,.5)}}
   return r}
 // 보스 이름표: bn{t} 틀 안에 이름과 레벨. 길면 _l + _m 반복 + _r, 위에 _top
-function skinLabel(m){if(m.kind!=='b'||!PW_BY_KEY[m.e]||!IMG['bn'+m.bi])return false;const b=m.bi,y=skinTop(m)-26,[,pc]=predict(m);
+function skinLabel(m){if(m.kind!=='b'||!PW_BY_KEY[m.e]||!IMG['bn'+m.bi]||(typeof isGalaxy==='function'&&isGalaxy(m)))return false;const b=m.bi,y=skinTop(m)-26,[,pc]=predict(m);
   const txt=`${monTitle(m)}  ${BOSS_ROLE[b]} Lv.${fmt(m.tier)}`;ctx.font='bold 11px "Noto Sans KR",sans-serif';const tw=ctx.measureText(txt).width;
   let w=256;if(tw<=200)pwImg(ctx,'bn'+b,m.x,y,1,.5,.5);else{const L=IMG['bn'+b+'_l'],M=IMG['bn'+b+'_m'],R=IMG['bn'+b+'_r'];const mid=Math.ceil((tw+48-L.width-R.width+56)/M.width);w=L.width+R.width+mid*M.width;
     let x=Math.round(m.x-w/2),yy=Math.round(y-20);ctx.drawImage(L,x,yy);x+=L.width;for(let i=0;i<mid;i++){ctx.drawImage(M,x,yy);x+=M.width}ctx.drawImage(R,x,yy);pwImg(ctx,'bn'+b+'_top',m.x,yy,1,.5,.7)}
@@ -2690,7 +3226,8 @@ const PW_BIG={};
   // v19d: 몹 36마리 새 자세(pose-v3)가 일반 몹 그림 중 가장 마지막에 덮는다
   for(const k in PWB.p3||{}){const g=k.match(/^z(\d+)m(\d)$/);if(!g)continue;const R=+g[1],i=+g[2],Z=ZONES[R];if(!Z||!Z.mons[i])continue;const key=ST('pp'+R+'m'+i,k,PWB.p3);if(key){Z.mons[i][2]=key;Z.mk=-1}}
 })();
-const pwBigFieldS=m=>{const B=PW_BIG[m.e];if(B.kind==='dr')return PW_BOSS_X[2]/3.5;/* 용은 예전 크기(배율 3.5에서 1배)를 기준으로 */if(B.kind==='st')return m.kind==='b'?PW_NH*PW_BOSS_X[m.bi]/B.A.h:.62;return PW_NH*PW_BOSS_X[m.bi]/B.A.h};
+const pwBigFieldS0=m=>{const B=PW_BIG[m.e];if(B.kind==='dr')return PW_BOSS_X[2]/3.5;/* 용은 예전 크기(배율 3.5에서 1배)를 기준으로 */if(B.kind==='st')return m.kind==='b'?PW_NH*PW_BOSS_X[m.bi]/B.A.h:.62;return PW_NH*PW_BOSS_X[m.bi]/B.A.h};
+const pwBigFieldS=m=>pwBigFieldS0(m)*fieldX(m); // v22 필드 ×2(보스 ×1.5)
 const pwBigBattleS=m=>{const B=PW_BIG[m.e];if(B.kind==='dr')return 1.5*BOSS_VIEW.pwBattle[2]/150;if(B.kind==='st')return m.kind==='b'?BOSS_VIEW.pwBattle[m.bi]/B.A.h:1.6;return m.bi===0?.85:1};
 // 굴 안에 지역 보스와 대륙 보스가 함께 있으면(4번째 지역) 큰 몸이 겹치지 않게 위아래로 벌린다
 {const _s=spawnBosses;spawnBosses=function(){_s();const a=mons.find(m=>m.kind==='b'&&m.bi===1),b=mons.find(m=>m.kind==='b'&&m.bi===2);if(a&&b){a.y-=2.5*T;b.y+=2.5*T;for(const m of [a,b]){m.hx=m.x;m.hy=m.y}}}}
