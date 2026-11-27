@@ -294,6 +294,34 @@ button.main{background:linear-gradient(180deg,#ffe08a 0,#f0b840 45%,#c8861e 100%
 .hud-rb{color:#ffd23d;font-size:10px}
 /* v17 예상 승률 */
 .enc-pp{display:inline-block;margin-left:6px;padding:0 6px;border-radius:5px;background:rgba(255,255,255,.08);color:var(--dim);font-size:11px;font-weight:600}
+/* v20 인벤토리: 상세 카드·비교 화면·가방 표시 */
+.invwin{position:fixed;inset:0;z-index:27;background:rgba(0,0,0,.72);display:flex;align-items:center;justify-content:center;padding:10px;overflow-y:auto}
+.ic{width:100%;max-width:380px;max-height:calc(100dvh - 20px);overflow-y:auto;background:var(--panel);border:2px solid var(--line);border-radius:14px;padding:12px;font-size:13px;line-height:1.5;animation:pop2 .2s}
+.ic-h{display:flex;gap:10px;align-items:center}.ic-h .grow{flex:1;min-width:0}
+.ic-n{font-family:var(--f-display);font-size:19px;line-height:1.25;word-break:keep-all}.ic-s{font-size:12px;color:var(--dim)}.ic-on{color:var(--ok);font-weight:700}
+.ic-mx{margin-top:8px;background:var(--panel2);border-radius:8px;padding:6px 8px;font-size:12px}.ic-mx>div:first-child{display:flex;justify-content:space-between;gap:6px}.ic-mx small{color:var(--dim);font-size:11px}
+.ic-bar{height:7px;border-radius:4px;background:rgba(255,255,255,.1);overflow:hidden;margin:4px 0 2px}.ic-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--ok))}
+.ic-sec{margin:10px 0 4px;font-weight:700;color:var(--accent);font-size:12px}.ic-sec small{color:var(--dim);font-weight:400;margin-left:4px}
+.ic-st>div,.cp-t>div{display:flex;justify-content:space-between;gap:8px;padding:3px 0;border-bottom:1px dashed rgba(255,255,255,.08)}.ic-st span,.cp-t span{color:var(--dim)}
+.ic-set div{font-size:12px}.ic-set .on{color:var(--ok)}.ic-set .off{color:var(--dim);opacity:.75}
+.ic-src{font-size:12px}.ic-fl{margin-top:6px;font-size:12px;color:var(--dim);font-style:italic;word-break:keep-all}
+.ic-b{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}.ic-b button{flex:1 1 0;min-width:72px;padding:10px 6px;font-size:13px}
+.cp-sl{display:flex;gap:6px;align-items:stretch;flex-wrap:wrap;margin-bottom:8px}.cp-sl>span{flex:1 0 100%;font-size:12px;color:var(--dim)}
+.cp-sl button{flex:1;padding:6px;font-size:12px;line-height:1.3;min-width:0}.cp-sl button small{display:block;color:var(--dim);font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cp-sl button.on{border-color:var(--accent);color:var(--accent)}
+.cp-hd{display:grid;grid-template-columns:1fr 18px 1fr;gap:4px;align-items:stretch}.cp-ar{display:grid;place-items:center;color:var(--accent)}
+.cp-c{background:var(--panel2);border:2px solid var(--line);border-radius:10px;padding:6px;text-align:center;min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px}
+.cp-c>small{color:var(--dim);font-size:11px}.cp-n{font-weight:700;font-size:12px;line-height:1.3;word-break:keep-all}.cp-g{font-size:11px;color:var(--dim)}.cp-e{color:var(--dim);padding:18px 0}
+.cp-t>div{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.9fr) minmax(0,1.35fr);gap:6px;align-items:baseline}.cp-t b{font-weight:600;text-align:right;font-size:12px}.cp-t b i{font-style:normal;font-size:11px;display:inline-block}
+.cp-same{color:var(--dim)}.cp-set{margin-top:6px;font-size:12px}
+.cp-pw{margin-top:8px;padding:8px;border-radius:8px;background:var(--panel2);text-align:center;font-size:13px}.cp-pw b{font-size:15px;margin-left:4px}
+.bi-wrap{position:relative;flex:none}.bi-up{position:absolute;right:-3px;top:-4px;color:var(--ok);font-style:normal;font-size:12px;font-weight:900;text-shadow:0 0 3px #000,0 0 3px #000}
+.bi-new{position:absolute;left:-2px;top:-2px;width:9px;height:9px;border-radius:50%;background:#ff4d5e;box-shadow:0 0 0 2px var(--panel)}
+.bi-lk{position:absolute;right:-3px;bottom:-4px;font-style:normal;font-size:11px}
+.row[data-card]{cursor:pointer}.row .s .better{white-space:nowrap}
+.bagf{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px}.bagf button{padding:4px 7px;font-size:12px}.bagf button small{margin-left:3px;color:var(--dim);font-size:10px}
+.bagf button.on,.bags button.on{border-color:var(--accent);color:var(--accent)}
+.bags{display:flex;gap:4px;align-items:center;margin-bottom:8px;flex-wrap:wrap}.bags button{padding:4px 8px;font-size:12px}.bags span{font-size:11px;color:var(--dim);margin-left:auto}
 @media (prefers-reduced-motion:reduce){.enc-pic>*,.enc-warn{animation:none}}
 </style>
 <div id="app">
@@ -1359,10 +1387,11 @@ function openItemWin(it){
    <div class="iw-st">${statLine(it)}</div>
    <div class="iw-c"><div class="iw-ct">${cur?'지금 장비: '+itemName(cur)+upTag(cur):'지금 비어 있는 자리'}</div>${line('공격력',now.atk,after.atk)}${line('체력',now.hp,after.hp)}
    <div class="${dp>=0?'pos':'neg'}"><b>전투력 ${dp>=0?'+':'-'}${fmt(Math.abs(dp))}</b></div></div>
-   <div class="iw-b"><button id="iwClose">가방에 넣기</button><button class="main" id="iwEq">바로 장착</button></div></div>`;
+   <div class="iw-b"><button id="iwClose">가방에 넣기</button><button id="iwCmp">비교</button><button class="main" id="iwEq">바로 장착</button></div></div>`;
   w.hidden=false;w.dataset.id=it.id;w.dataset.sk=sk;delete it.nw;
 }
 $('itemWin').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const w=$('itemWin');
+  if(b.id==='iwCmp'){openCompare(+w.dataset.id,w.dataset.sk);return} // v20 비교 화면(이 창은 그대로 두고 위에 연다)
   if(b.id==='iwEq'){const it=S.bag.find(x=>x.id===+w.dataset.id);if(it)equip(it,w.dataset.sk,false);save()}
   w.hidden=true;showItem()});
 $('ov').addEventListener('click',e=>{
@@ -1609,7 +1638,7 @@ function giveCodex(ci,g,lv){
   S.codex[ci]=g;const nw=best==null;it.nw=nw?1:0;
   if(nw&&S.run&&!S.run.newU.includes(ci))S.run.newU.push(ci);
   // 같은 아이템의 낮은 등급 사본(가방에 있는 것)은 자동으로 재료로. 강화한 사본(up>0)과 장착 중인 것은 남긴다
-  {const olds=S.bag.filter(o=>o.ci===ci&&o.g<g&&!o.up);if(olds.length){const v={};
+  {const olds=S.bag.filter(o=>o.ci===ci&&o.g<g&&!o.up&&!o.lk);if(olds.length){const v={};
     for(const o of olds){const d=dismantleValue(o);for(const k in d)if(d[k]>0)v[k]=(v[k]||0)+d[k];dismantle(o,true)}
     toast(`낮은 등급 사본 ${olds.length}개 → `+Object.entries(v).map(([k,n])=>`${MAT_NAMES[k]} +${fmt(n)}`).join(', '),'var(--dim)')}}
   newFx(nw?'NEW!':'등급 UP',GRADES[g].n+' '+itemName(it),g);
@@ -1623,7 +1652,7 @@ function newFx(big,small,g){const st=$('stage');if(!st||$('toTown'))return;st.qu
 function gotItem(it,tag){
   const L=fight?fight.loot:[];tag=tag||{};
   if(S.opt.autoEquip){const sk=bestSlotFor(it);if(sk){equip(it,sk,true);L.push({it,eq:1,...tag});return}}
-  S.bag.unshift(it);L.push({it,...tag}); // 도감 아이템은 자동 파쇄 없이 항상 가방으로
+  it.nb=1;S.bag.unshift(it);L.push({it,...tag}); // v20 nb=가방 NEW 점. 도감 아이템은 자동 파쇄 없이 항상 가방으로
   itemQ.push(it);
 }
 function scoreOf(it){const s=itemStat(it);return s.atk*1+s.hp/8}
@@ -1644,7 +1673,7 @@ function equip(it,sk,fromDrop){
   S.eq[sk]=it;
   if(!fromDrop)S.bag=S.bag.filter(b=>b.id!==it.id);
   // 갈아 낀 장비가 같은 아이템의 낮은 등급 사본이면 재료로(강화한 것은 남김)
-  if(cur){S.bag.unshift(cur);if(isC(cur)&&cur.ci===it.ci&&cur.g<it.g&&!cur.up){const d=dismantleValue(cur);dismantle(cur,true);
+  if(cur){S.bag.unshift(cur);if(isC(cur)&&cur.ci===it.ci&&cur.g<it.g&&!cur.up&&!cur.lk){const d=dismantleValue(cur);dismantle(cur,true);
     toast('낮은 등급 사본 1개 → '+Object.entries(d).filter(e=>e[1]>0).map(([k,n])=>`${MAT_NAMES[k]} +${fmt(n)}`).join(', '),'var(--dim)')}}
   recalc(); dirty=true;
 }
@@ -1656,6 +1685,7 @@ function dismantleValue(it){
 }
 function dismantle(it,silent){
   if(isRecord(it)){if(!silent)toast('도감 최고 등급 장비는 파쇄할 수 없어요','var(--dim)');return}
+  if(it.lk){if(!silent)toast('🔒 잠긴 장비는 파쇄할 수 없어요','var(--dim)');return} // v20 잠금
   const v=dismantleValue(it);for(const k in v)S.mats[k]+=v[k];
   S.bag=S.bag.filter(b=>b.id!==it.id); dirty=true;
   if(!silent)toast('파쇄 완료 · '+Object.entries(v).filter(e=>e[1]>0).map(([k,n])=>`${MAT_NAMES[k]} ${fmt(n)}`).join(', '),'var(--dim)');
@@ -2025,18 +2055,14 @@ function renderPanel(){
   if(tab==='equip'){
     h+='<div class="sec">착용 장비</div><div class="slots">';
     for(const sl of SLOTS){const it=S.eq[sl.k];
-      h+=it?`<div class="slot bd${it.g}"><span class="sn">${sl.n}</span>${SPRITES[itemIconKey(it)]?itemIcon(it,28):''}<span class="it g${it.g}">${gradeName(it)}${upTag(it)}</span><span class="sn">${statLine(it).replace('공격력','공').replace('체력','체')}</span></div>`
+      h+=it?`<div class="slot bd${it.g}" data-card="${it.id}" style="cursor:pointer"><span class="sn">${sl.n}</span>${SPRITES[itemIconKey(it)]?itemIcon(it,28):''}<span class="it g${it.g}">${gradeName(it)}${upTag(it)}</span><span class="sn">${statLine(it).replace('공격력','공').replace('체력','체')}</span></div>`
             :`<div class="slot"><span class="sn">${sl.n}</span><span class="sn">비어 있음</span></div>`}
     h+='</div><div class="sec">세트 효과</div><div class="setbox">';
     const sets=setInfo();
     if(!sets.length)h+='<div class="note">보스 세트: 지역마다 중간 보스(2개)와 지역 보스(3개)가 떨구는 장비 5개가 한 세트예요(도감에 ★). 낱개 수치는 일반 장비와 비슷하지만 2·3·4피스 효과가 강하고, 2피스부터 몸에 오라가 생겨요.</div>';
-    for(const s of sets){const f=s.f,k=ZONES[s.set].sk,p=x=>+(x*f).toFixed(1);
-      const three=[`때릴 때마다 체력 ${p(1.5)}% 회복`,`치명타 확률 +${p(10)}%p`,`스킬 발동 +${p(5)}%p`,`공격 속도 +${p(15)}%`,`보스에게 주는 피해 +${p(30)}%`][k];
-      const four=[`체력 50% 아래일 때 받는 피해 -${Math.min(75,p(20))}%`,`치명타 피해 +${p(40)}%`,`스킬이 터지면 3초 화상 (매초 공격력 ${p(30)}%)`,`더블 히트 +${p(10)}%p`,`준 피해의 ${p(3)}% 흡혈`][k];
+    for(const s of sets){const f=s.f;
       h+=`<div><b class="g${s.minG}">${regionData(s.set).set}</b> (${s.c}/5)${f>1?' · 효과 ×'+f:''}</div>`;
-      h+=`<div class="${s.c>=2?'on':'off'}">2세트: 공격력·체력 +${Math.round(20*f)}% · 오라</div>`;
-      h+=`<div class="${s.c>=3?'on':'off'}">3세트: ${three}</div>`;
-      h+=`<div class="${s.c>=4?'on':'off'}">4세트: 최종 피해 ×${+(1+.3*f).toFixed(2)} · ${four} · 오라 강하게</div>`;}
+      for(const [on,t] of setEffLines(s.set,s.c))h+=`<div class="${on?'on':'off'}">${t}</div>`}
     h+='</div>';
     const st=ST;
     h+=`<div class="sec">${st.c.n} · ${promoName()}</div><div class="note">전직 ${S.promo||0}/5 (+${Math.round(PROMO_B*(S.promo||0)*100)}%) · 수련 ${S.train||0}단계 (+${Math.round(TRAIN_B*(S.train||0)*100)}%) · 공격 속도 ${st.aspd}회/초 · 치명타 ${Math.round(st.crit*100)}% (×${st.critM}) · 스킬 「${st.c.sk}」 발동 ${(st.skill*100).toFixed(0)}% (×${st.skillM}) · 이동 속도 +${Math.round(st.spd*100)}% · 경험치 +${Math.round(st.xpP*100)}% · ${S.runs+1}번째 환생 · <b style="color:#ffd23d">환생 ${S.runs}회: 공격·체력 +${Math.round(REBIRTH_B*S.runs*100)}%</b></div>`;
@@ -2045,13 +2071,13 @@ function renderPanel(){
     h+=`<div class="opts"><label><input type="checkbox" id="optAE" ${S.opt.autoEquip?'checked':''}> 더 좋으면 자동 장착</label>
       <button id="disAll">옛 장비 S 이하 모두 파쇄</button></div>
       <div class="note" style="margin-bottom:6px">같은 아이템을 더 높은 등급으로 얻으면 낮은 사본은 자동으로 재료가 돼요. 도감 최고 등급 장비는 파쇄할 수 없어요.</div>`;
-    h+=`<div class="note" style="margin-bottom:6px">가방 ${S.bag.length} / ${BAG_MAX}</div><div class="list">`;
+    h+=`<div class="note" style="margin-bottom:6px">가방 ${S.bag.length} / ${BAG_MAX}</div>`+bagBarHtml()+'<div class="list">';
     if(!S.bag.length)h+='<div class="note">아직 가방이 비어 있어요. 몬스터를 잡으면 장비가 떨어져요.</div>';
-    for(const it of S.bag){
-      const sk=SLOTS.filter(s=>s.t===it.type).map(s=>s.k);
-      const better=sk.some(k=>!S.eq[k]||scoreOf(S.eq[k])<scoreOf(it));
-      h+=`<div class="row bd${it.g}">${itemIconBox(it,32)}<div class="grow"><div class="t g${it.g}">${itemName(it)}${upTag(it)}</div><div class="s">${gradeName(it)} · ${mxTag(it)} · ${statLine(it)} ${better?'<span class="better">▲ 더 좋음</span>':''}${isC(it)&&ITEMS[it.ci].fx?'<br>'+ITEMS[it.ci].d:''}${it.set!=null?' ★':''}</div></div>
-        <div class="acts"><button data-eq="${it.id}">장착</button>${isRecord(it)?'':`<button data-dis="${it.id}">파쇄</button>`}</div></div>`}
+    const thr=Math.max(1,(ST?ST.power:0)*.0005),view=bagView();
+    if(S.bag.length&&!view.length)h+='<div class="note">이 부위 장비가 가방에 없어요.</div>';
+    for(const it of view){const gn=gainOf(it); // v20: 칸을 누르면 상세 카드, 비교 버튼은 비교 화면
+      h+=`<div class="row bd${it.g}" data-card="${it.id}">${bagIconBox(it)}<div class="grow"><div class="t g${it.g}">${itemName(it)}${upTag(it)}</div><div class="s">${gradeName(it)} · ${slotNm(it)} · ${mxTag(it)} · ${statLine(it)} ${gn>thr?`<span class="better">▲ 전투력 +${fmt(gn)}</span>`:''}${isC(it)&&ITEMS[it.ci].fx?'<br>'+ITEMS[it.ci].d:''}${it.set!=null?' ★':''}</div></div>
+        <div class="acts"><button data-cmp="${it.id}">비교</button><button data-eq="${it.id}">장착</button>${isRecord(it)||it.lk?'':`<button data-dis="${it.id}">파쇄</button>`}</div></div>`}
     h+='</div>';
   }
   else if(tab==='stat'){
@@ -2134,7 +2160,7 @@ $('panel').addEventListener('click',e=>{
   else if(b.id==='autoSp'){autoDistribute();if(!S.opt.autoSp){S.opt.autoSp=true;toast('자동 분배를 켰어요<br>이제 레벨업할 때마다 알아서 나눠요','var(--accent)')}save()}
   else if(b.id==='resetSp'){S.sp={};recalc();save()}
   else if(b.id==='newRunBtn'){closeSheet();setOv('');enterTown(S.cont)}
-  else if(b.id==='disAll'){const tgt=S.bag.filter(i=>i.g<=4&&!isC(i));let v={stone:0};for(const it of tgt){const d=dismantleValue(it);S.mats.stone+=d.stone;v.stone+=d.stone}S.bag=S.bag.filter(i=>!tgt.includes(i));toast(`${tgt.length}개 파쇄 · 강화석 ${fmt(v.stone)}`,'var(--dim)');save()}
+  else if(b.id==='disAll'){const tgt=S.bag.filter(i=>i.g<=4&&!isC(i)&&!i.lk);let v={stone:0};for(const it of tgt){const d=dismantleValue(it);S.mats.stone+=d.stone;v.stone+=d.stone}S.bag=S.bag.filter(i=>!tgt.includes(i));toast(`${tgt.length}개 파쇄 · 강화석 ${fmt(v.stone)}`,'var(--dim)');save()}
   else if(b.id==='rebBtn')rebirthConfirm=true;
   else if(b.id==='rebNo')rebirthConfirm=false;
   else if(b.id==='rebYes'){rebirthConfirm=false;S.energy=0;endRun()}
@@ -2202,6 +2228,131 @@ $('classList').addEventListener('click',e=>{const b=e.target.closest('.cls');if(
 if(saveNotice)setTimeout(()=>toast(saveNotice,saveBlocked?'#ff6b6b':'var(--accent)'),600);
 function priestToast(){if(priestMoved){priestMoved=false;setTimeout(()=>toast('프리스트는 동료로 바뀌어 전사로 옮겼어요','var(--accent)'),900)}}
 priestToast();
+</script>
+<script>
+// v20 인벤토리: 아이템 상세 카드, 비교 화면, 가방 표시(▲·NEW·🔒), 부위 거르기·정렬, 잠금
+'use strict';
+const invEl=(()=>{const d=document.createElement('div');d.id='invWin';d.className='invwin';d.hidden=true;document.body.appendChild(d);return d})();
+let invCur=null; // 지금 열린 화면 {kind:'card'|'cmp', id, sk}
+const eqSlotOf=it=>{for(const sl of SLOTS)if(S.eq[sl.k]&&S.eq[sl.k].id===it.id)return sl.k;return null};
+const slotNm=it=>TYPES[it.type].n;
+
+// ---------- 능력치 줄 ----------
+// 보스 아이템 능력 이름표(짧게). 값은 [표시 글자, 비교용 숫자]
+const FX_LB={atkP:'공격력 %',hpP:'체력 %',crit:'치명타 확률',critM:'치명타 피해',aspd:'공격 속도',dbl:'더블 히트',skill:'스킬 발동',guard:'받는 피해 감소',
+  steal:'흡혈',bossDmg:'보스 피해',xp:'경험치',spd:'이동 속도',luck:'좋은 등급 확률',final:'최종 피해'};
+const FX_UNIT={crit:'%p',dbl:'%p',skill:'%p'};
+function fxVal(k,v){if(k==='final')return '×'+(1+v).toFixed(2).replace(/0$/,'');const p=+(v*100).toFixed(1);return (k==='guard'?'-':p>=0?'+':'')+Math.abs(p)+(FX_UNIT[k]||'%')}
+function fxDiff(k,d){if(k==='final')return (d>=0?'+':'-')+Math.abs(d).toFixed(2);const p=+(Math.abs(d)*100).toFixed(1);return (d>=0?'+':'-')+p+(FX_UNIT[k]||'%')}
+// 아이템 한 개의 능력치 줄: [{k,n,v,txt}]
+function itemRows(it){if(!it)return[];const s=itemStat(it),out=[];
+  if(TYPES[it.type].st==='atk')out.push({k:'atk',n:'공격력',v:s.atk,txt:'+'+fmt(s.atk)});else out.push({k:'hp',n:'체력',v:s.hp,txt:'+'+fmt(s.hp)});
+  const fx=isC(it)&&ITEMS[it.ci].fx;if(fx)for(const k in fx)out.push({k,n:FX_LB[k]||k,v:fx[k],txt:fxVal(k,fx[k]),fx:1});
+  return out}
+// 보스 세트 효과 글(장비 탭과 같은 문장). c = 지금 낀 피스 수
+function setEffLines(R,c){const f=SET_F(ZONES[R].c),k=ZONES[R].sk,p=x=>+(x*f).toFixed(1);
+  const three=[`때릴 때마다 체력 ${p(1.5)}% 회복`,`치명타 확률 +${p(10)}%p`,`스킬 발동 +${p(5)}%p`,`공격 속도 +${p(15)}%`,`보스에게 주는 피해 +${p(30)}%`][k];
+  const four=[`체력 50% 아래일 때 받는 피해 -${Math.min(75,p(20))}%`,`치명타 피해 +${p(40)}%`,`스킬이 터지면 3초 화상 (매초 공격력 ${p(30)}%)`,`더블 히트 +${p(10)}%p`,`준 피해의 ${p(3)}% 흡혈`][k];
+  return [[c>=2,`2세트: 공격력·체력 +${Math.round(20*f)}% · 오라`],[c>=3,`3세트: ${three}`],[c>=4,`4세트: 최종 피해 ×${+(1+.3*f).toFixed(2)} · ${four} · 오라 강하게`]]}
+const setCount=R=>{const s=setInfo().find(x=>x.set===R);return s?s.c:0};
+
+// 어디서 떨어지나
+function itemSrcTxt(it){if(!isC(it))return '예전 버전에서 가져온 장비';const d=ITEMS[it.ci],Z=ZONES[d.r];
+  const who=d.src.k==='b'?(()=>{const D=[Z.mid,Z.boss,Z.cb][d.src.i];const nm=bossNm(d.r,d.src.i);return (D?D[0]:'보스')+(nm?` 「${nm}」`:'')})():Z.mons[d.src.i][0];
+  return `${zoneTag(d.r)} ${Z.n} · ${who}`}
+// 한 줄 설명(이름·부위·떨구는 몹으로 자동으로 만든다. 같은 아이템은 늘 같은 문장)
+function itemFlavor(it){if(!isC(it))return '예전 모험에서 쓰던 장비. 손때가 묻어 정겹다.';
+  const d=ITEMS[it.ci],Z=ZONES[d.r],zn=Z.n,sl=slotNm(it),boss=d.src.k==='b';
+  const mob=boss?(bossNm(d.r,d.src.i)||[Z.mid,Z.boss,Z.cb][d.src.i][0]):Z.mons[d.src.i][0];
+  const grp=boss?'b':it.type==='weapon'?'w':['neck','ear','ring'].includes(it.type)?'a':'r';
+  const T={w:[`${mob}의 기운이 깃든 무기. 휘두를 때마다 ${zn}의 바람 소리가 난다.`,`${zn}에서 전해 내려오는 무기. 손에 쥐면 싸울 용기가 솟는다.`,`${jo(mob,'이가')} 지니고 있던 무기. 끝에 아직 그 숨결이 남아 있다.`],
+    r:[`${mob}에게서 얻은 재료로 지은 ${sl}. 걸치면 ${zn}의 냄새가 난다.`,`${zn}의 모험가들이 즐겨 쓰던 ${sl}. 튼튼하고 가볍다.`,`${jo(mob,'을를')} 이겨 낸 증표. 걸치고 있으면 마음이 든든해진다.`],
+    a:[`${mob}의 흔적이 담긴 장신구. 가만히 보면 희미하게 빛난다.`,`${zn}의 별빛을 머금은 ${sl}. 행운을 부른다는 소문이 있다.`,`${jo(mob,'이가')} 품고 있던 작은 보물. 귀에 대면 속삭임이 들린다.`],
+    b:[`${jo(mob,'이가')} 남긴 전리품. 강한 자만이 그 힘을 온전히 쓸 수 있다.`,`${mob}의 힘이 아직 식지 않았다. 손에 쥐면 ${zn}의 전투가 떠오른다.`,`${jo(zn,'을를')} 지키던 ${mob}의 보물. 세트를 모으면 진짜 힘이 깨어난다.`]}[grp];
+  let h=0;for(const ch of d.n)h=(h*31+ch.charCodeAt(0))%9973;
+  return T[h%T.length]}
+
+// ---------- 전투력 미리 보기 ----------
+// sk 자리에 it를 끼면? (stats()는 부작용이 없어서 잠깐 바꿨다가 되돌린다)
+function statsWith(it,sk){const cur=S.eq[sk];S.eq[sk]=it;let a;try{a=stats()}finally{if(cur)S.eq[sk]=cur;else delete S.eq[sk]}return a}
+// 가방 칸 ▲: 같은 부위 자리 중 하나라도 바꾸면 전투력이 오르는지(캐시)
+let gainSig='',gainMap={};
+function gainOf(it){const sig=SLOTS.map(s=>{const e=S.eq[s.k];return e?e.id+':'+e.g+':'+e.up:'-'}).join(',')+'|'+Math.round(ST?ST.power:0);
+  if(sig!==gainSig){gainSig=sig;gainMap={}}const key=it.id+':'+it.g+':'+it.up;if(key in gainMap)return gainMap[key];
+  const b=stats().power;let best=-Infinity;for(const sl of SLOTS)if(sl.t===it.type){const a=statsWith(it,sl.k).power-b;if(a>best)best=a}
+  return gainMap[key]=best}
+function bagIconBox(it){const g=gainOf(it);
+  return `<div class="bi-wrap">${itemIconBox(it,32)}${g>Math.max(1,(ST?ST.power:0)*.0005)?'<i class="bi-up" title="끼면 전투력이 올라요">▲</i>':''}${it.nb?'<i class="bi-new" title="새로 얻음"></i>':''}${it.lk?'<i class="bi-lk" title="잠김">🔒</i>':''}</div>`}
+
+// ---------- 가방 거르기·정렬 ----------
+const BAG_TYPES=['helm','top','bottom','gloves','boots','cape','weapon','neck','ear','ring'];
+const BAG_SORT=[['g','등급순'],['new','새것순'],['pow','전투력순']];
+function bagView(){const f=S.opt.bagF||'all',s=S.opt.bagS||'new';let a=S.bag.filter(it=>f==='all'||it.type===f);
+  if(s==='g')a.sort((x,y)=>y.g-x.g||y.id-x.id);else if(s==='pow')a.sort((x,y)=>gainOf(y)-gainOf(x)||scoreOf(y)-scoreOf(x));else a.sort((x,y)=>y.id-x.id);return a}
+function bagBarHtml(){const f=S.opt.bagF||'all',s=S.opt.bagS||'new',n=t=>S.bag.filter(it=>t==='all'||it.type===t).length;
+  return `<div class="bagf">${[['all','전체'],...BAG_TYPES.map(t=>[t,TYPES[t].n])].map(([k,nm])=>`<button data-bf="${k}" class="${f===k?'on':''}">${nm}<small>${n(k)}</small></button>`).join('')}</div>
+    <div class="bags">${BAG_SORT.map(([k,nm])=>`<button data-bs="${k}" class="${s===k?'on':''}">${nm}</button>`).join('')}<span>칸을 누르면 자세히 · 비교</span></div>`}
+
+// ---------- 상세 카드 ----------
+function openItemCard(id){const it=findItem(id);if(!it)return;if(it.nb){delete it.nb;save();dirty=true}
+  invCur={kind:'card',id:it.id};const sk=eqSlotOf(it),need=mxNeed(it),mx=Math.floor(it.mx||0);
+  let h=`<div class="ic bd${it.g}"><div class="ic-h">${itemIconBox(it,48)}<div class="grow"><div class="ic-n g${it.g}">${itemName(it)}${upTag(it)}</div>
+    <div class="ic-s"><b class="g${it.g}">${gradeName(it)} 등급</b> · ${slotNm(it)}${it.set!=null?' · ★ 세트':''}${sk?' · <span class="ic-on">착용 중</span>':''}${it.lk?' · 🔒 잠김 (파쇄·재료로 안 쓰여요)':''}</div></div></div>`;
+  h+=need?`<div class="ic-mx"><div><span>숙련도</span><span>${mx} / ${need} → ${GRADES[it.g+1].n}</span></div><div class="ic-bar"><i style="width:${Math.min(100,mx/need*100)}%"></i></div><small>끼고 이긴 전투마다 차요. 다 차면 다음 등급으로 올라요.</small></div>`
+    :`<div class="ic-mx"><div><span>숙련도</span><span class="g7">숙련 완료 (최고 등급)</span></div></div>`;
+  h+='<div class="ic-sec">능력치</div><div class="ic-st">'+itemRows(it).map(r=>`<div><span>${r.n}</span><b class="${r.fx?'g5':''}">${r.txt}</b></div>`).join('')+(it.up?`<div><span>강화</span><b>+${it.up} (수치 +${it.up*3}%)</b></div>`:'')+'</div>';
+  if(it.set!=null){const c=setCount(it.set),c2=sk?c:c; h+=`<div class="ic-sec">세트 「${regionData(it.set).set}」 <small>지금 낀 피스 ${c2}/5</small></div><div class="ic-set">`+setEffLines(it.set,c2).map(([on,t])=>`<div class="${on?'on':'off'}">${on?'✓':'·'} ${t}</div>`).join('')+'</div>'}
+  h+=`<div class="ic-sec">떨구는 곳</div><div class="ic-src">${itemSrcTxt(it)}</div><div class="ic-fl">“${itemFlavor(it)}”</div>`;
+  const canDis=!sk&&!isRecord(it)&&!it.lk;
+  h+=`<div class="ic-b"><button data-iv="lock">${it.lk?'🔓 잠금 풀기':'🔒 잠금'}</button>${canDis?'<button data-iv="dis">파쇄</button>':''}${sk?'':'<button class="main" data-iv="cmp">비교 · 착용</button>'}<button data-iv="close">닫기</button></div></div>`;
+  $('toast').innerHTML='';invEl.innerHTML=h;invEl.hidden=false} /* 위 알림이 창과 겹치지 않게 지운다 */
+
+// ---------- 비교 화면 ----------
+function openCompare(id,sk){const it=findItem(id);if(!it)return;if(eqSlotOf(it)){openItemCard(id);return}if(it.nb){delete it.nb;save();dirty=true}
+  const cands=SLOTS.filter(s=>s.t===it.type);if(!sk||!cands.some(s=>s.k===sk))sk=pickSlot(it);
+  invCur={kind:'cmp',id:it.id,sk};const cur=S.eq[sk],now=stats(),aft=statsWith(it,sk);
+  const side=(x,lb)=>`<div class="cp-c ${x?'bd'+x.g:''}"><small>${lb}</small>${x?`${itemIconBox(x,36)}<div class="cp-n g${x.g}">${itemName(x)}${upTag(x)}</div><div class="cp-g"><b class="g${x.g}">${gradeName(x)}</b> · ${mxTag(x)}</div>`:'<div class="cp-e">비어 있음</div>'}</div>`;
+  let h=`<div class="ic cp">`;
+  if(cands.length>1)h+=`<div class="cp-sl"><span>어느 ${slotNm(it)}와 바꿀까요?</span>${cands.map((s,i)=>{const e=S.eq[s.k];return `<button data-cs="${s.k}" class="${s.k===sk?'on':''}">${slotNm(it)} ${i+1}<small>${e?itemName(e):'비어 있음'}</small></button>`}).join('')}</div>`;
+  h+=`<div class="cp-hd">${side(cur,'착용 중')}<div class="cp-ar">▶</div>${side(it,'고른 장비')}</div>`;
+  // 아이템 능력치 줄마다 차이
+  const A=itemRows(cur),B=itemRows(it),keys=[...new Set([...A.map(r=>r.k),...B.map(r=>r.k)])];
+  h+='<div class="ic-sec">장비 능력치</div><div class="cp-t">';
+  for(const k of keys){const a=A.find(r=>r.k===k),b=B.find(r=>r.k===k),va=a?a.v:0,vb=b?b.v:0,d=vb-va,nm=(a||b).n;
+    const di=Math.floor(vb)-Math.floor(va); /* 화면에 보이는 숫자끼리 뺀 값 */
+    const dt=(k==='atk'||k==='hp')?(di===0?'<i class="cp-same">=</i>':`<i class="${di>0?'pos':'neg'}">${di>0?'▲+':'▼-'}${fmt(Math.abs(di))}</i>`):Math.abs(d)<1e-9?'<i class="cp-same">=</i>':`<i class="${d>0?'pos':'neg'}">${d>0?'▲':'▼'}${fxDiff(k,d)}</i>`;
+    h+=`<div><span>${nm}</span><b>${a?a.txt:'-'}</b><b>${b?b.txt:'-'} ${dt}</b></div>`}
+  h+='</div>';
+  // 세트 피스 수가 바뀌면
+  const sc=x=>{const m={};for(const s of x)m[s.set]=s.c;return m},s0=sc(setInfo());let s1;{const c0=S.eq[sk];S.eq[sk]=it;try{s1=sc(setInfo())}finally{if(c0)S.eq[sk]=c0;else delete S.eq[sk]}}
+  const sk2=[...new Set([...Object.keys(s0),...Object.keys(s1)])].filter(R=>(s0[R]||0)!==(s1[R]||0));
+  if(sk2.length)h+='<div class="cp-set">'+sk2.map(R=>{const a=s0[R]||0,b=s1[R]||0;return `<div class="${b>a?'pos':'neg'}">세트 「${regionData(+R).set}」 ${a} → ${b}피스${b>a&&[2,3,4].includes(b)?' · '+b+'세트 효과 켜짐!':a>b&&[2,3,4].includes(a)?' · '+a+'세트 효과 꺼짐':''}</div>`}).join('')+'</div>';
+  // 끼면 내 능력치(캐릭터 최종 수치)
+  const pc=v=>Math.round(v*100)+'%',L=[['공격력',x=>x.atk,fmt,1],['체력',x=>x.hp,fmt,1],['공격 속도',x=>x.aspd,v=>v.toFixed(2)+'/초',1],['치명타',x=>x.crit,pc,1],
+    ['치명타 피해',x=>x.critM,v=>'×'+v.toFixed(2)],['더블 히트',x=>x.dbl,pc],['스킬 발동',x=>x.skill,pc],['받는 피해 감소',x=>x.guard,pc],['흡혈',x=>x.steal,v=>(v*100).toFixed(1)+'%'],['보스 피해',x=>x.bossDmg,v=>'+'+pc(v)],['경험치',x=>x.xpP,v=>'+'+pc(v)]];
+  h+='<div class="ic-sec">끼면 내 능력치</div><div class="cp-t cp-me">';
+  for(const [n,g,f,always] of L){const a=g(now),b=g(aft),same=f(a)===f(b);if(same&&!always)continue;
+    h+=`<div><span>${n}</span><b>${f(a)}</b><b class="${same?'':b>a?'pos':'neg'}">${same?'':b>a?'▲ ':'▼ '}${f(b)}</b></div>`}
+  const dp=Math.floor(aft.power)-Math.floor(now.power);
+  h+=`</div><div class="cp-pw ${dp>=0?'pos':'neg'}">전투력 ${fmt(now.power)} → ${fmt(aft.power)} <b>${dp===0?'±0':(dp>0?'▲ +':'▼ -')+fmt(Math.abs(dp))}</b></div>`;
+  h+=`<div class="ic-b"><button data-iv="card">자세히</button><button class="main" data-iv="eq">착용</button><button data-iv="close">닫기</button></div></div>`;
+  $('toast').innerHTML='';invEl.innerHTML=h;invEl.hidden=false} /* 위 알림이 창과 겹치지 않게 지운다 */
+
+function closeInv(){invEl.hidden=true;invCur=null}
+invEl.addEventListener('click',e=>{if(e.target===invEl){closeInv();return}const b=e.target.closest('button');if(!b||!invCur)return;
+  const it=findItem(invCur.id);if(!it){closeInv();return}const a=b.dataset.iv;
+  if(b.dataset.cs){openCompare(it.id,b.dataset.cs);return}
+  if(a==='close'){closeInv();return}
+  if(a==='card'){openItemCard(it.id);return}
+  if(a==='cmp'){openCompare(it.id);return}
+  if(a==='lock'){if(it.lk)delete it.lk;else it.lk=1;save();dirty=true;openItemCard(it.id);return} /* 잠금 상태는 카드 안에 보인다 */
+  if(a==='dis'){dismantle(it,false);save();dirty=true;closeInv();return}
+  if(a==='eq'){const sk=invCur.sk;equip(it,sk,false);save();dirty=true;closeInv();toast(`${itemName(it)} 착용!`,'var(--ok)');
+    const w=$('itemWin');if(!w.hidden&&+w.dataset.id===it.id){w.hidden=true;showItem()}}});
+// 가방·장비 탭: 칸(버튼 말고)을 누르면 상세 카드. 거르기·정렬 버튼
+$('panel').addEventListener('click',e=>{const b=e.target.closest('button');
+  if(b){if(b.dataset.cmp)openCompare(+b.dataset.cmp);else if(b.dataset.bf){S.opt.bagF=b.dataset.bf;save();dirty=true}else if(b.dataset.bs){S.opt.bagS=b.dataset.bs;save();dirty=true}return}
+  const c=e.target.closest('[data-card]');if(c)openItemCard(+c.dataset.card)});
 </script>
 <script>
 // 자동 생성(tools/pw_pack.py). Pixelwright 무료 팩 그림: 게임 안에서만 쓰기, 파일 재배포·AI 학습 금지
