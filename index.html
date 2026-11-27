@@ -402,6 +402,10 @@ const SLOTS=[
 const TYPES={helm:SLOTS[0],top:SLOTS[1],bottom:SLOTS[2],gloves:SLOTS[3],boots:SLOTS[4],cape:SLOTS[5],weapon:SLOTS[6],neck:SLOTS[7],ear:SLOTS[8],ring:SLOTS[9]};
 const TYPE_KEYS=Object.keys(TYPES);
 // v17: 직업마다 (한 대 세기 × 속도 × 치명·스킬) × 체력이 비슷하게(약 2.2). aspd 1이면 1초에 1번(간격 1/aspd초, 0.6~1초)
+// v21b 사용자 결정: 데모 출시 후 리뷰를 듣기 전까지 4직업 능력은 완전히 같게(겉모습·이펙트·스킬 이름만 다름)
+// 다시 직업마다 다르게 하려면 CLASS_SAME=false 한 줄만 바꾸면 된다(직업별 원래 값은 CLASSES·AUTO_SP_CLS·SKILL_HIT_CLS·PROMO_DEF_CLS에 그대로 있음)
+const CLASS_SAME=true;
+const CLASS_AVG={atk:1.08,hp:1.15,aspd:1.25,crit:.1,critM:2.1,skill:.08,skillM:3.8}; // 4직업 평균 근처(전투력 배율 평균 1.83 ≈ 이 값 1.83)
 const CLASSES=[
  {n:'전사',e:'🛡️',atk:1.2,hp:1.3,aspd:1.1,crit:.05,critM:2,skill:.05,skillM:4,sk:'대지 가르기',d:'튼튼하게 버티며 강하게 내리친다. 체력이 가장 높다.'},
  {n:'마법사',e:'🔮',atk:1.15,hp:1.2,aspd:1.0,crit:.05,critM:2,skill:.13,skillM:5,sk:'유성 낙하',d:'스킬이 자주 터진다. 한 방이 크다.'},
@@ -433,7 +437,7 @@ const ITEM_D0=10, DEF_K0=100;
 const DS_HP=[1,.4,.7], DS_DEF=[0,1,.5], DS_GA=[1,1,.7], DS_GD=[0,0,.5], DS_NM=['체력형','방어형','반반'];
 const defK=R=>DEF_K0*itemBase(Math.max(0,R||0));
 const defMul=(def,R)=>{const K=defK(R);return K/(K+Math.max(0,def||0))};
-const PROMO_DEF=.05; // 전사 전직 1단계마다 방어력 +5%
+const PROMO_DEF=.05; // 전직 1단계마다 방어력 +5%(직업별은 PROMO_DEF_CLS, promoDef())
 // v18 표준 주인공(몹 능력치의 기준): 그 지역에 처음 올 때쯤 가진 장비·환생·레벨을 가정한다
 // 1대륙은 맨몸에서 시작해 장비를 모으며 B~A까지, n+1대륙 첫 지역은 "n대륙 장비 평균 A~S + 보스 세트 2피스"
 const STD_GM0=[.3,.75,1.15,1.5], STD_GMN=[.91,1.14,1.45,1.74]; // 장비 배율(기본 수치 × 등급), n대륙은 ×2^n
@@ -489,7 +493,14 @@ const STATDEF=[
  {k:'hp',n:'체력',d:(v,c)=>`포인트당 체력 +${(4*c.hp).toFixed(1)}`},
  {k:'agi',n:'민첩',d:v=>`공격 속도 +${Math.min(100,v*0.2).toFixed(1)}% · 더블 히트 +${Math.min(30,v*0.05).toFixed(1)}%p`},
  {k:'luk',n:'행운',d:v=>`아이템 드랍률 +${Math.min(100,v*0.2).toFixed(1)}%`}];
-const AUTO_SP=[[['atk',2],['hp',3]],[['atk',4],['hp',1]],[['atk',3],['agi',1],['hp',1]],[['atk',2],['agi',2],['hp',1]]];
+const AUTO_SP_CLS=[[['atk',2],['hp',3]],[['atk',4],['hp',1]],[['atk',3],['agi',1],['hp',1]],[['atk',2],['agi',2],['hp',1]]];
+// v21b 직업별 수치 분기는 모두 여기서. 스킬 총 배율(궁수 3연타·도적 2연타의 합), 전직 방어력 보너스
+const SKILL_HIT_CLS=[1,1,1.2,3/2.2], PROMO_DEF_CLS=[.05,0,0,0];
+const CLASS_DESC_SAME=['검을 힘껏 내리치고, 대지를 갈라 땅을 솟구치게 한다.','지팡이 끝에서 서리와 불꽃이 튀고, 하늘에서 유성을 떨어뜨린다.','어둠 속에서 단검으로 찌르고, 그림자와 함께 연달아 벤다.','활시위를 당겨 쏘아 맞히고, 하늘 가득 화살비를 쏟아붓는다.'];
+if(CLASS_SAME)CLASSES.forEach((c,i)=>{c.d0=c.d;Object.assign(c,CLASS_AVG);c.d=CLASS_DESC_SAME[i]});
+const AUTO_SP=CLASS_SAME?AUTO_SP_CLS.map(()=>[['atk',3],['agi',1],['hp',1]]):AUTO_SP_CLS;
+const skillHit=ci=>CLASS_SAME?1:SKILL_HIT_CLS[ci]||1;
+const promoDef=ci=>CLASS_SAME?.05:PROMO_DEF_CLS[ci]||0;
 
 // v13 도감 아이템 145개(이름|부위|지역), 저장 이전용
 const LEGACY13=["풀잎 투구|helm|0","말랑 젤리 반지|ring|0","잎사귀 장갑|gloves|0","애벌레 실 귀걸이|ear|0","토끼발 신발|boots|0","뿔 조각 목걸이|neck|0","버섯 포자 바지|bottom|0","독버섯 갓|helm|0","벌침 귀걸이|ear|0","꿀 묻은 장갑|gloves|0","멧돼지 가죽 조끼|top|0","돌진 장화|boots|0","거미줄 반지|ring|0","거미 비단 망토|cape|0","부엉이 깃털 망토|cape|0","밤눈 반지|ring|0","늑대 송곳니|weapon|0","늑대 털 바지|bottom|0","곰발톱 목걸이|neck|0","곰 가죽 갑옷|top|0","고블린 쌍날 장갑|gloves|0","고블린 정찰 신발|boots|0","문지기의 열쇠 목걸이|neck|0","버섯갓 투구|helm|0","이슬 맺힌 새싹 반지|ring|0","포자 왕의 망토|cape|0","오크 대장의 뼈망치|weapon|0","오크 전투 갑옷|top|0","숲의 수호 반지|ring|0","모래쥐 털신|boots|1","쥐구멍 반지|ring|1","여우귀 귀걸이|ear|1","여우 꼬리 목도리|cape|1","비늘 장갑|gloves|1","도마뱀 가죽 바지|bottom|1","뱀 허물 반지|ring|1","독니 목걸이|neck|1","가시 갑옷|top|1","선인장 꽃 투구|helm|1","전갈 꼬리|weapon|1","집게 장갑|gloves|1","독수리 날개 망토|cape|1","맹금 깃 귀걸이|ear|1","하이에나 가죽 바지|bottom|1","사냥꾼 장화|boots|1","붕대 투구|helm|1","미라 붕대 옷|top|1","모래시계 목걸이|neck|1","골렘 핵 반지|ring|1","해골 파수병의 흉갑|top|1","파수병의 녹슨 투구|helm|1","뼈 장식 귀걸이|ear|1","모래바람 신발|boots|1","사막의 눈 목걸이|neck|1","두목의 금고리 반지|ring|1","족장의 모래 망토|cape|1","모래 거인의|weapon|1","사막의 방랑 반지|ring|1","불씨 귀걸이|ear|2","잿불 반지|ring|2","용암 껍데기 갑옷|top|2","끈적 장화|boots|2","박쥐 날개 망토|cape|2","초음파 귀걸이|ear|2","집게발 건틀릿|gloves|2","게딱지 투구|helm|2","불비늘 장화|boots|2","꼬리불 목걸이|neck|2","도깨비불|weapon|2","도깨비 바지|bottom|2","불꽃 이빨 반지|ring|2","불발톱 장갑|gloves|2","마그마 등껍질 투구|helm|2","거북 갑주|top|2","용의 비늘 목걸이|neck|2","화룡 날개 망토|cape|2","거인의 불꽃 각반|bottom|2","화산 심장 반지|ring|2","용암 심장 귀걸이|ear|2","불꽃 버섯 바지|bottom|2","감시자의 눈 투구|helm|2","도깨비 방망이|weapon|2","대장의 불꽃 띠|neck|2","도깨비 털신|boots|2","마왕의 불씨 반지|ring|2","마왕의 불꽃 망토|cape|2","화염 군주의 반지|ring|2","눈꽃 반지|ring|3","얼음 결정 귀걸이|ear|3","서리 날개 망토|cape|3","얼음 송곳니 목걸이|neck|3","펭귄 미끄럼 신발|boots|3","턱시도 갑옷|top|3","흰여우 귀걸이|ear|3","여우털 장갑|gloves|3","물개 가죽 바지|bottom|3","물개 수염 투구|helm|3","서리 송곳니|weapon|3","설원 질주 장화|boots|3","백곰 가죽 갑옷|top|3","곰의 심장 반지|ring|3","빙결 투구|helm|3","얼음 갑주 각반|bottom|3","상아 건틀릿|gloves|3","매머드 털 망토|cape|3","설인 발자국 목걸이|neck|3","눈보라 반지|ring|3","서리 결정 장갑|gloves|3","설원의 털 망토|cape|3","해골 문지기의 목걸이|neck|3","광전사의 뿔투구|helm|3","광전사의|weapon|3","분노의 귀걸이|ear|3","서리 기사의 각반|bottom|3","서리 기사의 흉갑|top|3","서리 송곳니 반지|ring|3","그림자 발싸개|boots|4","어둠 이빨 반지|ring|4","유령 수의 망토|cape|4","속삭임 귀걸이|ear|4","천 개의 눈 투구|helm|4","응시의 목걸이|neck|4","저주 실 반지|ring|4","바느질 장갑|gloves|4","해골 흉갑|top|4","뼈 각반|bottom|4","촉수 장갑|gloves|4","먹물 망토|cape|4","핏빛 목걸이|neck|4","귀족의 연미복|top|4","마녀의 귀걸이|ear|4","뾰족 마녀 모자|helm|4","망령의|weapon|4","망령 기사 철장화|boots|4","공허 가죽 각반|bottom|4","공허의 반지|ring|4","심연을 보는 목걸이|neck|4","망령의 발걸음|boots|4","문지기의 해골 귀걸이|ear|4","데스나이트의 대검|weapon|4","데스나이트 갑주|top|4","죽음의 장갑|gloves|4","심연 군주의 왕관|helm|4","군주의 공허 망토|cape|4","심연의 왕 반지|ring|4"];
@@ -934,7 +945,7 @@ function stats(){
   const sp=S.sp||{};
   let atk=c.atk*(10+(S.lv-1)+(sp.atk||0)*.4), hp=c.hp*(100+10*(S.lv-1)+(sp.hp||0)*4); // v18: 레벨 몫은 작게, 장비 몫을 크게
   let def=0;for(const sl of SLOTS){const it=S.eq[sl.k];if(it){const s=itemStat(it);atk+=s.atk;hp+=s.hp;def+=s.def||0}}
-  if((S.cls||0)===0)def*=1+PROMO_DEF*(S.promo||0); // v21 전사는 전직마다 방어력 +5%
+  def*=1+promoDef(S.cls||0)*(S.promo||0); // v21 전직 방어력(v21b: CLASS_SAME이면 4직업 모두 +5%/단계)
   let atkP=0, hpP=0, skill=c.skill, final=1;
   // 세트 효과: 3·11피스 공통, 6·9피스는 세트마다 다름. v13부터 f는 항상 1
   let crit=c.crit, critM=c.critM, aspdP=0, dblP=0, heal=0, guard=0, burn=0, bossDmg=0, steal=0, xpP=rl('seed')*.05, spd=0, luckU=0;
@@ -1244,8 +1255,8 @@ function heroAttack(tg){
     skillFlash(st.c.sk);log(`「${st.c.sk}」 발동!`,'skill');const d=roll()*st.skillM;
     if(st.burn>0&&fight){const ob=fight.burn;fight.burn={t:3,tick:ob?ob.tick:1,dmg:st.atk*st.burn}} // 화염 군주 9: 3초 화상(다시 터지면 시간만 새로, 매초 박자는 유지)
     parts.push({k:'r',x:MPOS().x,y:MPOS().y,rad:90,t:0,life:.35,col:ci===1?'#b77bff':'#79f6ff'});
-    if(ci===3){for(let i=0;i<3;i++)hit(tg,d/2.2,'skill')}
-    else if(ci===2){hit(tg,d*.6,'skill');hit(tg,d*.6,'skill')}
+    if(ci===3){for(let i=0;i<3;i++)hit(tg,d*skillHit(3)/3,'skill')}
+    else if(ci===2){hit(tg,d*skillHit(2)/2,'skill');hit(tg,d*skillHit(2)/2,'skill')}
     else hit(tg,d,'skill');
   }else{
     const one=()=>{if(tg.hp<=0)return;if(rnd()<st.crit){hit(tg,roll()*st.critM,'crit');fxHit(true)}else{hit(tg,roll(),'');fxHit(false)}};
@@ -1268,7 +1279,7 @@ function simFight(m,st,r){let mh=m.max,hh=st.hp,t=0,ha=.25,ma=.8;const iv=1/st.a
   const roll=()=>st.atk*(0.9+r()*.2),cr=()=>r()<st.crit?roll()*st.critM:roll();
   while(t<240){const dt=Math.min(ha,ma);t+=dt;ha-=dt;ma-=dt;
     if(ha<=1e-9){ha+=iv;let d;
-      if(r()<st.skill){d=roll()*st.skillM*(ci===3?3/2.2:ci===2?1.2:1)+(st.burn>0?st.atk*st.burn*3:0)}
+      if(r()<st.skill){d=roll()*st.skillM*skillHit(ci)+(st.burn>0?st.atk*st.burn*3:0)}
       else{d=cr();if(r()<st.dbl)d+=cr()}
       d*=bm;mh-=d;if(st.heal||st.steal)hh=Math.min(st.hp,hh+st.hp*st.heal+d*st.steal);if(mh<=0)return[1,t]}
     if(ma<=1e-9){ma+=miv;if(r()>=.08){let dm=m.atk*(0.9+r()*.2)*defMul(st.def,m.R??world.r);if(st.guard&&hh<st.hp*.5)dm*=1-st.guard;hh-=dm;if(hh<=0)return[0,t]}}}
@@ -2034,7 +2045,7 @@ function vilExtra(n){
   if(n.role==='watch')return box(`<div class="note">망루 덕분에 환생할 때마다 시작 전투 횟수 +${watchEnergy()}</div>`);
   if(n.role==='keeper'){const i=n.ki;if(n.sleep)return box('<div class="note">결계 너머에서 잠들어 있어요.</div>');
     const p=S.promo||0;return box(p>i?`<div class="note" style="color:var(--ok)">✓ ${jo(PROMO_N[S.cls||0][i+1],'으로')} 전직했어요</div>`:p===i?
-      `<button class="main" data-promo="${i}">${jo(PROMO_N[S.cls||0][i+1],'으로')} 전직하기 · 공격력·체력 +${Math.round(PROMO_B*100)}%</button>`:`<div class="note">앞의 별지기에게 먼저 전직을 받아야 해요.</div>`)}
+      `<button class="main" data-promo="${i}">${jo(PROMO_N[S.cls||0][i+1],'으로')} 전직하기 · 공격력·체력 +${Math.round(PROMO_B*100)}%${promoDef(S.cls||0)?` · 방어력 +${Math.round(promoDef(S.cls||0)*100)}%`:''}</button>`:`<div class="note">앞의 별지기에게 먼저 전직을 받아야 해요.</div>`)}
   return ''}
 function vilClick(b){
   if(b.dataset.don){donate(b.dataset.don==='all'?Infinity:+b.dataset.don);if(npcTalk)renderTalk();return true}
@@ -2081,7 +2092,7 @@ function renderPanel(){
       for(const [on,t] of setEffLines(s.set,s.c))h+=`<div class="${on?'on':'off'}">${t}</div>`}
     h+='</div>';
     const st=ST;
-    h+=`<div class="sec">${st.c.n} · ${promoName()}</div><div class="note">방어력 ${fmt(st.def)} (받는 피해 -${Math.round(st.dmgRed*100)}%, ${zoneTag(st.defR)} 몹 기준${(S.cls||0)===0&&S.promo?` · 전사 전직 +${Math.round(PROMO_DEF*S.promo*100)}%`:''}) · 전직 ${S.promo||0}/5 (+${Math.round(PROMO_B*(S.promo||0)*100)}%) · 수련 ${S.train||0}단계 (+${Math.round(TRAIN_B*(S.train||0)*100)}%) · 공격 속도 ${st.aspd}회/초 · 치명타 ${Math.round(st.crit*100)}% (×${st.critM}) · 스킬 「${st.c.sk}」 발동 ${(st.skill*100).toFixed(0)}% (×${st.skillM}) · 이동 속도 +${Math.round(st.spd*100)}% · 경험치 +${Math.round(st.xpP*100)}% · ${S.runs+1}번째 환생 · <b style="color:#ffd23d">환생 ${S.runs}회: 공격·체력 +${Math.round(REBIRTH_B*S.runs*100)}%</b></div>`;
+    h+=`<div class="sec">${st.c.n} · ${promoName()}</div><div class="note">방어력 ${fmt(st.def)} (받는 피해 -${Math.round(st.dmgRed*100)}%, ${zoneTag(st.defR)} 몹 기준${S.promo&&promoDef(S.cls||0)?` · 전직 +${Math.round(promoDef(S.cls||0)*S.promo*100)}%`:''}) · 전직 ${S.promo||0}/5 (+${Math.round(PROMO_B*(S.promo||0)*100)}%) · 수련 ${S.train||0}단계 (+${Math.round(TRAIN_B*(S.train||0)*100)}%) · 공격 속도 ${st.aspd}회/초 · 치명타 ${Math.round(st.crit*100)}% (×${st.critM}) · 스킬 「${st.c.sk}」 발동 ${(st.skill*100).toFixed(0)}% (×${st.skillM}) · 이동 속도 +${Math.round(st.spd*100)}% · 경험치 +${Math.round(st.xpP*100)}% · ${S.runs+1}번째 환생 · <b style="color:#ffd23d">환생 ${S.runs}회: 공격·체력 +${Math.round(REBIRTH_B*S.runs*100)}%</b></div>`;
   }
   else if(tab==='bag'){
     h+=`<div class="opts"><label><input type="checkbox" id="optAE" ${S.opt.autoEquip?'checked':''}> 더 좋으면 자동 장착</label>
@@ -2236,7 +2247,8 @@ function renderStats(){
 
 // ---------- class select ----------
 function showChoose(){
-  $('classList').innerHTML=CLASSES.map((c,i)=>`<button class="cls" data-c="${i}"><img class="e" src="${SPRITES['h'+i]}" alt=""><div><h3>${c.n}</h3><div>${c.d}</div><div>스킬 「${c.sk}」 · 발동 ${Math.round(c.skill*100)}%</div></div></button>`).join('');
+  {const p=document.querySelector('#choose p');if(p&&CLASS_SAME)p.textContent='맛보기 버전 · 능력은 넷 다 같아요. 생김새와 싸우는 모습이 마음에 드는 주인공을 골라 주세요'}
+  $('classList').innerHTML=CLASSES.map((c,i)=>`<button class="cls" data-c="${i}"><img class="e" src="${SPRITES['h'+i]}" alt=""><div><h3>${c.n}</h3><div>${c.d}</div><div>스킬 「${c.sk}」${CLASS_SAME?'':` · 발동 ${Math.round(c.skill*100)}%`}</div></div></button>`).join('');
   $('choose').hidden=false;
 }
 $('classList').addEventListener('click',e=>{const b=e.target.closest('.cls');if(!b)return;
