@@ -390,6 +390,7 @@ button.main{background:linear-gradient(180deg,#ffe08a 0,#f0b840 45%,#c8861e 100%
 .sk-r{display:flex;justify-content:space-between;gap:6px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;margin-bottom:4px;font-size:12px;text-align:left}
 .sk-r.ok{border-color:var(--ok)}.sk-r.ok b{color:var(--ok)}.sk-r small{color:var(--dim);font-size:11px;white-space:nowrap}
 @media (prefers-reduced-motion:reduce){.enc-pic>*,.enc-warn{animation:none}}
+.skillname{top:74px;z-index:3} /* v22 고침: 스킬 이름은 보스 이름표·체력바 아래로 */
 </style>
 <div id="app">
   <div class="stage" id="stage"><canvas id="cv"></canvas>
@@ -1636,7 +1637,7 @@ function drawMonF(m){const sz=monSize(m),au=auraOf(m);
   if(gx)galaxyField(m,true)}
 function drawMonLabel(m){if(typeof skinLabel==='function'&&skinLabel(m))return;const sz=monSize(m),au=auraOf(m),[,pc]=predict(m);
   ctx.font='bold 11px "Noto Sans KR",sans-serif';ctx.lineWidth=3;ctx.strokeStyle='#000';
-  const lab=m.kind==='n'?`Lv.${fmt(m.tier)}`:`${BOSS_ROLE[m.bi]} Lv.${fmt(m.tier)}`,ly=typeof skinTop==='function'&&skinTop(m)||m.y-sz/2-8;
+  const lab=m.kind==='n'?`Lv.${fmt(m.tier)}`:`${BOSS_ROLE[m.bi]} Lv.${fmt(m.tier)}`,ly=world&&world.star&&m.bi===2&&world.salt?world.salt.y+96:typeof skinTop==='function'&&skinTop(m)||m.y-sz/2-8; // v22 고침: 별의 제단에선 이름표를 마법진 아래로(왼쪽 위 유물 칩과 안 겹치게)
   ctx.strokeText(lab,m.x,ly);ctx.fillStyle=pc;ctx.fillText(lab,m.x,ly);
   ctx.font='bold 10px "Noto Sans KR",sans-serif';const nt=monTitle(m);ctx.strokeText(nt,m.x,ly-13);ctx.fillStyle=m.kind==='n'?au:'#ffcf4a';ctx.fillText(nt,m.x,ly-13)}
 function drawHeroF(){
@@ -1878,7 +1879,7 @@ function canOpen(n){return n>0&&n<CONTINENTS.length&&!S.contOpen[n]&&S.contOpen[
 function checkUnlock(){let h='';
   for(let n=1;n<CONTINENTS.length;n++)if(canOpen(n)){S.contOpen[n]=1;if(S.run){S.run.newCont=(S.run.newCont||[]);S.run.newCont.push(n)}
     const why=S.shards[n-1]?'별 조각':'전투력';h+=`<div class="res-x" style="color:${CONTINENTS[n].col}">${why}으로 「${CONTINENTS[n].n}」 포탈이 열렸어요!</div>`;
-    toast(`새 대륙이 열렸어요!<br><b>${CONTINENTS[n].n}</b> · 마을의 포탈지기에게 가 보세요`,CONTINENTS[n].col)}
+    toast(`<b>${jo(CONTINENTS[n].n,'이가')}</b> 열렸어요!<br>마을의 ${keeperShort(n-1)}에게 가 보세요`,CONTINENTS[n].col)} // v22 고침: 두 줄로, 포탈지기 대신 그 대륙 길잡이 이름
   return h}
 // 다음에 열 대륙(없으면 -1)
 function nextLocked(){for(let n=1;n<CONTINENTS.length;n++)if(!S.contOpen[n])return n;return -1}
@@ -2337,7 +2338,7 @@ document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',
 function openSheet(t){if(t){tab=t;document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.tab===t?'true':'false'))}$('sheet').hidden=false;joy=null;dirty=true}
 function closeSheet(){$('sheet').hidden=true;rebirthConfirm=false;resetConfirm=false}
 $('menuBtn').addEventListener('click',()=>openSheet());
-$('closeSheet').addEventListener('click',()=>{closeSheet();if(S.runOver)showRunEnd()});
+$('closeSheet').addEventListener('click',()=>{closeSheet();if(S.runOver&&!(world&&world.town))showRunEnd()}); // v22 고침: 마을에서 메뉴를 닫으면 결산(환생 끝) 화면이 다시 뜨던 문제
 $('sheet').addEventListener('click',e=>{if(e.target.id==='sheet')closeSheet()});
 $('prevSt').addEventListener('click',()=>{if(world&&!world.town&&world.r>contFirst())enterRegion(world.r-1)});
 $('nextSt').addEventListener('click',()=>{if(world&&!world.town&&world.r<S.maxRegion)enterRegion(world.r+1)});
@@ -2726,7 +2727,7 @@ function skipPanel(){const c=world.c,T=skipTo(c);
 function doSkip(){const c=world.c,T=skipTo(c);if(T<=c*4)return;npcTalk=null;setOv('');
   if(!(typeof runActive==='function'&&runActive()))newRun(c);
   S.maxRegion=Math.max(S.maxRegion,T);S.lastR=T;enterRegion(T);save();dirty=true;
-  setTimeout(()=>toast(`🌀 테오가 ${zoneTag(T)} ${jo(ZONES[T].n,'으로')} 보내 줬어요<br>앞 지역은 도감과 유물을 다 모아서 건너뛰었어요`,'var(--accent)'),600)}
+  setTimeout(()=>toast(`🌀 ${jo(keeperShort(c),'이가')} ${zoneTag(T)} ${jo(ZONES[T].n,'으로')} 보내 줬어요<br>앞 지역은 도감과 유물을 다 모아서 건너뛰었어요`,'var(--accent)'),600)}
 
 // ---------- 오늘의 의뢰(촌장) ----------
 const DQ_NEED=30;
@@ -2820,6 +2821,9 @@ function npcPanel22(n,k){if(k==='dq')return dqPanel();if(k==='sell')return sellP
   if(n.role==='chief'){const q=dqToday();L.push(q.got?'오늘 의뢰는 끝났구나. 고맙다. 내일 또 부탁하마.':`오늘의 의뢰도 있단다. 몬스터 ${q.need}마리를 잡아 오면 골드와 강화석을 주마. (${q.n}/${q.need})`)}
   if(n.role==='portal'){const T=skipTo(world.c);if(T>world.c*4)L.push(`${zoneTag(world.c*4)}부터 ${zoneTag(T-1)}까지는 도감과 유물을 다 모았구먼. 원하면 ${zoneTag(T)} ${jo(ZONES[T].n,'으로')} 바로 보내 주마.`)}
   return L}}
+
+// v22 고침: 포탈 NPC 짧은 이름(해골 길잡이 테오 → 테오). 대륙마다 다름
+function keeperShort(c){const n=(typeof npcNameOf==='function'?npcNameOf(c,'portal'):CONTINENTS[c].npc.portal)||'';const a=(Array.isArray(n)?n[0]:n).split(' ');return a[a.length-1]||'포탈지기'}
 </script>
 <script>
 // v22 C: 대륙 보스 은하수 오라(C1), 별의 문과 대륙 보스 전용 공간(C2), 입장 대화(C3)
