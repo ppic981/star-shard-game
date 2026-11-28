@@ -939,7 +939,7 @@ function fresh(){return{v:9,cont:0,contOpen:{0:1},shards:{},cls:null,lv:1,xp:0,r
   // v19 골드(영구), 마을 단계 vil과 다음 단계까지 기부한 골드 vilG, 물약 buff(남은 전투 수), 훈련장 train, 제단에 놓은 별 조각 altar, 전직 단계 promo(0~5)
   gold:0,vil:0,vilG:0,buff:{},train:0,altar:{},promo:0,
   // v22 보스 유물: rel 가진 유물(번호 → 얻은 횟수), rxp 유물 경험치, rconv 옛 유물 변환 끝, dq 오늘의 의뢰
-  rel:{},rxp:0,rconv:1,dq:null,bty:null,elix:{},shk:{},hk:{},hcx:{},hrk:null,thk:0,tower:null,ach:null,syn:{},syc:0,wb:null,well:null,troph:{},dpsBest:0,cm28:0,mk29:{},skl:[1,1,1,1,1,1],
+  rel:{},rxp:0,rconv:1,dq:null,bty:null,elix:{},shk:{},hk:{},hcx:{},hrk:null,thk:0,tower:null,ach:null,syn:{},syc:0,wb:null,well:null,troph:{},dpsBest:0,cm28:0,mk29:{},skl:[1,1,1,1,1,1],pity32:{},
   // v22 C3 대륙 보스 대화를 본 대륙(번호 → 1)
   cbTalk:{}}}
 const SAVE_VER=10;
@@ -1046,7 +1046,7 @@ function cleanSave(o){
   const flags=(v,ok)=>{const m={};if(v&&typeof v==='object'&&!Array.isArray(v))for(const k in v)if(ok(k))m[k]=1;return m};
   const bossKey=k=>{const m=/^(\d+)_([0-2])$/.exec(k);return !!m&&+m[1]<ZONES.length&&(m[2]!=='2'||+m[1]%4===3)};
   const cKey=k=>/^[0-4]$/.test(k);r.contOpen=flags(r.contOpen,cKey);r.contOpen[0]=1;r.shards=flags(r.shards,cKey);
-  r.cont=Number.isInteger(r.cont)&&r.contOpen[r.cont]?r.cont:0;r.migStone=Math.floor(num(r.migStone,0,0));r.mig17=r.mig17?1:0;r.cm28=r.cm28?1:0;r.skl=[0,1,2,3,4,5].map(i=>Math.min(10,Math.floor(num(Array.isArray(r.skl)?r.skl[i]:1,1,1))));{const m=r.mk29&&typeof r.mk29==='object'?r.mk29:{},o={};for(const k in m)if(/^\d{1,2}_\d$/.test(k))o[k]=Math.floor(Math.min(1e9,num(m[k],0,0)));r.mk29=o} // v29 몬스터 처치 기록
+  r.cont=Number.isInteger(r.cont)&&r.contOpen[r.cont]?r.cont:0;r.migStone=Math.floor(num(r.migStone,0,0));r.mig17=r.mig17?1:0;r.cm28=r.cm28?1:0;{const P=r.pity32&&typeof r.pity32==="object"&&!Array.isArray(r.pity32)?r.pity32:{},Q={};for(const k in P){const v=num(P[k],0,0);if(v>0&&/^\d+$/.test(k))Q[k]=Math.floor(v)}r.pity32=Q}r.skl=[0,1,2,3,4,5].map(i=>Math.min(10,Math.floor(num(Array.isArray(r.skl)?r.skl[i]:1,1,1))));{const m=r.mk29&&typeof r.mk29==='object'?r.mk29:{},o={};for(const k in m)if(/^\d{1,2}_\d$/.test(k))o[k]=Math.floor(Math.min(1e9,num(m[k],0,0)));r.mk29=o} // v29 몬스터 처치 기록
 r.mig18=r.mig18?1:0;
   r.firstKill=flags(r.firstKill,bossKey);r.runBoss=flags(r.runBoss,bossKey);{const m={},c=r.codex;if(c&&typeof c==='object'&&!Array.isArray(c))for(const k in c){const g=c[k];if(/^\d+$/.test(k)&&+k<ITEMS.length&&Number.isInteger(g)&&g>=0&&g<GRADES.length)m[k]=g}r.codex=m}
   {const ru=r.run&&typeof r.run==='object'&&!Array.isArray(r.run)?r.run:{};
@@ -4595,6 +4595,60 @@ function b32Draw(c){const B=fight&&fight.b32;if(!B)return;const M=MPOS(),ms=[108
 // 스킬 탭 아래 설정
 {const _t=tabSkill32;tabSkill32=function(){return _t()+`<label class="opts" style="margin-top:8px;display:block"><input type="checkbox" id="optNT32" ${b32Off()?'checked':''}> 전투 대사 끄기 (보스가 기술을 쓸 때 머리 위 말풍선)</label>`}}
 document.addEventListener('change',e=>{if(e.target&&e.target.id==='optNT32'){S.opt=S.opt||{};S.opt.noTalk32=e.target.checked;save()}});
+</script><script>
+// v32 D 아이템 방식(인플레이션RPG 참고): 직업 스탯 없이 부위마다 역할을 또렷하게
+// 무기 = 공격 고정 + 공격 %(두 줄) · 방어구 5종(투구·상의·하의·신발·망토) = 체력 고정·방어 고정 + 체력 % · 장갑 그대로
+// 장신구 4종(목걸이·귀걸이·반지 2) = 작은 공격 고정 + 특수 효과 1줄(흡혈·연속 공격·행운·경험치·시작 전투 횟수). 같은 아이템은 늘 같은 효과
+// 고정은 초반에 크고, %는 전체 능력에 곱해져서 후반에 더 쓸모 있게. 합성·+n·부가 옵션 규칙은 그대로(+n은 고정·%·효과 모두 +3%/단계)
+// 드랍: 도감 몬스터 정보에 장비마다 드랍 확률을 보여 주고, 오래 못 얻으면(10번 넘게) 그 장비 확률이 조금씩 오르는 천장(S.pity32)
+const I32_FLAT={weapon:.8,helm:.85,top:.85,bottom:.85,boots:.85,cape:.85,neck:.7,ear:.7,ring:.7}; // 고정 몫(무기·장신구는 공격, 방어구는 체력)
+const I32_PW=[2.5,3,3.5,4,5,6,7,8], I32_PH=[1,1.2,1.4,1.7,2,2.4,2.8,3.3]; // 등급별 % (D~SSS+)
+const I32_FX={ // [이름, 등급별 값, 단위]
+  dbl:['연속 공격',[1,1.5,2,2.5,3,4,5,6],'%p'],steal:['흡혈',[.3,.4,.5,.7,.9,1.2,1.5,2],'%'],luck:['행운',[2,3,4,5,6,8,10,12],'%'],
+  xp:['경험치',[3,4,5,6,8,10,12,15],'%'],energy:['시작 전투 횟수',[1,1,1,1,2,2,3,3],'']};
+const I32_SLOTFX={ring:['dbl','steal'],neck:['luck','xp'],ear:['energy','xp']};
+const I32_ARM={helm:1,top:1,bottom:1,boots:1,cape:1};
+const i32C=it=>Math.floor(itemR(it)/4);
+const i32Up=it=>1+.03*(it.up||0);
+function i32FxKind(it){const L=I32_SLOTFX[it.type];if(!L)return null;const h=it.ci!=null?it.ci:(it.id||0);return L[h%L.length]}
+function i32Of(it){const o={pA:0,pH:0,fx:null};if(!it)return o;const g=Math.max(0,Math.min(7,it.g|0)),c=i32C(it);
+  if(it.type==='weapon')o.pA=I32_PW[g]/100*i32Up(it)*(1+.1*c);
+  else if(I32_ARM[it.type])o.pH=I32_PH[g]/100*i32Up(it)*(1+.1*c);
+  const k=i32FxKind(it);if(k){const v=I32_FX[k][1][g];o.fx={k,v:k==='energy'?v:v*i32Up(it)*(1+.15*c)}}
+  return o}
+// 고정 몫 줄이기
+{const _i=itemStat;itemStat=function(it){const s=_i(it),f=I32_FLAT[it.type];if(f==null)return s;const o={...s};if(it.type==='weapon'||I32_SLOTFX[it.type])o.atk=s.atk*f;else o.hp=s.hp*f;return o}}
+// 능력치: % 줄과 특수 효과
+function i32Sum(){const t={pA:0,pH:0,dbl:0,steal:0,luck:0,xp:0,energy:0};for(const sl of SLOTS){const it=S.eq[sl.k];if(!it)continue;const o=i32Of(it);t.pA+=o.pA;t.pH+=o.pH;if(o.fx)t[o.fx.k]+=o.fx.v}return t}
+{const _s=stats;stats=function(){const r=_s.apply(this,arguments),t=i32Sum(),hp0=r.hp/defMul(r.def,r.defR)/8,ap0=r.power-hp0,d0=r.dbl,c0=r.crit;
+  r.atk*=1+t.pA;r.hp*=1+t.pH;r.dbl=Math.min(1,r.dbl+t.dbl/100);r.steal+=t.steal/100;r.luck+=t.luck/100;r.crit=Math.min(1,r.crit+t.luck/400);r.xpP+=t.xp/100;r.i32=t;
+  r.power=ap0*(1+t.pA)*(1+r.dbl)/(1+d0)*(1+r.crit*(r.critM-1))/(1+c0*(r.critM-1))+r.hp/defMul(r.def,r.defR)/8;return r}}
+{const _e=startEnergyParts;startEnergyParts=function(){const p=_e.apply(this,arguments);p.acc=Math.min(10,p.acc+i32Sum().energy);return p}}
+// 장비 카드·목록 글
+const i32Pct=v=>(Math.round(v*1000)/10).toString().replace(/\.0$/,'')+'%';
+function i32FxTxt(fx){const [n,,u]=I32_FX[fx.k];if(fx.k==='energy')return[n,'+'+fx.v];if(fx.k==='luck')return[n,`+${(Math.round(fx.v*10)/10)}% (드랍·치명 ${Math.round(fx.v/4*10)/10}%p)`];return[n,'+'+(Math.round(fx.v*10)/10)+u]}
+{const _r=itemRows;itemRows=function(it){const out=_r(it);if(!it)return out;const o=i32Of(it);
+  if(o.pA){const i=out.findIndex(x=>x.k==='atk');out.splice(i+1,0,{k:'atkP32',n:'공격력 %',v:o.pA,txt:'+'+i32Pct(o.pA)})}
+  if(o.pH){const i=out.findIndex(x=>x.k==='hp');out.splice(i+1,0,{k:'hpP32',n:'체력 %',v:o.pH,txt:'+'+i32Pct(o.pH)})}
+  if(o.fx){const [n,txt]=i32FxTxt(o.fx);out.push({k:'fx32_'+o.fx.k,n,v:o.fx.v,txt,fx:1})}
+  return out}}
+{const _l=statLine;statLine=function(it){const s=_l(it),o=i32Of(it),a=[];if(o.pA)a.push('공격 +'+i32Pct(o.pA));if(o.pH)a.push('체력 +'+i32Pct(o.pH));if(o.fx){const [n,t]=i32FxTxt(o.fx);a.push(n+' '+t.split(' ')[0])}return a.length?s+' · '+a.join(' · '):s}}
+// ---------- 드랍 확률 표시 + 천장 ----------
+const I32_PITY0=10, I32_PITYN=30, I32_PITYMAX=1.5; // 10번 넘게 못 얻으면 그다음부터 30번에 걸쳐 확률 +150%까지
+const i32PityK=n=>Math.min(I32_PITYMAX,Math.max(0,(n-I32_PITY0)/I32_PITYN*I32_PITYMAX));
+function i32Base(kind,n){return kind==='n'?MON_DROP*(1+Math.min(1,ST?ST.luck:0))/n:(1+BOSS_DROP2)/n}
+let i32Got=null;
+{const _g=giveCodex;giveCodex=function(ci){if(i32Got)i32Got.add(ci);S.pity32=S.pity32||{};delete S.pity32[ci];return _g.apply(this,arguments)}}
+{const _w=winFight;winFight=function(){const f=fight,m=f&&f.m,L=m?itemsOf(m):[];i32Got=new Set();let r;try{r=_w.apply(this,arguments)}finally{const got=i32Got;i32Got=null;
+    if(m&&L.length&&!(m.sh>=3)){S.pity32=S.pity32||{};for(const ci of L){if(got.has(ci))continue;const n=(S.pity32[ci]||0)+1;S.pity32[ci]=n;const b=i32Base(m.kind,L.length)*i32PityK(n);
+      if(b>0&&rnd()<b){const g=m.kind==='b'?Math.max(rollGrade(),rollGrade()):rollGrade();giveCodex(ci,g,m.tier);toast(`✦ 천장 보너스 · ${ITEMS[ci].n}`,'#ffd23d')}}}}
+  return r}}
+// 도감 몬스터 정보에 드랍 확률
+{const _m=mx29Info;mx29Info=function(R,kind,i){_m.apply(this,arguments);const ok=kind==='n'?mk29Caught(R,i):bossCaught(R,i);if(!ok)return;const L=dropsOf(R,kind,i);if(!L.length)return;
+  const t=$('toast'),el=t&&t.lastElementChild;if(!el)return;const rows=L.map(ci=>{const d=ITEMS[ci],g=S.codex[ci],n=(S.pity32||{})[ci]||0,b=i32Base(kind,L.length),pk=i32PityK(n);
+    const nm=g!=null?`<span class="g${g}">${d.ws?d.n+' '+WSUF[S.cls||0]:d.n}</span>`:'<span style="color:var(--dim)">???</span>';
+    return `${nm} ${kind==='n'?i32Pct(b):'잡을 때마다 '+i32Pct(Math.min(1,b))}${pk>0?` <span style="color:#ffd23d">+${i32Pct(b*pk)} 천장</span>`:''}`});
+  el.insertAdjacentHTML('beforeend',`<div style="margin-top:4px;font-size:11.5px;line-height:1.5">드랍 확률(한 마리당): ${rows.join(' · ')}<br><small style="color:var(--dim)">등급: D ${DROP_W[0]}% · C ${DROP_W[1]}% · B ${DROP_W[2]}% · A ${DROP_W[3]}% · S 이상 ${+(DROP_W.slice(4).reduce((a,b)=>a+b,0)).toFixed(3)}% · ${I32_PITY0}번 넘게 못 얻으면 조금씩 올라요</small></div>`)}}
 </script>
 <script>
 // 자동 생성(tools/pw_pack.py). Pixelwright 무료 팩 그림: 게임 안에서만 쓰기, 파일 재배포·AI 학습 금지
