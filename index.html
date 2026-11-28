@@ -734,7 +734,7 @@ const CONTINENTS=[
   npc:{chief:['등대의 영혼 엘','👼'],smith:['로봇 대장장이 K-7','🤖'],sage:['별 지도 학자 노바','🧑‍🚀'],relic:['우주 행상 지지','👽'],portal:['항해사 오리온','🧑‍✈️']}}];
 // 촌장 대사(대륙마다). {boss}는 대륙 보스 이름
 const CHIEF_LINES=[
- ['어서 오렴, 햇살마을의 아이야.','하늘의 별 아스텔이 부서진 뒤로 숲에도 사막에도 괴물이 들끓는단다.','오른쪽 문으로 나가면 초록 숲이야. 몹마다 떨구는 장비가 달라서, 모으다 보면 도감이 채워질 거야.','불꽃 화산 끝에서 별을 숭배하는 자 「{boss}」가 별 조각을 받들고 있대.','전투력이 충분히 오르거나 별 조각을 얻으면, 포탈지기 테오가 황혼의 대륙으로 보내 줄 거야.'],
+ ['어서 오렴, 햇살마을의 아이야.','하늘의 별 아스텔이 부서진 뒤로 숲에도 사막에도 괴물이 들끓는단다.','오른쪽 문으로 나가면 초록 숲이야. 몹마다 떨구는 장비가 달라서, 모으다 보면 도감이 채워질 거야.','불꽃 화산 끝에서 별을 숭배하는 자 「{boss}」가 별 조각을 받들고 있대.','전투력이 충분히 오르거나 별 조각을 얻으면 황혼의 대륙이 열려. 위쪽 대륙 지도에서 고르면 된단다.'],
  ['황혼 요새에 온 걸 환영하네, 용사.','이 대륙은 해가 지지 않는 대신 밤도 오지 않지. 끝없는 노을 속에서 괴물들이 미쳐 날뛰고 있다네.','협곡을 지나 심연, 지옥 불길, 무너진 왕좌까지 가면 「{boss}」이 기다리고 있지.','그 녀석이 별 조각을 쥐고 있어. 조심하게.'],
  ['안개 낀 망각의 항구에 잘 왔소.','여기 사람들은 어제 일을 잊어버리오. 시간의 신전에 사는 「{boss}」가 시간을 먹어 치우기 때문이지.','가라앉은 도시와 늪굴, 멈춘 기계 유적을 지나야 신전에 닿을 수 있소.'],
  ['거꾸로 탑에 온 걸 환영해. 여기서는 위가 아래고 아래가 위야.','꿈결의 대륙은 누군가의 꿈이 굳어서 생긴 땅이래.','악몽의 정원 끝에 「{boss}」이 내려앉았어. 하늘의 별을 부순 바로 그 용이야.'],
@@ -938,7 +938,7 @@ function fresh(){return{v:9,cont:0,contOpen:{0:1},shards:{},cls:null,lv:1,xp:0,r
   // v19 골드(영구), 마을 단계 vil과 다음 단계까지 기부한 골드 vilG, 물약 buff(남은 전투 수), 훈련장 train, 제단에 놓은 별 조각 altar, 전직 단계 promo(0~5)
   gold:0,vil:0,vilG:0,buff:{},train:0,altar:{},promo:0,
   // v22 보스 유물: rel 가진 유물(번호 → 얻은 횟수), rxp 유물 경험치, rconv 옛 유물 변환 끝, dq 오늘의 의뢰
-  rel:{},rxp:0,rconv:1,dq:null,bty:null,elix:{},shk:{},hk:{},hcx:{},hrk:null,thk:0,tower:null,ach:null,syn:{},syc:0,wb:null,well:null,troph:{},dpsBest:0,
+  rel:{},rxp:0,rconv:1,dq:null,bty:null,elix:{},shk:{},hk:{},hcx:{},hrk:null,thk:0,tower:null,ach:null,syn:{},syc:0,wb:null,well:null,troph:{},dpsBest:0,cm28:0,
   // v22 C3 대륙 보스 대화를 본 대륙(번호 → 1)
   cbTalk:{}}}
 const SAVE_VER=10;
@@ -1045,7 +1045,7 @@ function cleanSave(o){
   const flags=(v,ok)=>{const m={};if(v&&typeof v==='object'&&!Array.isArray(v))for(const k in v)if(ok(k))m[k]=1;return m};
   const bossKey=k=>{const m=/^(\d+)_([0-2])$/.exec(k);return !!m&&+m[1]<ZONES.length&&(m[2]!=='2'||+m[1]%4===3)};
   const cKey=k=>/^[0-4]$/.test(k);r.contOpen=flags(r.contOpen,cKey);r.contOpen[0]=1;r.shards=flags(r.shards,cKey);
-  r.cont=Number.isInteger(r.cont)&&r.contOpen[r.cont]?r.cont:0;r.migStone=Math.floor(num(r.migStone,0,0));r.mig17=r.mig17?1:0;r.mig18=r.mig18?1:0;
+  r.cont=Number.isInteger(r.cont)&&r.contOpen[r.cont]?r.cont:0;r.migStone=Math.floor(num(r.migStone,0,0));r.mig17=r.mig17?1:0;r.cm28=r.cm28?1:0;r.mig18=r.mig18?1:0;
   r.firstKill=flags(r.firstKill,bossKey);r.runBoss=flags(r.runBoss,bossKey);{const m={},c=r.codex;if(c&&typeof c==='object'&&!Array.isArray(c))for(const k in c){const g=c[k];if(/^\d+$/.test(k)&&+k<ITEMS.length&&Number.isInteger(g)&&g>=0&&g<GRADES.length)m[k]=g}r.codex=m}
   {const ru=r.run&&typeof r.run==='object'&&!Array.isArray(r.run)?r.run:{};
    r.run={bosses:Math.floor(num(ru.bosses,0,0)),newFirst:Math.floor(num(ru.newFirst,0,0)),maxLv:Math.floor(num(ru.maxLv,1,1)),
@@ -2023,7 +2023,7 @@ function canOpen(n){return n>0&&n<CONTINENTS.length&&!S.contOpen[n]&&S.contOpen[
 function checkUnlock(){let h='';
   for(let n=1;n<CONTINENTS.length;n++)if(canOpen(n)){S.contOpen[n]=1;if(S.run){S.run.newCont=(S.run.newCont||[]);S.run.newCont.push(n)}
     const why=S.shards[n-1]?'별 조각':'전투력';h+=`<div class="res-x" style="color:${CONTINENTS[n].col}">${why}으로 「${CONTINENTS[n].n}」 포탈이 열렸어요!</div>`;
-    toast(`<b>${jo(CONTINENTS[n].n,'이가')}</b> 열렸어요!<br>마을의 ${keeperShort(n-1)}에게 가 보세요`,CONTINENTS[n].col)} // v22 고침: 두 줄로, 포탈지기 대신 그 대륙 길잡이 이름
+    toast(`<b>${jo(CONTINENTS[n].n,'이가')}</b> 열렸어요!<br>위쪽 「🌍 대륙」에서 골라 시작할 수 있어요`,CONTINENTS[n].col)} // v22 고침: 두 줄로, 포탈지기 대신 그 대륙 길잡이 이름
   return h}
 // 다음에 열 대륙(없으면 -1)
 function nextLocked(){for(let n=1;n<CONTINENTS.length;n++)if(!S.contOpen[n])return n;return -1}
@@ -2130,6 +2130,7 @@ const ALTAR_SOCK=[[93,46],[137,76],[120,124],[67,124],[50,76]];
 }
 const roleName={chief:'촌장',smith:'대장장이',sage:'현자',relic:'유물 상인',portal:'포탈지기',shop:'잡화상',bounty:'현상금 게시판',market:'시장 상인',train:'교관',watch:'망루지기',keeper:'별지기'};
 function npcLines(n){const c=world.c,C=CONTINENTS[c];
+  if(n.role==='chief'&&typeof vilSkip28==='function')vilSkip28();
   if(n.role==='chief')return CHIEF_LINES[c].map(t=>t.replace('{boss}',C.boss)).concat([nextGoal(),(S.vil||0)<VIL.length?`마을을 키우고 싶으면 골드를 기부해 주렴. 다음은 「${VIL[S.vil||0].n}」이야.`:'네 덕분에 마을이 이렇게 커졌구나.']);
   if(n.role==='keeper')return n.sleep?['……(깊이 잠들어 있어요)']:KEEPER_LINES[n.ki].slice();
   return NPC_LINES[n.role].slice()}
@@ -2157,7 +2158,7 @@ function renderTalk(){const t=npcTalk;if(!t)return;const n=t.n,last=t.i>=t.lines
         <div class="dlg-b">${last?'':'<button id="npcNext">다음 ▶</button>'}${resume}${acts.map(([l,k])=>`<button class="${k==='p'&&t.open==='p'||t.open===k?'on':''}" ${k==='up'||k==='codex'||k==='relic'||k==='bag'?`data-npcact="${k}"`:`data-npcopen="${k}"`}>${l}</button>`).join('')}<button id="npcClose">닫기</button></div></div></div></div>`)}
 function gateAsk(){joy=null;hero.vx=hero.vy=0;const c=world.c;
   setOv(`<div class="enc"><div class="enc-k">${CONTINENTS[c].town} 입구</div><div class="enc-n">${jo(ZONES[c*4].n,'으로')} 나갈까요?</div>
-    <div class="note" style="margin:8px 0">새로 환생해요. ${CONTINENTS[c].n}의 4지역을 돌아요.<br>전투 횟수 ${startEnergy()} · ${KEEP_LV?`레벨은 그대로(Lv.${fmt(S.lv)})`:'레벨 1부터'}${typeof skipTo==='function'&&skipTo(c)>c*4?`<br>포탈지기 ${CONTINENTS[c].npc.portal[0]}에게 가면 ${zoneTag(skipTo(c))} ${jo(ZONES[skipTo(c)].n,'으로')} 바로 갈 수 있어요`:''}</div>
+    <div class="note" style="margin:8px 0">새로 환생해요. ${CONTINENTS[c].n}의 4지역을 돌아요.<br>전투 횟수 ${startEnergy()} · ${KEEP_LV?`레벨은 그대로(Lv.${fmt(S.lv)})`:'레벨 1부터'}${typeof skipTo==='function'&&skipTo(c)>c*4?`<br>다 모은 지역은 위쪽 「🌍 대륙」에서 건너뛰고 ${zoneTag(skipTo(c))}부터 시작할 수 있어요`:''}</div>
     <div class="enc-b"><button id="gateNo">마을에 있기</button><button class="main" id="gateGo">출발!</button></div></div>`)}
 // 마을 창의 버튼(처리했으면 true)
 function townClick(b){
@@ -2229,7 +2230,8 @@ function updGold(){const e=$('goldV');if(e)e.textContent=fmt(S.gold||0);const m=
 // 촌장에게 골드를 기부하면(누적) 마을 단계가 오르고, 단계마다 빈 터에 건물·NPC가 하나씩 선다(TOWN_B의 vil)
 const VIL=[{n:'현상금 게시판',cost:1000,d:'매일 현상금 3개 (골드·강화석·유물 경험치)'},{n:'시장',cost:4000,d:'잡화점 품목이 1대륙 전체 + C급까지 늘어요'},
  {n:'훈련장',cost:12000,d:'골드로 영구 수련 (공격력·체력)'},{n:'망루',cost:30000,d:'환생할 때마다 시작 전투 횟수 +5'}];
-function donate(n){const st=S.vil||0;if(st>=VIL.length)return;const need=VIL[st].cost-(S.vilG||0);n=Math.min(n,need,S.gold||0);if(n<=0){toast('골드가 부족해요','var(--dim)');return}
+function vilSkip28(){if(typeof BOUNTY_ON!=='undefined'&&!BOUNTY_ON&&S&&(S.vil||0)<1)S.vil=1} // v28: 게시판 단계는 건너뜀
+function donate(n){vilSkip28();const st=S.vil||0;if(st>=VIL.length)return;const need=VIL[st].cost-(S.vilG||0);n=Math.min(n,need,S.gold||0);if(n<=0){toast('골드가 부족해요','var(--dim)');return}
   S.gold-=n;S.vilG=(S.vilG||0)+n;updGold();
   if(S.vilG>=VIL[st].cost){S.vil=st+1;S.vilG=0;const B=VIL[st];toast(`마을이 커졌어요! <b>${jo(B.n,'이가')}</b> 생겼어요<br>${B.d}`,'#ffd23d');newFx('마을 '+(st+1)+'단계!',B.n+' 완공',5);
     if(world&&world.town&&!world.sanct){const hx=hero.x,hy=hero.y;buildTown(world.c);hero.x=hx;hero.y=hy}}
@@ -2295,7 +2297,7 @@ function vilExtra(n){
   const box=h=>`<div style="display:flex;flex-direction:column;gap:5px;margin:8px 0;text-align:left;max-height:42vh;overflow:auto">${h}</div>`;
   const row=(l,r)=>`<div style="display:flex;align-items:center;gap:6px;padding:5px 8px;border:1px solid var(--line);border-radius:8px">${l}<div style="flex:1"></div>${r}</div>`;
   const gold=`<div style="font-size:12px;color:#ffd23d;text-align:right;padding-right:38px;min-height:24px" class="gnum">${GIB(22)} ${fmt(S.gold||0)}</div>`;
-  if(n.role==='chief'){const st=S.vil||0;
+  if(n.role==='chief'){vilSkip28();const st=S.vil||0;
     if(st>=VIL.length)return gold+box(`<div class="note">마을이 다 자랐어요. 고마워!</div>`);
     const V=VIL[st],have=S.vilG||0,pc=Math.floor(have/V.cost*100);
     return gold+box(`<div style="font-size:13px"><b>마을 ${st}단계 → ${st+1}단계: ${V.n}</b><div style="font-size:11px;color:var(--dim)">${V.d}</div>
@@ -2763,7 +2765,7 @@ $('panel').addEventListener('click',e=>{const b=e.target.closest('button,[data-c
 // ---------- A1 던전에서 마을로 ----------
 const runActive=()=>!!(S.run&&!S.runOver&&!S.needRun);
 function goTown(){if(!world||world.town||fight)return;if(S.runOver){endRun();return}
-  S.lastR=world.r;save();enterTown(S.cont);setTimeout(()=>{if(typeof npcTalk!=='undefined'&&npcTalk&&npcTalk.open)return;toast(`🏠 마을이에요 · 전투 ${S.energy}회 남음<br>포탈에서 ${zoneTag(S.lastR)}로 다시 가요`,'var(--accent)')},900)}
+  S.lastR=world.r;save();enterTown(S.cont);setTimeout(()=>{if(typeof npcTalk!=='undefined'&&npcTalk&&npcTalk.open)return;toast(`🏠 마을이에요 · 전투 ${S.energy}회 남음<br>오른쪽 입구로 나가면 ${zoneTag(S.lastR)}에서 이어 가요`,'var(--accent)')},900)}
 function resumeRun(){if(!runActive())return false;const r=Math.max(S.cont*4,Math.min(S.lastR!=null?S.lastR:S.region||0,S.maxRegion));npcTalk=null;setOv('');enterRegion(r);return true}
 {const b=document.createElement('button');b.id='goTownBtn';b.setAttribute('aria-label','마을로');b.textContent='🏠';b.style.cssText='padding:2px 6px;margin-right:4px';const m=$('mapBtn');m.parentNode.insertBefore(b,m);
   b.addEventListener('click',()=>{if(fight)return;goTown()})}
@@ -3191,6 +3193,9 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
 <script>
 // v23 [5] 현상금 게시판(여관 자리, NPC 없음). 매일 3개: 특정 몹 N마리 · 지역 보스 1회 · 반짝이 몹 1마리 → 골드·강화석·유물 경험치
 // S.bty={day,list:[{k,R,mi,need,n,got}]} — 날짜가 바뀌면 새로. 지금까지 연 지역 중 앞쪽 4지역 안에서 고른다
+// v28: 현상금 게시판은 꺼 둠(BOUNTY_ON=false). 게시판 건물·NPC·완료 알림이 없고, 마을 1단계(게시판)는 건너뜀. S.bty 기록은 보관
+const BOUNTY_ON=false;
+if(!BOUNTY_ON){const i=TOWN_B.findIndex(B=>B.role==='bounty');if(i>=0)TOWN_B.splice(i,1)}
 const BTY_KILL_N=15, BTY_K={kill:1,boss:1.6,shiny:2.2};
 function btyRng(seed){let s=seed>>>0||1;return()=>{s=(s*1103515245+12345)>>>0;return(s>>>8)/16777216}}
 function btyToday(){const d=dqDay();if(S.bty&&S.bty.day===d&&Array.isArray(S.bty.list)&&S.bty.list.length===3)return S.bty;
@@ -3205,8 +3210,8 @@ function btyKill(m){if(!m)return;const B=btyToday();let done=0;
   for(const q of B.list){if(q.got||q.n>=q.need)continue;
     const hit=q.k==='kill'?m.kind==='n'&&m.R===q.R&&m.mi===q.mi:q.k==='boss'?m.kind==='b'&&m.bi===1&&m.R===q.R:m.kind==='n'&&m.sh>0;
     if(hit){q.n++;if(q.n>=q.need)done++}}
-  if(done)setTimeout(()=>toast('📌 현상금 완료! 마을 게시판에서 보상을 받으세요','#e8b45a'),1300)}
-{const _w=winFight;winFight=function(){const m=fight&&fight.m;_w.apply(this,arguments);if(fight&&fight.st==='res')btyKill(m)}}
+  if(done&&BOUNTY_ON)setTimeout(()=>toast('📌 현상금 완료! 마을 게시판에서 보상을 받으세요','#e8b45a'),1300)}
+if(BOUNTY_ON){const _w=winFight;winFight=function(){const m=fight&&fight.m;_w.apply(this,arguments);if(fight&&fight.st==='res')btyKill(m)}}
 function btyClaim(i){const B=btyToday(),q=B.list[i];if(!q||q.got||q.n<q.need)return;q.got=1;const w=btyReward(q),l0=relicLv();
   addGold(w.gold);S.mats.stone+=w.stone;S.rxp=(S.rxp||0)+w.rxp;const l1=relicLv();recalc();save();dirty=true;
   toast(`📌 현상금 보상! ${GBAG(20)} ${fmt(w.gold)} · 강화석 ${fmt(w.stone)} · 유물 경험치 +${w.rxp}${l1>l0?`<br>유물 레벨 ${l1}!`:''}`,'#e8b45a');renderBounty()}
@@ -3323,6 +3328,8 @@ setTimeout(()=>{if(typeof skinFight!=='function')return;const _f=skinFight;skinF
 // 강함은 지역 보스 ×1.2, 환생마다 한 번. 처치하면 고유 장비 1개(첫 처치는 꼭, 그 뒤 30%, 숨은 도감 칸 따로)와 유물 경험치 크게
 // 그림은 일단 그 지역 몹 그림을 검게 칠하고 눈만 빛나게(나중에 새 그림). 조건 힌트는 학자 오르빈
 // 조건: cx=그 지역 도감 70% 이상 · boss=그 지역 보스(지역 보스) 장비 하나 착용 · kill=한 환생 안에 그 지역 몹 50마리
+// v28: 숨은 몬스터는 지금 꺼 둠(각성 단계 때 다시 켬). 꺼져 있으면 필드·오르빈·지도·도감·트로피·칭호에서 안 보이고, 옛 저장의 처치 기록(S.hk·S.hcx)과 고유 장비는 그대로 보관
+const HIDDEN_ON=false;
 const HIDDEN=[ // [이름, 그림 빌릴 몹 번호, 고유 장비 부위, 고유 장비 이름, 조건]
  ['숲그늘 사냥꾼 실반',3,'ring','숲그늘 반지','cx'],
  ['늑대왕의 망령 펜리크',3,'cape','망령 늑대 가죽 망토','boss'],
@@ -3370,20 +3377,20 @@ function makeHidden(R){const H=HIDDEN[R],p=hidPos(R);if(!p)return null;const m=m
 // 자리: 지역마다 고정(같은 씨앗), 오른쪽 절반의 빈 칸, 다른 몹과 떨어진 곳
 function hidPos(R){const r=srand(R*977+13);for(let k=0;k<300;k++){const tx=Math.floor(MIDX+4+r()*(MW-LAIR-MIDX-7)),ty=3+Math.floor(r()*(MH-6));if(world.g[ty*MW+tx])continue;
   const x=(tx+.5)*T,y=(ty+.5)*T;if(mons.some(m=>Math.hypot(m.x-x,m.y-y)<(m.kind==='b'?monSize(m)*1.1+70:110)))continue;return{x,y}}return null}
-{const _s=spawnMobs;spawnMobs=function(){const r=_s.apply(this,arguments);const R=world.r;if(HIDDEN[R]&&!S.runBoss[bossKey(R,HID_BI)]){const m=makeHidden(R);if(m)mons.push(m)}return r}}
+if(HIDDEN_ON){const _s=spawnMobs;spawnMobs=function(){const r=_s.apply(this,arguments);const R=world.r;if(HIDDEN[R]&&!S.runBoss[bossKey(R,HID_BI)]){const m=makeHidden(R);if(m)mons.push(m)}return r}}
 // 잠긴 동안: 흐리게, 이름은 ???만, 부딪혀도 싸우지 않고 힌트
-{const _a=auraOf;auraOf=function(m){return m&&m.hid!=null?(m.lock?'rgba(120,80,200,.5)':'#9a4cff'):_a(m)}}
-{const _d=drawMonF;drawMonF=function(m){if(m.hid==null)return _d(m);if(!IMG[m.e]||m.e===m.e0){const k=hidSil(m.hid);if(k)m.e=k}
+if(HIDDEN_ON){const _a=auraOf;auraOf=function(m){return m&&m.hid!=null?(m.lock?'rgba(120,80,200,.5)':'#9a4cff'):_a(m)}}
+if(HIDDEN_ON){const _d=drawMonF;drawMonF=function(m){if(m.hid==null)return _d(m);if(!IMG[m.e]||m.e===m.e0){const k=hidSil(m.hid);if(k)m.e=k}
   ctx.save();if(m.lock)ctx.globalAlpha=.32+.08*Math.sin(performance.now()/500);_d(m);ctx.restore()}}
-{const _l=drawMonLabel;drawMonLabel=function(m){if(m.hid==null)return _l(m);const sz=monSize(m),ly=m.y-sz/2-8;ctx.font='bold 12px "Noto Sans KR",sans-serif';ctx.textAlign='center';ctx.lineWidth=3;ctx.strokeStyle='#000';
+if(HIDDEN_ON){const _l=drawMonLabel;drawMonLabel=function(m){if(m.hid==null)return _l(m);const sz=monSize(m),ly=m.y-sz/2-8;ctx.font='bold 12px "Noto Sans KR",sans-serif';ctx.textAlign='center';ctx.lineWidth=3;ctx.strokeStyle='#000';
   const t=m.lock?'???':`${m.n}  Lv.${fmt(m.tier)}`;ctx.strokeText(t,m.x,ly);ctx.fillStyle=m.lock?'#9c8cc0':'#d7a8ff';ctx.fillText(t,m.x,ly);if(!m.lock){ctx.font='bold 10px "Noto Sans KR",sans-serif';ctx.strokeText('숨은 몬스터',m.x,ly-13);ctx.fillStyle='#ff6a8a';ctx.fillText('숨은 몬스터',m.x,ly-13)}}}
-{const _t=tryEncounter;tryEncounter=function(m){if(m&&m.hid!=null){if(m.lock){m.nf=999;return false}m.wait=false;startFight(m);return true}return _t.apply(this,arguments)}}
+if(HIDDEN_ON){const _t=tryEncounter;tryEncounter=function(m){if(m&&m.hid!=null){if(m.lock){m.nf=999;return false}m.wait=false;startFight(m);return true}return _t.apply(this,arguments)}}
 let hidT=0;
-{const _u=update;update=function(dt){_u(dt);if(!world||world.town||world.star||fight)return;hidT-=dt;const m=mons.find(x=>x.hid!=null);if(!m)return;
+if(HIDDEN_ON){const _u=update;update=function(dt){_u(dt);if(!world||world.town||world.star||fight)return;hidT-=dt;const m=mons.find(x=>x.hid!=null);if(!m)return;
   if(hidT<=0){hidT=.5;const ok=hidCond(m.hid).ok;if(m.lock&&ok){m.lock=false;m.nf=0;toast('👁 무언가가 모습을 드러냈다…!<br><small>숨은 몬스터와 싸울 수 있어요</small>','#b07cff');newFx('???','숨은 몬스터가 나타났다',6)}else if(!m.lock&&!ok&&HIDDEN[m.hid][4]!=='kill'){m.lock=true;m.nf=999}}
   if(m.lock&&!m.hinted&&dist(m,hero)<monSize(m)*.9+20){m.hinted=1;toast('??? 무언가 숨어서 지켜보고 있다…<br><small>마을 학자 오르빈이 뭔가 알지도 몰라요</small>','#9c8cc0')}}}
 // 처치: 이 환생 몹 수 세기(kill 조건), 숨은 몬스터 보상
-{const _w=winFight;winFight=function(){const m=fight&&fight.m;_w.apply(this,arguments);if(!(fight&&fight.st==='res')||!m)return;
+if(HIDDEN_ON){const _w=winFight;winFight=function(){const m=fight&&fight.m;_w.apply(this,arguments);if(!(fight&&fight.st==='res')||!m)return;
   if(m.kind==='n'&&m.R!=null){if(!S.hrk||S.hrk.run!==S.runs)S.hrk={run:S.runs,k:{}};S.hrk.k[m.R]=(S.hrk.k[m.R]||0)+1}
   if(m.hid!=null){const R=m.hid,H=HIDDEN[R],c=Math.floor(R/4),first=!hidKnown(R);S.hk=S.hk||{};S.hk[R]=(S.hk[R]||0)+1;const l0=relicLv(),xp=HID_RXP[first?0:1]*(1+c);S.rxp=(S.rxp||0)+xp;
     let got='';if(first||rnd()<HID_DROP_AGAIN){const g=Math.max(4,rollGrade(),rollGrade(),rollGrade()),it=newItem(H[2],g,R*5+1);it.hu=R;it.lk=1;S.hcx=S.hcx||{};S.hcx[R]=Math.max(S.hcx[R]==null?-1:S.hcx[R],g);gotItem(it,{});got=` · ${H[3]}`}
@@ -3393,18 +3400,18 @@ let hidT=0;
 {const _s=itemSrcTxt;itemSrcTxt=function(it){return it&&it.hu!=null?`${zoneTag(it.hu)} ${ZONES[it.hu].n} · 숨은 몬스터 「${HIDDEN[it.hu][0]}」`:_s(it)}}
 {const _f=itemFlavor;itemFlavor=function(it){return it&&it.hu!=null?'아무도 본 적 없는 자가 남긴 물건. 손에 쥐면 누군가의 시선이 느껴진다.':_f(it)}}
 // 학자 오르빈: 숨은 몬스터 힌트 표(연 지역만)
-NPC_ACT.sage=(NPC_ACT.sage||[]).concat([['숨은 몬스터','hid']]);ACT_INFO.hid=['👁','지역마다 숨은 ??? 의 힌트'];
+if(HIDDEN_ON){NPC_ACT.sage=(NPC_ACT.sage||[]).concat([['숨은 몬스터','hid']]);ACT_INFO.hid=['👁','지역마다 숨은 ??? 의 힌트'];}
 function hidPanel(){const top=Math.max(S.bestRegion||0,S.maxRegion||0);let h=`<div style="text-align:left;font-size:13px"><b>👁 숨은 몬스터</b><div class="note" style="margin:2px 0 6px">지역마다 한 마리가 숨어 있다네. 조건을 채우면 그 자리에 나타나지. 환생마다 한 번 싸울 수 있어.</div>`;
   for(let R=0;R<=Math.min(top,HIDDEN.length-1);R++){const H=HIDDEN[R],c=hidCond(R),k=hidKnown(R);
     h+=`<div class="hd-r${c.ok?' ok':''}"><div class="hd-h"><b>${zoneTag(R)} ${k?H[0]:'???'}</b>${k?`<span class="hd-k">처치 ${S.hk[R]}</span>`:''}</div><div class="hd-t">“${HID_HINT[H[4]]}”</div><div class="hd-c">조건: ${HID_RULE[H[4]]} · <b>${c.ok?'✓ 나타남':c.prog}</b></div>${k?`<div class="hd-c">고유 장비: ${H[3]}${S.hcx&&S.hcx[R]!=null?` (${GRADES[S.hcx[R]].n})`:''}</div>`:''}</div>`}
   return h+'</div>'}
-{const _p=npcPanel22;npcPanel22=function(n,k){return k==='hid'?hidPanel():_p(n,k)}}
+if(HIDDEN_ON){const _p=npcPanel22;npcPanel22=function(n,k){return k==='hid'?hidPanel():_p(n,k)}}
 // 세계 지도 지역 칸에 ??? 표시
-{const _r=wmRegion;wmRegion=function(Z,R){const h=_r(Z,R),been=R<=(S.bestRegion||0);if(!been||!HIDDEN[R])return h;const k=hidKnown(R),ok=hidCond(R).ok;
+if(HIDDEN_ON){const _r=wmRegion;wmRegion=function(Z,R){const h=_r(Z,R),been=R<=(S.bestRegion||0);if(!been||!HIDDEN[R])return h;const k=hidKnown(R),ok=hidCond(R).ok;
   return h.replace(/<\/div>$/,`<div class="wm-hid">👁 ${k?HIDDEN[R][0]:'???'}${k?'':ok?' · 나타남!':''}</div></div>`)}}
 // 도감: 숨은 도감 줄(20칸)
 function hidCodexRow(){const hc=S.hcx||{},n=Object.keys(hc).length;return `<div class="hd-cx"><div>👁 숨은 도감 <b>${n}</b> / ${HIDDEN.length}</div><div class="hd-g">${HIDDEN.map((H,R)=>{const g=hc[R];return g!=null?`<span class="bd${g} g${g}" title="${H[3]}">${itemIcon({type:H[2],g,lv:R*5+1,wc:S.cls},20)}</span>`:'<span class="hd-q">?</span>'}).join('')}</div></div>`}
-{const _c=tabCodex22;tabCodex22=function(){const h=_c.apply(this,arguments);return typeof codexSub!=='undefined'&&codexSub==='relic'?h:hidCodexRow()+h}}
+if(HIDDEN_ON){const _c=tabCodex22;tabCodex22=function(){const h=_c.apply(this,arguments);return typeof codexSub!=='undefined'&&codexSub==='relic'?h:hidCodexRow()+h}}
 </script>
 <script>
 // v24 [10] 장비 부가 옵션 + 재련. it.ox=[[키,값],...] 0~3줄(등급이 높을수록 줄 수·수치↑). 옛 아이템은 0줄(재련으로 붙일 수 있음)
@@ -3594,7 +3601,9 @@ function twEnd(f,win){const T=twState();twT.busy=false;let rw=null;
 twEl.addEventListener('click',e=>{if(e.target===twEl){closeTower();return}const b=e.target.closest('button');if(!b)return;
   if(b.id==='twX'){closeTower();return}if(b.id==='twGo'){twT.auto=false;twFight();return}if(b.id==='twAuto'){twT.auto=true;twFight();return}});
 // 해골 길잡이(포탈) 카드
-NPC_ACT.portal=(NPC_ACT.portal||[]).concat([['별의 시련 탑','tower']]);ACT_INFO.tower=['🗼','하루 3번 도전 · 10층마다 보상'];
+// v28: 시련의 탑은 꺼 둠(TOWER_ON=false). S.tower 기록은 보관
+const TOWER_ON=false;
+if(TOWER_ON)NPC_ACT.portal=(NPC_ACT.portal||[]).concat([['별의 시련 탑','tower']]);ACT_INFO.tower=['🗼','하루 3번 도전 · 10층마다 보상'];
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-npcopen="tower"]');if(!b)return;e.stopPropagation();e.preventDefault();npcTalk=null;setOv('');openTower()},true);
 </script>
 <script>
@@ -3606,6 +3615,8 @@ const achShk=i=>(S.shk&&S.shk[i])||0, achShAll=()=>[1,2,3,4].reduce((a,i)=>a+ach
 const achRB=()=>Object.keys(S.firstKill||{}).filter(k=>/_1$/.test(k)).length;
 const achCB=c=>S.firstKill&&S.firstKill[(c*4+3)+'_2']?1:0;
 const achCx=()=>Math.floor(Object.keys(S.codex||{}).length/ITEMS.length*100);
+// v28: 칭호는 꺼 둠(TITLES_ON=false). 메뉴 탭·머리 위 이름·획득 알림·보너스 없음. S.ach 기록(받은 칭호·장착)은 보관
+const TITLES_ON=false;
 const achHid=()=>Object.keys(S.hk||{}).length;
 const achA=()=>S.ach||(S.ach={kill:0,gold:0,up:0,done:{},t:''});
 // [id, 칭호, 할 일, ()=>지금 값, 목표, 보너스, 무리]
@@ -3641,40 +3652,42 @@ const ACH=[
  ['w1','탑의 도전자','별의 시련 탑 10층',()=>(S.tower&&S.tower.best)||0,10,{hp:1},'특별'],
  ['w2','탑의 정복자','별의 시련 탑 30층',()=>(S.tower&&S.tower.best)||0,30,{atk:2},'특별']];
 const ACH_BY={};for(const a of ACH)ACH_BY[a[0]]=a;
+// v28: 숨은 몬스터가 꺼져 있으면 그 칭호는 목록에서 숨김(이미 받은 건 그대로)
+const achOff=a=>(a[0]==='h1'||a[0]==='h2')&&typeof HIDDEN_ON!=='undefined'&&!HIDDEN_ON;
 const achBonusTxt=b=>Object.keys(b).map(k=>`${ACH_BN[k]} +${b[k]}%`).join(' · ');
-function titleBonus(){const A=S&&S.ach;if(!A||!A.t||!A.done[A.t]||!ACH_BY[A.t])return{};return ACH_BY[A.t][5]}
+function titleBonus(){if(!TITLES_ON)return{};const A=S&&S.ach;if(!A||!A.t||!A.done[A.t]||!ACH_BY[A.t])return{};return ACH_BY[A.t][5]}
 const titleName=()=>{const A=S&&S.ach;return A&&A.t&&A.done[A.t]&&ACH_BY[A.t]?ACH_BY[A.t][1]:''};
 const titleTag=()=>{const n=titleName();return n?`<span class="ttl-tag">「${n}」</span>`:''};
 let achBusy=false;
 function achCheck(){if(achBusy||!S||S.cls==null)return;achBusy=true;try{const A=achA();
   {let m=A.up||0;for(const it of[...S.bag,...Object.values(S.eq)])if(it&&it.up>m)m=it.up;A.up=Math.min(99,m)}
-  const nw=[];for(const a of ACH){if(A.done[a[0]])continue;let v=0;try{v=a[3]()}catch(e){v=0}if(v>=a[4]){A.done[a[0]]=1;nw.push(a)}}
+  const nw=[];for(const a of ACH){if(A.done[a[0]]||achOff(a))continue;let v=0;try{v=a[3]()}catch(e){v=0}if(v>=a[4]){A.done[a[0]]=1;nw.push(a)}}
   if(nw.length){save();nw.forEach((a,i)=>setTimeout(()=>toast(`🏅 칭호 획득! <b>「${a[1]}」</b><br><small>${a[2]} · 장착하면 ${achBonusTxt(a[5])}</small>`,'#ffd76a'),600+i*1600));
     if(typeof tab!=='undefined'&&tab==='ttl'&&!$('sheet').hidden)dirty=true}}finally{achBusy=false}}
-setInterval(()=>{try{achCheck()}catch(e){}},2500);
+setInterval(()=>{try{if(TITLES_ON)achCheck()}catch(e){}},2500);
 // 누적 기록
 {const _w=winFight;winFight=function(){const m=fight&&fight.m;_w.apply(this,arguments);if(m&&m.kind==='n'&&fight&&fight.st==='res'){achA().kill++}}}
 {const _g=addGold;addGold=function(n){if(n>0){const A=achA();A.gold=Math.min(1e15,(A.gold||0)+n)}return _g.apply(this,arguments)}}
-{const _g=goldFor;goldFor=function(m,R){const g=_g(m,R),x=titleBonus().gold||0;return x?Math.round(g*(1+x/100)):g}}
+if(TITLES_ON){const _g=goldFor;goldFor=function(m,R){const g=_g(m,R),x=titleBonus().gold||0;return x?Math.round(g*(1+x/100)):g}}
 // 장착
 function equipTitle(id){const A=achA();A.t=A.t===id?'':(A.done[id]?id:A.t);recalc();save();dirty=true;
   toast(A.t?`🏅 「${ACH_BY[A.t][1]}」 장착! ${achBonusTxt(ACH_BY[A.t][5])}`:'칭호를 뺐어요','#ffd76a')}
 // 메뉴 칭호 탭
 function tabTitle24(){const A=achA(),n=Object.keys(A.done).filter(k=>ACH_BY[k]).length,cur=A.t&&ACH_BY[A.t];
   let h=`<div class="ttl-top"><div class="ttl-cur">${cur?`<b>「${cur[1]}」</b><small>${achBonusTxt(cur[5])}</small>`:'<b style="color:var(--dim)">칭호 없음</b><small>얻은 칭호를 눌러 장착하세요</small>'}</div>
-    <div class="ttl-n"><b>${n}</b> / ${ACH.length}</div></div><div class="note" style="margin:4px 0 8px">칭호는 하나만 달 수 있어요. 이름 옆에 보이고 작은 보너스가 붙어요.</div>`;
-  let grp='';for(const a of ACH){const [id,nm,ds,f,need,b,g]=a;if(g!==grp){grp=g;h+=`<div class="sec">${g}</div>`}
+    <div class="ttl-n"><b>${n}</b> / ${ACH.filter(a=>!achOff(a)||(S.ach&&S.ach.done&&S.ach.done[a[0]])).length}</div></div><div class="note" style="margin:4px 0 8px">칭호는 하나만 달 수 있어요. 이름 옆에 보이고 작은 보너스가 붙어요.</div>`;
+  let grp='';for(const a of ACH){if(achOff(a)&&!(S.ach&&S.ach.done&&S.ach.done[a[0]]))continue;const [id,nm,ds,f,need,b,g]=a;if(g!==grp){grp=g;h+=`<div class="sec">${g}</div>`}
     const ok=!!A.done[id];let v=0;try{v=f()}catch(e){}const pc=Math.min(100,v/need*100),on=A.t===id;
     h+=`<div class="ttl-c${ok?' ok':''}${on?' on':''}"><div class="ttl-i">${ok?'🏅':'🔒'}</div><div class="ttl-b"><b>${ok||pc>=50?nm:'？？？'}</b><small>${ds} · ${achBonusTxt(b)}</small>
       ${ok?'':`<div class="ttl-bar"><i style="width:${pc}%"></i><span>${fmt(Math.min(v,need))} / ${fmt(need)}</span></div>`}</div>
       ${ok?`<button data-ttl="${id}" class="${on?'':'main'}">${on?'빼기':'장착'}</button>`:''}</div>`}
   return h}
-{const _t=uiTab22;uiTab22=function(t){if(t==='ttl'){achCheck();return tabTitle24()}return _t.apply(this,arguments)}}
+if(TITLES_ON){const _t=uiTab22;uiTab22=function(t){if(t==='ttl'){achCheck();return tabTitle24()}return _t.apply(this,arguments)}}
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-ttl]');if(!b)return;e.stopPropagation();equipTitle(b.dataset.ttl)},true);
 // 장비 화면 이름 옆
-{const _e=tabEquip22;tabEquip22=function(){const h=_e.apply(this,arguments),t=titleTag();return t?h.replace(`<b>${ST.c.n}</b>`,`<b>${ST.c.n}</b>${t}`):h}}
+if(TITLES_ON){const _e=tabEquip22;tabEquip22=function(){const h=_e.apply(this,arguments),t=titleTag();return t?h.replace(`<b>${ST.c.n}</b>`,`<b>${ST.c.n}</b>${t}`):h}}
 // 사냥터·마을에서 주인공 머리 위
-{const _d=drawHeroF;drawHeroF=function(){_d.apply(this,arguments);const n=titleName();if(!n)return;
+if(TITLES_ON){const _d=drawHeroF;drawHeroF=function(){_d.apply(this,arguments);const n=titleName();if(!n)return;
   ctx.save();ctx.font='bold 10px sans-serif';ctx.textAlign='center';ctx.textBaseline='bottom';ctx.lineWidth=3;ctx.strokeStyle='rgba(0,0,0,.85)';ctx.fillStyle='#ffd76a';
   const y=hero.y-(typeof skinHero==='function'?50:44);ctx.strokeText('「'+n+'」',hero.x,y);ctx.fillText('「'+n+'」',hero.x,y);ctx.restore()}}
 (()=>{const s=document.createElement('style');s.textContent=`
@@ -3689,6 +3702,8 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
 .ttl-bar{position:relative;height:10px;margin-top:3px;border-radius:6px;background:#0d0b12;overflow:hidden}.ttl-bar i{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#8a6a2a,#e0b050)}
 .ttl-bar span{position:absolute;inset:0;font-size:8.5px;line-height:10px;text-align:center;color:#fff}
 .ttl-c button{min-height:32px;padding:0 12px;font-size:12px}`;document.head.appendChild(s)})();
+
+if(!TITLES_ON){const b=document.querySelector('[data-tab="ttl"]');if(b)b.remove()}
 </script>
 <script>
 // v24b 안전장치: 전투 횟수 0(패배 포함) → 결산 → "돌아가기"를 누르면 마을에서 바로 새 환생 준비 상태(멈춤 없이)
@@ -3720,7 +3735,7 @@ setInterval(()=>{try{if(!S||S.cls==null||!world)return;
 {const _p=portalPanel;portalPanel=function(){if(!S.prepRun)return _p.apply(this,arguments);const ro=S.runOver;S.runOver=true;try{return _p.apply(this,arguments)}finally{S.runOver=ro}}}
 {const _t=townClick;townClick=function(b){if(b&&b.dataset&&b.dataset.goc&&S.prepRun){const c=+b.dataset.goc;if(S.contOpen[c]){npcTalk=null;prepRunInTown(c);return true}}return _t(b)}}
 {const _t=tabReb22;tabReb22=function(){const h=_t.apply(this,arguments);if(!(S.prepRun&&world&&world.town))return h;
-  return h.replace(/<button class="main rb2-b" id="rebBtn">지금 환생하기<\/button>/,'<div class="note rb2-n">새 환생 준비 완료! 마을 오른쪽 입구나 해골 길잡이에게서 출발해요. 다른 대륙은 포탈에서 고를 수 있어요.</div>')}}
+  return h.replace(/<button class="main rb2-b" id="rebBtn">지금 환생하기<\/button>/,'<div class="note rb2-n">새 환생 준비 완료! 마을 오른쪽 입구로 나가면 출발해요. 다른 대륙은 위쪽 「🌍 대륙」에서 골라요.</div>')}}
 {const _g=gateAsk;gateAsk=function(){if(!S.prepRun)return _g.apply(this,arguments);const ro=S.runOver;S.runOver=true;try{return _g.apply(this,arguments)}finally{S.runOver=ro}}} // 준비 상태면 "새 환생 출발" 안내
 // 지역·마을 이름 큰 글씨가 메뉴·게시판·대장간 위에 겹치던 것: 창이 열려 있으면 띄우지 않고, 창을 열면 지운다
 {const _b=showBanner;showBanner=function(){const st=$('stage');_b.apply(this,arguments);const el=st&&st.lastElementChild;if(el)el.classList.add('stbn')}}
@@ -3882,6 +3897,8 @@ renderTalk=function(){const t=npcTalk;if(!t)return;const n=t.n,last=t.i>=t.lines
 // 저장: S.wb={k,v,n} 우물 버프, S.well={day,n}, S.troph={c0..c4,h0..h19: 처치 시각(0=예전)}, S.dpsBest
 const WANDER=[['떠돌이 검사 렌',0,20],['수습 마법사 이오',1,140],['사냥꾼 마루',3,250],['방랑 시인 세라',2,320],['짐꾼 도루',0,60],['견습 기사 하나',3,200]];
 const WAND_SPOT=[[7,15],[24,16],[10,20],[25,10],[20,21],[14,6]]; // 칸
+// v28: 허수아비·소원 우물·트로피 진열대는 꺼 둠(T26_PROPS=false). S.dpsBest·S.well·S.troph 기록은 보관, 남은 우물 버프는 다 쓸 때까지 그대로
+const T26_PROPS=false;
 const TOWN_DUMMY={x:26,y:25.6}, TOWN_WELL={x:21.8,y:13.2}, TOWN_TROPHY={x:13.4,y:14.4};
 // (a) 모험가 그림: 주인공 그림을 색만 바꿔서(픽셀 색상 회전)
 function wandImg(i,f){const [,ci,hue]=WANDER[i],key='wand'+i+'_'+f;if(IMG[key])return key;const src=IMG['h'+ci+'_'+f]||IMG['h'+ci+'_0']||IMG['h'+ci];if(!src||!src.width)return null;
@@ -3893,13 +3910,11 @@ function wandTips(){const c=world.c,R=Math.min(S.maxRegion||0,c*4+3),cb=bossNm(c
   '같은 장비 3개를 모으면 대장간에서 합성해 한 등급 올릴 수 있어. ★ 보스 장비는 2개면 된대.',
   '반짝이는 몬스터 봤어? 잡으면 경험치랑 골드가 몇 배나 나온대. 무지개빛은 진짜 드물다더라.',
   '황금 보따리 도둑은 20초 안에 잡아야 해. 벽 쪽으로 몰면 쉬워.',
-  '별의 시련 탑은 전투 횟수를 안 써. 하루 3번이니까 매일 들러 봐.',
-  '현상금 게시판은 날마다 새 종이가 붙어. 보상이 꽤 쏠쏠해.',
-  `숨은 몬스터는 조건을 채워야 모습을 드러낸대. 학자한테 물어봐. ${zoneTag(R)} 근처에도 하나 있다던데…`,
+  ...(T26_PROPS?['별의 시련 탑은 전투 횟수를 안 써. 하루 3번이니까 매일 들러 봐.','현상금 게시판은 날마다 새 종이가 붙어. 보상이 꽤 쏠쏠해.']:['위쪽 🌍 대륙 버튼을 누르면 열린 대륙 어디서든 새로 시작할 수 있대.','도감과 유물을 다 모은 지역은 대륙 지도에서 건너뛰고 바로 시작할 수 있어.']),
+  ...(HIDDEN_ON?[`숨은 몬스터는 조건을 채워야 모습을 드러낸대. 학자한테 물어봐. ${zoneTag(R)} 근처에도 하나 있다던데…`]:[]),
   `${CONTINENTS[c].n}의 대륙 보스 「${cb}」… 4번째 지역 보스를 쓰러뜨리면 별의 문이 열린대.`,
   `${ZONES[R].n} 쪽 몬스터는 한 대 한 대가 아파. 방어 장비도 챙겨.`,
-  '허수아비를 때려 보면 내가 얼마나 세졌는지 알 수 있어.',
-  '소원 우물에 골드를 던지면 별빛이 잠깐 힘을 빌려준대. 하루 다섯 번까지.'];return T}
+  ...(T26_PROPS?['허수아비를 때려 보면 내가 얼마나 세졌는지 알 수 있어.','소원 우물에 골드를 던지면 별빛이 잠깐 힘을 빌려준대. 하루 다섯 번까지.']:['광장의 부서진 동상 말이야, 별 조각을 넣으면 빛이 난대.','같은 장비 세 개를 모으면 대장간에서 한 단계 위로 합칠 수 있어.'])];return T}
 function buildWanderers(){const g=world.g,W=world.W;world.wand=WANDER.map(([n],i)=>{const [tx,ty]=WAND_SPOT[i];return{v26:'wander',role:'wander',n,em:'🧑',wi:i,x:(tx+.5)*T,y:(ty+.5)*T,hx:(tx+.5)*T,hy:(ty+.5)*T,tx:null,ty:null,wt:1+i*.7,dir:1,walk:0}})}
 const tWalk=(x,y)=>{const g=world.g,tx=Math.floor(x/T),ty=Math.floor(y/T);return tx>0&&ty>0&&tx<world.W-1&&ty<world.H-1&&!g[ty*world.W+tx]};
 function wandUpdate(dt){for(const a of world.wand||[]){if(a.tx==null){a.wt-=dt;a.walk=0;if(a.wt<=0){for(let k=0;k<6;k++){const x=a.hx+(rnd()-.5)*8*T,y=a.hy+(rnd()-.5)*6*T;if(tWalk(x,y)){a.tx=x;a.ty=y;break}}if(a.tx==null)a.wt=1}continue}
@@ -3908,7 +3923,7 @@ function wandUpdate(dt){for(const a of world.wand||[]){if(a.tx==null){a.wt-=dt;a
 // (b)(c)(d) 마을 물건
 const isTownMain=()=>world&&world.town&&!world.sanct;
 {const _b=buildTown;buildTown=function(){const r=_b.apply(this,arguments);buildWanderers();
-  world.props=[{v26:'dummy',role:'dummy',n:'훈련 허수아비',x:TOWN_DUMMY.x*T,y:TOWN_DUMMY.y*T,em:'🎯'},{v26:'well',role:'well',n:'별빛 소원 우물',x:TOWN_WELL.x*T,y:TOWN_WELL.y*T,em:'⛲'},{v26:'trophy',role:'trophy',n:'트로피 진열대',x:TOWN_TROPHY.x*T,y:TOWN_TROPHY.y*T,em:'🏆'}];return r}}
+  world.props=!T26_PROPS?[]:[{v26:'dummy',role:'dummy',n:'훈련 허수아비',x:TOWN_DUMMY.x*T,y:TOWN_DUMMY.y*T,em:'🎯'},{v26:'well',role:'well',n:'별빛 소원 우물',x:TOWN_WELL.x*T,y:TOWN_WELL.y*T,em:'⛲'},{v26:'trophy',role:'trophy',n:'트로피 진열대',x:TOWN_TROPHY.x*T,y:TOWN_TROPHY.y*T,em:'🏆'}];return r}}
 {const _a=npcAt;npcAt=function(wx,wy){const n=_a(wx,wy);if(n||!isTownMain())return n;let best=null,bd=34;for(const a of[...(world.props||[]),...(world.wand||[])]){const d=Math.hypot(a.x-wx,a.y-8-wy);if(d<bd){bd=d;best=a}}return best}}
 {const _u=townUpdate;townUpdate=function(dt){if(isTownMain()&&$('ov').hidden){wandUpdate(dt);for(const p of world.props||[]){const d=dist(p,hero);if(p.wait){if(d>40)p.wait=false;continue}if(d<20){p.wait=true;talkNpc(p);return}}}return _u(dt)}}
 roleName.wander='모험가';
@@ -3917,7 +3932,7 @@ roleName.wander='모험가';
   if(n.v26==='dummy'){openDummy();return}if(n.v26==='well'){openWell();return}if(n.v26==='trophy'){openTrophy();return}}}
 // 그리기(마을 그림 위, 사람·NPC와 같은 층)
 const T26_IMG={};function t26Img(src){if(!src)return null;let im=T26_IMG[src];if(!im){im=new Image();im.src=src;T26_IMG[src]=im}return im.complete&&im.naturalWidth?im:null}
-function drawTownProps(){if(!isTownMain())return;const c=ctx,tt=performance.now()/1000;c.save();c.textAlign='center';c.textBaseline='middle';
+function drawTownProps(){if(!isTownMain())return;if(!T26_PROPS){drawWand();return}const c=ctx,tt=performance.now()/1000;c.save();c.textAlign='center';c.textBaseline='middle';
   const lab=(t,x,y,col)=>{c.font='bold 10px "Noto Sans KR",sans-serif';c.lineWidth=3;c.strokeStyle='#000';c.strokeText(t,x,y);c.fillStyle=col;c.fillText(t,x,y)};
   // 허수아비
   {const p=world.props[0],x=p.x,y=p.y,sh=Math.sin(tt*2)*1.5;c.fillStyle='rgba(0,0,0,.25)';c.beginPath();c.ellipse(x,y+16,12,4,0,0,6.283);c.fill();
@@ -3934,9 +3949,11 @@ function drawTownProps(){if(!isTownMain())return;const c=ctx,tt=performance.now(
     c.fillStyle='#5a3a1a';c.fillRect(x-32,y-20,64,38);c.fillStyle='#7a5228';c.fillRect(x-30,y-18,60,34);c.fillStyle='#4a2c12';c.fillRect(x-30,y-2,60,3);c.fillRect(x-30,y+13,60,3);
     for(let i=0;i<5;i++){const k='c'+i,sx=x-24+i*12,sy=y-10;if(tr[k]!=null){const im=t26Img(typeof monImg==='function'&&monImg(i*4+3,'b',2));c.fillStyle='rgba(255,220,120,.25)';c.fillRect(sx-5,sy-7,10,13);if(im){const s=12/Math.max(im.naturalWidth,im.naturalHeight);c.drawImage(im,Math.round(sx-im.naturalWidth*s/2),Math.round(sy-im.naturalHeight*s/2),Math.round(im.naturalWidth*s),Math.round(im.naturalHeight*s))}else{c.font='9px serif';c.fillText('🏆',sx,sy)}}
       else{c.fillStyle='rgba(0,0,0,.35)';c.fillRect(sx-4,sy-5,8,10)}}
-    let hn=0;for(let i=0;i<20;i++)if(tr['h'+i]!=null){const sx=x-27+(hn%10)*6,sy=y+7+Math.floor(hn/10)*0;c.fillStyle='#b07cff';c.fillRect(sx,sy-3,4,6);hn++}
+    let hn=0;for(let i=0;i<20;i++)if(HIDDEN_ON&&tr['h'+i]!=null){const sx=x-27+(hn%10)*6,sy=y+7+Math.floor(hn/10)*0;c.fillStyle='#b07cff';c.fillRect(sx,sy-3,4,6);hn++}
     lab(p.n,x,y-30,'#ffe7b0')}
-  // 모험가
+  drawWand();
+  c.restore()}
+function drawWand(){const c=ctx;c.save();c.textAlign='center';c.textBaseline='middle';const lab=(t,x,y,col)=>{c.font='bold 10px "Noto Sans KR",sans-serif';c.lineWidth=3;c.strokeStyle='#000';c.strokeText(t,x,y);c.fillStyle=col;c.fillText(t,x,y)};
   for(const a of world.wand||[]){c.fillStyle='rgba(0,0,0,.25)';c.beginPath();c.ellipse(a.x,a.y+12,11,4,0,0,6.283);c.fill();
     const f=a.walk>0?[1,0,2,0][Math.floor(a.walk)%4]:0,k=wandImg(a.wi,f)||wandImg(a.wi,0);c.save();c.translate(Math.round(a.x),0);if(a.dir<0)c.scale(-1,1);
     if(!(k&&drawSpr(c,k,0,a.y-6,38))){c.font='24px serif';c.fillText(a.em,0,a.y)}c.restore();lab(a.n,a.x,a.y-30,'#b8b8b8')}
@@ -3979,16 +3996,16 @@ function wellThrow(){const W=wellState(),c=wellCost();if(W.n>=WELL_DAY||(S.gold|
 // ---------- (d) 트로피 진열대 ----------
 const TROPHY_LINE=['"…별에게 바칠 뿐이었다." 마지막까지 별을 올려다보았다.','"이 방에 백 번은 들어왔다." 그 말이 무슨 뜻인지 아직 모른다.','얼어붙은 왕좌가 처음으로 비었다.','성식룡의 비늘 하나가 아직도 따뜻하다.','"내 조각들을 모아 준 아이…" 별빛이 잠깐 웃었다.'];
 function trophyRecord(){const tr=S.troph||(S.troph={});let ch=0;for(let c=0;c<5;c++)if(S.firstKill&&S.firstKill[(c*4+3)+'_2']&&tr['c'+c]==null){tr['c'+c]=0;ch=1}for(const k in S.hk||{})if(tr['h'+k]==null){tr['h'+k]=0;ch=1}return ch}
-{const _w=winFight;winFight=function(){const m=fight&&fight.m;_w.apply(this,arguments);if(!m||!(fight&&fight.st==='res'))return;const tr=S.troph||(S.troph={});
+{const _w=winFight;winFight=function(){const m=fight&&fight.m;_w.apply(this,arguments);if(!m||!(fight&&fight.st==='res'))return;const tr=S.troph||(S.troph={});if(!T26_PROPS){if(m.kind==='b'&&m.bi===2&&m.R%4===3){const k='c'+Math.floor(m.R/4);if(tr[k]==null)tr[k]=Date.now()}return}
   let k=null;if(m.hid!=null)k='h'+m.hid;else if(m.kind==='b'&&m.bi===2&&m.R%4===3)k='c'+Math.floor(m.R/4);if(k&&tr[k]==null){tr[k]=Date.now();setTimeout(()=>toast('🏆 마을 트로피 진열대에 새 트로피가 놓였어요','#ffd76a'),1800)}}}
 const tDate=v=>{if(!v)return '예전에';const d=new Date(v);return `${d.getFullYear()}.${d.getMonth()+1}.${d.getDate()}`};
 function openTrophy(){trophyRecord();const tr=S.troph||{},rows=[];
   for(let c=0;c<5;c++){const R=c*4+3,nm=bossNm(R,2)||ZONES[R].cb[0],src=typeof monImg==='function'&&monImg(R,'b',2),got=tr['c'+c]!=null;
     rows.push(`<div class="tro-r${got?'':' off'}">${got&&src?`<img src="${src}" alt="">`:'<span>?</span>'}<div><b>${got?nm:'??? (대륙 보스)'}</b><small>${got?`${CONTINENTS[c].n} · ${tDate(tr['c'+c])}`:`${CONTINENTS[c].n}의 대륙 보스를 쓰러뜨리면`}</small>${got?`<i>${TROPHY_LINE[c]}</i>`:''}</div></div>`)}
-  const hs=Object.keys(tr).filter(k=>k[0]==='h').map(k=>+k.slice(1)).sort((a,b)=>a-b);
+  const hs=!HIDDEN_ON?[]:Object.keys(tr).filter(k=>k[0]==='h').map(k=>+k.slice(1)).sort((a,b)=>a-b);
   const hid=hs.map(i=>`<div class="tro-r h"><span>👁</span><div><b>${HIDDEN[i]?HIDDEN[i][0]:'???'}</b><small>${zoneTag(i)} 숨은 몬스터 · ${tDate(tr['h'+i])}</small><i>어둠 속에서 지켜보던 그것을 끝내 찾아냈다.</i></div></div>`).join('');
   setOv(`<div class="t26-wrap"><div class="t26-box tro"><div class="t26-h">🏆 트로피 진열대<button class="t26-x" id="t26X">✕</button></div>
-   <div class="tro-l">${rows.join('')}${hid?`<div class="sec">숨은 몬스터 (${hs.length}/20)</div>${hid}`:'<div class="t26-n">숨은 몬스터를 잡으면 작은 트로피가 아래 칸에 놓여요.</div>'}</div></div></div>`)}
+   <div class="tro-l">${rows.join('')}${hid?`<div class="sec">숨은 몬스터 (${hs.length}/20)</div>${hid}`:HIDDEN_ON?'<div class="t26-n">숨은 몬스터를 잡으면 작은 트로피가 아래 칸에 놓여요.</div>':''}</div></div></div>`)}
 // 버튼
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('button');if(!b)return;
   if(b.id==='t26X'){e.stopPropagation();dumT=null;setOv('');for(const p of(world&&world.props)||[])p.wait=true;return}
@@ -4099,6 +4116,91 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
 .st-who{font-size:12px;font-weight:800;color:var(--col);margin-bottom:4px}.st-txt{font-size:16px;color:#fff;line-height:1.5;min-height:24px}.st-txt.in{animation:twIn .35s}.st-talk small{display:block;text-align:right;font-size:10.5px;color:#a99ad8;margin-top:4px}`;document.head.appendChild(s)})();
 // 옛 저장: 놓은 조각 수만큼 단계 맞추기
 setTimeout(()=>{try{if(S&&S.cls!=null)syncPromo()}catch(e){}},1500);
+</script>
+<script>
+// v28 [2] 대륙 이동을 알기 쉽게: 위쪽 "🌍 대륙" 버튼 → 5대륙 카드(이름·색·열림/잠김·별 조각·추천 전투력)
+// 열린 대륙: "여기서 새 환생 시작" / "이 대륙 마을로 가기". 잠긴 대륙: 열리는 조건 한 줄. 환생 탭에도 같은 카드로 "어느 대륙에서 시작할까요?"
+// 환생 중(사냥터에 나간 뒤)에는 그 대륙에서만 다닐 수 있다는 규칙은 그대로, 대신 카드에 그렇게 써 준다
+// v28 [4] 포탈지기(해골 길잡이 테오 등)는 꺼 둠: 대륙 지도가 이동과 "다 모은 지역 건너뛰기"를 맡는다
+const PORTAL_NPC_ON=false;
+if(!PORTAL_NPC_ON){const i=TOWN_B.findIndex(B=>B.role==='portal');if(i>=0)TOWN_B.splice(i,1)}
+let cmExp=null; // 펼친 대륙 카드
+const cmFree=()=>!runActive()||!!S.prepRun; // 대륙을 고를 수 있는 때(환생이 끝났거나, 새 환생 준비만 된 상태)
+function cmStart(c){if(!S.contOpen[c])return;cmClose();closeSheet();setOv('');npcTalk=null;
+  if(S.prepRun&&S.cont===c){enterRegion(c*4);return} // 이미 이 대륙으로 준비돼 있으면 그대로 출발
+  newRun(c)}
+function cmStartAt(c,R){if(!S.contOpen[c]||R<c*4||R>skipTo(c))return;cmClose();closeSheet();setOv('');npcTalk=null;
+  const inRun=runActive()&&!S.prepRun;
+  if(inRun){if(c!==S.cont)return}else if(!(S.prepRun&&S.cont===c))newRun(c);
+  S.maxRegion=Math.max(S.maxRegion,R);S.lastR=R;enterRegion(R);save();dirty=true;
+  if(R>c*4)setTimeout(()=>toast(`⏩ ${zoneTag(c*4)}~${zoneTag(R-1)}는 다 모아서 건너뛰고 ${zoneTag(R)} ${jo(ZONES[R].n,'에서')} 시작해요`,'var(--accent)'),900)}
+function cmRegions(c){const T=skipTo(c),inRun=runActive()&&!S.prepRun,can=cmFree()||(inRun&&c===S.cont);let h='<div class="cm-rg">';
+  for(let R=c*4;R<c*4+4;R++){const done=regionDone(R),ok=R<=T,been=R<=(S.bestRegion||0),rel=relicsOf(R,1).concat(relicsOf(R,2)),rh=rel.filter(j=>(S.rel||{})[j]).length;
+    h+=`<div class="cm-r${done?' ok':''}"><div><b>${done?'✓':'·'} ${zoneTag(R)} ${been?ZONES[R].n:'???'}</b><small>도감 ${codexRegionN(R)}/${zoneItemN(R)} · 유물 ${rh}/${rel.length}</small></div>${can&&ok?`<button data-cmat="${c}_${R}">${inRun?'여기로 가기':'여기서 시작'}</button>`:''}</div>`}
+  return h+`<div class="cm-rn">도감 장비와 보스 유물을 다 모은 지역(✓)은 건너뛰고 그다음 지역에서 바로 시작할 수 있어요.</div></div>`}
+function cmGoTown(c){if(!S.contOpen[c])return;cmClose();closeSheet();setOv('');npcTalk=null;
+  if(S.prepRun||S.runOver||S.needRun){prepRunInTown(c);return} // 새 환생 준비 상태로 그 대륙 마을에
+  enterTown(c)}
+function cmNeed(c){const n=nextLocked();if(c!==n)return `앞 대륙 「${CONTINENTS[c-1].n}」을 먼저 열어야 해요`;
+  return `전투력 ${fmt(portalNeed(c))} 이상(지금 ${fmt(ST.power)}) 또는 「${CONTINENTS[c-1].boss}」의 별 조각`}
+function cmCards(mode){const free=cmFree(),here=world&&world.town?world.c:S.cont;
+  return CONTINENTS.map((C,c)=>{if(mode==='reb'&&!S.contOpen[c]&&c!==nextLocked())return '';const open=!!S.contOpen[c],sh=!!(S.shards&&S.shards[c]),put=!!(S.altar&&S.altar[c]),rec=Math.round(stdPower(c*4)),
+    src=typeof monImg==='function'&&monImg(c*4+3,'b',2),cur=c===S.cont&&runActive()&&!S.prepRun;
+    let act='';
+    if(!open)act=`<div class="cm-need">🔒 ${cmNeed(c)}</div>`;
+    else if(!free)act=cur?`<div class="cm-now">지금 이 대륙에서 환생 중이에요</div>`:`<div class="cm-need">이번 환생이 끝나면 고를 수 있어요</div>`;
+    else act=`<div class="cm-b"><button class="main" data-cmgo="${c}">여기서 새 환생 시작</button>${mode==='reb'?'':`<button data-cmtown="${c}"${world&&world.town&&here===c?' disabled':''}>${world&&world.town&&here===c?'지금 이 마을':'이 대륙 마을로 가기'}</button>`}</div>`;
+    const T=open?skipTo(c):0,ex=open&&cmExp===c;
+    if(open&&mode!=='reb')act+=`<button class="cm-tg" data-cmexp="${c}">${ex?'▴ 지역 접기':`▾ 지역 4곳${T>c*4?` · ⏩ ${zoneTag(T)}부터 시작 가능`:''}`}</button>${ex?cmRegions(c):''}`;
+    else if(open&&T>c*4&&free)act+=`<button class="cm-tg" data-cmat="${c}_${T}">⏩ 다 모은 지역 건너뛰고 ${zoneTag(T)}부터 시작</button>`;
+    return `<div class="cm-c${open?'':' off'}${cur||(free&&world&&world.town&&here===c)?' here':''}" style="--cc:${C.col}">
+      <div class="cm-art">${src?`<img src="${src}" alt="">`:''}</div>
+      <div class="cm-t"><div class="cm-n"><b>${open?'':'🔒 '}${c+1}. ${C.n}</b><span>${C.town}</span></div>
+        <div class="cm-i"><span class="${sh?'on':''}">${sh?(put?'★ 별 조각(동상에 넣음)':'★ 별 조각 있음'):'☆ 별 조각 없음'}</span><span>추천 전투력 ${fmt(rec)}</span><span>도감 ${codexContN(c)}/${contItemN(c)}</span></div>
+        ${act}</div></div>`}).join('')}
+const cmEl=(()=>{const d=document.createElement('div');d.id='cmScr';d.className='cm-scr';d.hidden=true;document.body.appendChild(d);return d})();
+function cmOpen(){if(cmEl.hidden&&cmExp==null&&S.contOpen[S.cont]&&skipTo(S.cont)>S.cont*4)cmExp=S.cont;joy=null;if(typeof hero!=='undefined')hero.vx=hero.vy=0;if(typeof hideBanners==='function')hideBanners();$('toast').innerHTML='';const free=cmFree();
+  cmEl.innerHTML=`<div class="cm-in"><div class="cm-h"><b>🌍 대륙 지도</b><button class="cm-x" id="cmX">✕</button></div>
+    <div class="cm-tip">${free?'열린 대륙이면 어디서든 새 환생을 시작할 수 있어요. 레벨·장비·도감은 그대로 가져가요.':'지금은 환생 중이라 이 대륙에서만 다닐 수 있어요. 환생이 끝나거나 메뉴 → 환생에서 끝내면 대륙을 고를 수 있어요.'}</div>
+    <div class="cm-l">${cmCards('map')}</div></div>`;cmEl.hidden=false}
+function cmClose(){cmEl.hidden=true}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#cmBtn,#cmX,[data-cmgo],[data-cmtown],[data-cmat],[data-cmexp],#gateCm');if(!b)return;e.stopPropagation();e.preventDefault();
+  if(b.id==='cmBtn'){cmOpen();return}if(b.id==='cmX'){cmClose();return}if(b.id==='gateCm'){setOv('');cmOpen();return}
+  if(b.dataset.cmexp!=null){const c=+b.dataset.cmexp;cmExp=cmExp===c?null:c;const sc=cmEl.scrollTop;cmOpen();cmEl.scrollTop=sc;return}if(b.dataset.cmat){const [c,R]=b.dataset.cmat.split('_').map(Number);cmStartAt(c,R);return}if(b.dataset.cmgo!=null){cmStart(+b.dataset.cmgo);return}if(b.dataset.cmtown!=null){cmGoTown(+b.dataset.cmtown);return}},true);
+// 위쪽 버튼: 세계 지도 옆에 "🌍 대륙". 마을에서는 쓸모없는 ◀▶ 대신 이 버튼만
+{const nav=document.querySelector('.stage-nav'),mb=$('mapBtn');if(nav&&mb){const b=document.createElement('button');b.id='cmBtn';b.setAttribute('aria-label','대륙 지도');b.textContent='🌍 대륙';mb.after(b)}}
+setInterval(()=>{if(!world)return;const t=!!world.town;for(const id of['prevSt','nextSt']){const e=$(id);if(e)e.style.display=t?'none':''}
+  const b=$('cmBtn');if(b)b.classList.toggle('glow',t&&cmFree()&&Object.keys(S.contOpen||{}).length>1);
+  // 2대륙이 처음 열린 걸 알려 주기(한 번)
+  if(S.contOpen&&S.contOpen[1]&&!S.cm28&&!fight&&$('ov').hidden&&cmEl.hidden){S.cm28=1;save();setTimeout(()=>toast('🌍 이제 대륙을 골라 시작할 수 있어요<br><small>위쪽 「🌍 대륙」 버튼에서 열린 대륙을 골라요</small>','#9fe7ff'),600)}},400);
+// 환생 탭: 환생이 끝났거나 준비 상태면 "어느 대륙에서 시작할까요?" 카드
+{const _t=tabReb22;tabReb22=function(){let h=_t.apply(this,arguments);if(!cmFree()||Object.keys(S.contOpen||{}).length<2)return h;
+  const i=h.indexOf('<ul class="rb2-l">');const cards=`<div class="sec">어느 대륙에서 시작할까요?</div><div class="cm-l cm-reb">${cmCards('reb')}</div>`;
+  return i>=0?h.slice(0,i)+cards+h.slice(i):h+cards}}
+// 마을 입구: 다른 대륙에서 시작하고 싶을 때
+{const _g=gateAsk;gateAsk=function(){const r=_g.apply(this,arguments);if(cmFree()&&Object.keys(S.contOpen||{}).length>1){const b=$('gateNo');if(b&&!$('gateCm'))b.insertAdjacentHTML('afterend','<button id="gateCm">🌍 대륙</button>')}return r}}
+(()=>{const s=document.createElement('style');s.textContent=`
+#cmBtn{padding:5px 12px;margin-right:4px;font-size:13.5px;font-weight:700;white-space:nowrap}#cmBtn.glow{border-color:#9fe7ff;color:#d8f4ff;box-shadow:0 0 10px rgba(120,220,255,.55)}
+.cm-scr{position:fixed;inset:0;z-index:40;background:rgba(5,4,12,.92);overflow-y:auto;-webkit-overflow-scrolling:touch}
+.cm-in{max-width:440px;margin:0 auto;padding:calc(env(safe-area-inset-top,0px) + 8px) 12px calc(env(safe-area-inset-bottom,0px) + 16px)}
+.cm-h{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;padding:6px 0;background:rgba(5,4,12,.96);z-index:2}.cm-h b{font-size:18px}
+.cm-x{width:40px;height:40px;min-height:0;padding:0;font-size:16px}
+.cm-tip{font-size:12.5px;line-height:1.5;color:#cfd3e6;margin:2px 0 10px}
+.cm-l{display:flex;flex-direction:column;gap:8px}
+.cm-c{display:flex;gap:10px;padding:10px;border-radius:12px;border:2px solid var(--cc);background:linear-gradient(100deg,color-mix(in srgb,var(--cc) 26%,#0d0b16),#0d0b16 70%);position:relative}
+.cm-c.here{box-shadow:0 0 0 2px #fff3,0 0 16px color-mix(in srgb,var(--cc) 55%,transparent)}
+.cm-c.off{border-color:#3a3845;background:#0e0d14;opacity:.8}.cm-c.off .cm-art img{filter:brightness(0) opacity(.6)}
+.cm-art{flex:none;width:64px;height:64px;border-radius:10px;background:radial-gradient(circle at 50% 60%,color-mix(in srgb,var(--cc) 35%,transparent),transparent 70%);display:grid;place-items:center;overflow:hidden}
+.cm-art img{max-width:64px;max-height:64px;image-rendering:pixelated}
+.cm-t{flex:1;min-width:0}.cm-n{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap}.cm-n b{font-size:15px;color:var(--cc)}.cm-c.off .cm-n b{color:#9a98a8}.cm-n span{font-size:11px;color:var(--dim)}
+.cm-i{display:flex;flex-wrap:wrap;gap:4px 8px;font-size:11px;color:#b8b6c8;margin:3px 0 6px}.cm-i .on{color:#ffd23d}
+.cm-b{display:flex;gap:6px;flex-wrap:wrap}.cm-b button{flex:1;min-width:120px;font-size:12.5px;padding:7px 6px}
+.cm-need{font-size:11.5px;color:#a9a7b8}.cm-now{font-size:12px;color:var(--ok)}
+.cm-tg{display:block;width:100%;margin-top:6px;font-size:12px;padding:6px 8px;text-align:left;min-height:0}
+.cm-rg{margin-top:6px;display:flex;flex-direction:column;gap:4px}.cm-r{display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:8px;background:rgba(0,0,0,.3);border:1px solid #3a3845}
+.cm-r>div{flex:1;min-width:0}.cm-r b{display:block;font-size:12.5px;color:#d8d6e6}.cm-r.ok b{color:var(--ok)}.cm-r small{font-size:10.5px;color:var(--dim)}.cm-r button{flex:none;font-size:12px;padding:6px 10px;min-height:0}
+.cm-rn{font-size:10.5px;color:var(--dim);line-height:1.45;margin-top:2px}
+.cm-reb{margin:4px 0 10px}.cm-reb .cm-art{width:48px;height:48px}.cm-reb .cm-art img{max-width:48px;max-height:48px}`;document.head.appendChild(s)})();
 </script>
 <script>
 // 자동 생성(tools/pw_pack.py). Pixelwright 무료 팩 그림: 게임 안에서만 쓰기, 파일 재배포·AI 학습 금지
