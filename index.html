@@ -5079,9 +5079,9 @@ function v35Story(next){let i=0,done=false,t=0;const d=v35El('st35',`<div class=
 .v35 .btn.main{border-color:#a07a3a;background:#2e2214ee;color:#f6e0b0}.v35 .btn.warn{border-color:#7a3430;color:#f09080}
 .v35 .btn small{display:block;font-weight:400;font-size:10.5px;color:var(--dim);letter-spacing:0;margin-top:1px}
 .v35 .ver{position:absolute;bottom:10px;width:100%;text-align:center;font-size:10.5px;color:#6a5e58}
-#se35 .ver,#cr35 .ver{position:static;margin:16px 0 14px}
-.v35 .top{display:flex;align-items:center;justify-content:space-between;padding:16px 16px 8px}.v35 .top h1{margin:0;font-size:18px;font-family:"Gowun Batang",serif}
-.v35 .x{border:1px solid var(--line2);background:#1b1519;border-radius:6px;width:32px;height:32px}
+#se35 .ver,#cr35 .ver{position:static;margin:16px 0 calc(env(safe-area-inset-bottom,0px) + 14px)}
+.v35 .top{display:flex;align-items:center;justify-content:space-between;padding:calc(env(safe-area-inset-top,0px) + 14px) max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px));position:sticky;top:0;z-index:2;background:#141016}.v35 .top h1{margin:0;font-size:18px;font-family:"Gowun Batang",serif}
+.v35 .x{border:1px solid var(--line2);background:#1b1519;border-radius:8px;width:44px;height:44px;font-size:18px;color:#e9e0d2;touch-action:manipulation}
 .v35 .sec{display:flex;align-items:center;gap:6px;margin:14px 16px 2px;font-size:12px;color:#d9b26a}.v35 .sec i{width:6px;height:6px;transform:rotate(45deg);border:1px solid #d9b26a}
 .v35 .list{margin:6px 16px}.v35 .it{display:flex;align-items:center;justify-content:space-between;padding:12px 2px;border-bottom:1px solid #2a2226}
 .v35 .it .k{font-size:13.5px}.v35 .it .s{font-size:11px;color:var(--dim);margin-top:2px}
