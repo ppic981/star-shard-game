@@ -910,7 +910,7 @@ const RELIC_FX={
  hp:{n:'심장',e:'❤️',d:v=>`체력 +${v}%`},
  def:{n:'비늘',e:'🛡️',d:v=>`방어력 +${v}%`}};
 const RELICS=[];
-(()=>{const I0=['hour','gold','hour','gold','hour'],CB=[['seed','coin'],['hammer','gold'],['map','hour'],['seed','coin'],['hammer','atk']];
+(()=>{const I0=['hour','def','hour','hp','hour'],CB=[['seed','coin'],['hp','def'],['map','hour'],['seed','coin'],['atk','hp']]; // v29: 금화 주머니·망치 → 방어·체력(같은 자리라 옛 저장은 그대로 새 유물로)
   const val=(k,c,bi)=>k==='atk'||k==='hp'||k==='def'?2+c:k==='hour'?(bi===2||c>=2?2:1):k==='map'?2:1+Math.floor(c/2);
   const mk=(R,bi,k)=>{const c=Math.floor(R/4),D=[ZONES[R].mid,ZONES[R].boss,ZONES[R].cb][bi],nm=bossNm(R,bi)||D[0],short=nm.split(' ').pop(),v=val(k,c,bi);
     RELICS.push({R,bi,k,v,e:RELIC_FX[k].e,n:`${short}의 ${RELIC_FX[k].n}`,d:RELIC_FX[k].d(v),boss:nm})};
@@ -938,7 +938,7 @@ function fresh(){return{v:9,cont:0,contOpen:{0:1},shards:{},cls:null,lv:1,xp:0,r
   // v19 골드(영구), 마을 단계 vil과 다음 단계까지 기부한 골드 vilG, 물약 buff(남은 전투 수), 훈련장 train, 제단에 놓은 별 조각 altar, 전직 단계 promo(0~5)
   gold:0,vil:0,vilG:0,buff:{},train:0,altar:{},promo:0,
   // v22 보스 유물: rel 가진 유물(번호 → 얻은 횟수), rxp 유물 경험치, rconv 옛 유물 변환 끝, dq 오늘의 의뢰
-  rel:{},rxp:0,rconv:1,dq:null,bty:null,elix:{},shk:{},hk:{},hcx:{},hrk:null,thk:0,tower:null,ach:null,syn:{},syc:0,wb:null,well:null,troph:{},dpsBest:0,cm28:0,
+  rel:{},rxp:0,rconv:1,dq:null,bty:null,elix:{},shk:{},hk:{},hcx:{},hrk:null,thk:0,tower:null,ach:null,syn:{},syc:0,wb:null,well:null,troph:{},dpsBest:0,cm28:0,mk29:{},
   // v22 C3 대륙 보스 대화를 본 대륙(번호 → 1)
   cbTalk:{}}}
 const SAVE_VER=10;
@@ -1045,7 +1045,8 @@ function cleanSave(o){
   const flags=(v,ok)=>{const m={};if(v&&typeof v==='object'&&!Array.isArray(v))for(const k in v)if(ok(k))m[k]=1;return m};
   const bossKey=k=>{const m=/^(\d+)_([0-2])$/.exec(k);return !!m&&+m[1]<ZONES.length&&(m[2]!=='2'||+m[1]%4===3)};
   const cKey=k=>/^[0-4]$/.test(k);r.contOpen=flags(r.contOpen,cKey);r.contOpen[0]=1;r.shards=flags(r.shards,cKey);
-  r.cont=Number.isInteger(r.cont)&&r.contOpen[r.cont]?r.cont:0;r.migStone=Math.floor(num(r.migStone,0,0));r.mig17=r.mig17?1:0;r.cm28=r.cm28?1:0;r.mig18=r.mig18?1:0;
+  r.cont=Number.isInteger(r.cont)&&r.contOpen[r.cont]?r.cont:0;r.migStone=Math.floor(num(r.migStone,0,0));r.mig17=r.mig17?1:0;r.cm28=r.cm28?1:0;{const m=r.mk29&&typeof r.mk29==='object'?r.mk29:{},o={};for(const k in m)if(/^\d{1,2}_\d$/.test(k))o[k]=Math.floor(Math.min(1e9,num(m[k],0,0)));r.mk29=o} // v29 몬스터 처치 기록
+r.mig18=r.mig18?1:0;
   r.firstKill=flags(r.firstKill,bossKey);r.runBoss=flags(r.runBoss,bossKey);{const m={},c=r.codex;if(c&&typeof c==='object'&&!Array.isArray(c))for(const k in c){const g=c[k];if(/^\d+$/.test(k)&&+k<ITEMS.length&&Number.isInteger(g)&&g>=0&&g<GRADES.length)m[k]=g}r.codex=m}
   {const ru=r.run&&typeof r.run==='object'&&!Array.isArray(r.run)?r.run:{};
    r.run={bosses:Math.floor(num(ru.bosses,0,0)),newFirst:Math.floor(num(ru.newFirst,0,0)),maxLv:Math.floor(num(ru.maxLv,1,1)),
@@ -4201,6 +4202,107 @@ setInterval(()=>{if(!world)return;const t=!!world.town;for(const id of['prevSt',
 .cm-r>div{flex:1;min-width:0}.cm-r b{display:block;font-size:12.5px;color:#d8d6e6}.cm-r.ok b{color:var(--ok)}.cm-r small{font-size:10.5px;color:var(--dim)}.cm-r button{flex:none;font-size:12px;padding:6px 10px;min-height:0}
 .cm-rn{font-size:10.5px;color:var(--dim);line-height:1.45;margin-top:2px}
 .cm-reb{margin:4px 0 10px}.cm-reb .cm-art{width:48px;height:48px}.cm-reb .cm-art img{max-width:48px;max-height:48px}`;document.head.appendChild(s)})();
+</script>
+<script>
+// v29 [5] 도감 다시: 큰 탭 [몬스터 | 장비 | 유물 | 내 능력]
+// 몬스터: 대륙별, 잡은 몹은 그림+이름+사는 곳+떨구는 장비, 못 잡은 일반 몹은 검은 실루엣+???, 못 잡은 보스는 ??? 칸만
+// 유물: 칸마다 유물 그림(키 rel00~rel29 = RELICS 순서, 그림이 들어오기 전엔 이모지), 못 얻은 유물은 실루엣
+// 내 능력: 예전 왼쪽 위 칩(유물 레벨·유물 효과·물약 버프)과 빛 단계 스킬·도감 보너스를 한 화면에
+// 저장: S.mk29={"R_i":처치 수} 일반 몹 처치 기록(옛 저장은 그 몹 장비를 하나라도 얻었으면 잡은 것으로)
+{const _w=winFight;winFight=function(){const m=fight&&fight.m;_w.apply(this,arguments);if(!m||!(fight&&fight.st==='res'))return;
+  if(m.kind==='n'&&m.R!=null&&m.mi>=0){S.mk29=S.mk29||{};const k=m.R+'_'+m.mi;S.mk29[k]=Math.min(1e9,(S.mk29[k]||0)+1)}}}
+function mk29Caught(R,i){if(S.mk29&&S.mk29[R+'_'+i])return true;return dropsOf(R,'n',i).some(ci=>S.codex[ci]!=null)}
+const bossCaught=(R,bi)=>!!(S.firstKill&&S.firstKill[R+'_'+bi]);
+const CX29=[['mon','👾 몬스터'],['codex','🛡 장비'],['relic','🏺 유물'],['me','💪 내 능력']];
+const cx29Tabs=()=>`<div class="cx29-t">${CX29.map(([k,n])=>`<button data-cxs="${k}" class="${codexSub===k?'on':''}">${n}</button>`).join('')}</div>`;
+const cx29Cont=cc=>'<div class="cx-cont">'+CONTINENTS.map((C,c)=>`<button data-cxr="${c}" class="${c===cc?'on':''}" style="${c===cc?`border-color:${C.col};color:${C.col}`:''}">${S.contOpen[c]?C.n.replace('의 대륙','').replace('대륙',''):'🔒'}</button>`).join('')+'</div>';
+// 몬스터 탭
+function tabMon29(){const cc=codexTab;let all=0,got=0;
+  for(let R=0;R<ZONES.length;R++){const Z=ZONES[R];Z.mons.forEach((_,i)=>{all++;if(mk29Caught(R,i))got++});[Z.mid,Z.boss,Z.cb].forEach((D,bi)=>{if(!D)return;all++;if(bossCaught(R,bi))got++})}
+  let h=`<div class="cx-top"><div><b>${got}</b> / ${all} <span>잡아 본 몬스터</span></div><div class="wm-bar"><i style="width:${Math.round(got/all*100)}%"></i></div><small>칸을 누르면 사는 곳과 떨구는 장비가 나와요</small></div>`+cx29Cont(cc);
+  if(!S.contOpen[cc]&&cc>0)return h+'<div class="note" style="margin-top:10px">아직 열리지 않은 대륙이에요.</div>';
+  for(let R=cc*4;R<cc*4+4;R++){const Z=ZONES[R],seen=R<=S.bestRegion;
+    h+=`<div class="cx-rh"><b>${zoneTag(R)} ${seen?Z.n:'???'}</b></div><div class="mx-g">`;
+    Z.mons.forEach((D,i)=>{const ok=mk29Caught(R,i),src=monImg(R,'n',i);
+      h+=`<button class="mx-c${ok?' ok':''}" data-mx29="${R}_n_${i}">${src?`<img class="${ok?'':'sil'}" src="${src}" alt="">`:`<span class="mx-e">${ok?D[1]:'?'}</span>`}<b>${ok?D[0]:'???'}</b></button>`});
+    [Z.mid,Z.boss,Z.cb].forEach((D,bi)=>{if(!D)return;const ok=bossCaught(R,bi),src=ok&&monImg(R,'b',bi);
+      h+=`<button class="mx-c boss b${bi}${ok?' ok':''}" data-mx29="${R}_b_${bi}">${ok?(src?`<img src="${src}" alt="">`:`<span class="mx-e">${D[1]}</span>`):'<span class="mx-q">???</span>'}<b>${ok?(bossNm(R,bi)||D[0]):BOSS_ROLE[bi]}</b></button>`});
+    h+='</div>'}
+  return h}
+function mx29Info(R,kind,i){const Z=ZONES[R],ok=kind==='n'?mk29Caught(R,i):bossCaught(R,i),D=kind==='n'?Z.mons[i]:[Z.mid,Z.boss,Z.cb][i];
+  if(!ok){toast(kind==='n'?`<b>???</b><br>${R<=S.bestRegion?`${zoneTag(R)} ${Z.n}`:'아직 못 가 본 곳'}에 사는 몬스터예요. 잡으면 이름과 떨구는 장비가 나와요.`:`<b>??? (${BOSS_ROLE[i]})</b><br>${R<=S.bestRegion?`${zoneTag(R)} ${Z.n}`:'아직 못 가 본 곳'}의 ${BOSS_ROLE[i]}예요. 쓰러뜨리면 모습이 드러나요.`,'var(--dim)');return}
+  const dr=dropsOf(R,kind,i).map(ci=>{const g=S.codex[ci],d=ITEMS[ci];return g!=null?`<span class="g${g}">${d.ws?d.n+' '+WSUF[S.cls||0]:d.n}</span>`:'<span style="color:var(--dim)">???</span>'}).join(' · ');
+  const nm=kind==='n'?D[0]:(bossNm(R,i)||D[0]),cnt=kind==='n'?((S.mk29||{})[R+'_'+i]||0):0;
+  toast(`<b>${nm}</b>${kind==='b'?` <small>${BOSS_ROLE[i]}</small>`:''}<br>사는 곳: ${zoneTag(R)} ${Z.n}${cnt?` · 잡은 수 ${fmt(cnt)}`:''}<br>떨구는 장비: ${dr||'없음'}`,'var(--accent)')}
+// 유물 탭: 그림 칸
+const relKey=j=>'rel'+String(j).padStart(2,'0');
+function relIcon(j,have){const X=RELICS[j],src=imgSrc(relKey(j));return src?`<img class="${have?'':'sil'}" src="${src}" alt="">`:`<span class="rl-em${have?'':' sil'}">${X.e}</span>`}
+function tabRelic29(){const L=relicLv(),x=S.rxp||0,a=relicNeed(L),b=relicNeed(L+1),pc=Math.floor((x-a)/(b-a)*100);
+  let h=`<div class="cx-top"><div><b>🔮 유물 Lv.${L}</b> <span>공격·체력·방어 +${Math.round(RELIC_LV_B*L*100)}%</span><span style="float:right">${relicN()}/${RELICS.length}개</span></div><div class="wm-bar"><i style="width:${pc}%"></i></div><small>유물 경험치 ${fmt(x-a)} / ${fmt(b-a)} · 지역 보스 1개, 대륙 보스 2개를 낮은 확률로 떨궈요</small></div>`;
+  for(let c=0;c<CONTINENTS.length;c++){if(!S.contOpen[c]&&c>0)break;
+    h+=`<div class="sec" style="color:${CONTINENTS[c].col}">${CONTINENTS[c].n}</div><div class="rl29-g">`;
+    RELICS.forEach((X,j)=>{if(Math.floor(X.R/4)!==c)return;const have=(S.rel||{})[j];
+      h+=`<div class="rl29-c${have?' have':''}${X.bi===2?' cb':''}"><div class="rl29-i">${relIcon(j,have)}</div><b>${have?X.n:'???'}</b><small>${X.d}</small><small class="dim">${zoneTag(X.R)} ${BOSS_ROLE[X.bi]}${have>1?` · ${have}번`:''}</small></div>`});
+    h+='</div>'}
+  return h}
+// 내 능력 탭
+function tabMe29(){const s=ST||stats(),L=relicLv(),row=(k,v)=>`<div class="me-r"><span>${k}</span><b>${v}</b></div>`,pct=v=>`${Math.round(v*1000)/10}%`;
+  let cx=0;for(const k in S.codex)cx+=CODEX_G[S.codex[k]]||0;
+  let h=`<div class="me-sec"><div class="me-h">⚔️ 지금 능력치</div>${row('공격력',fmt(s.atk))}${row('체력',fmt(s.hp))}${row('방어력',`${fmt(s.def)} <small>(받는 피해 -${pct(s.dmgRed)})</small>`)}${row('공격 속도',`${Math.round(s.aspd*100)/100}회/초`)}${row('치명 확률 · 피해',`${pct(s.crit)} · ×${Math.round(s.critM*100)/100}`)}${row('스킬 발동 · 피해',`${pct(s.skill)} · ×${Math.round(s.skillM*100)/100}`)}${s.bossDmg?row('보스 피해',`+${pct(s.bossDmg)}`):''}${s.guard?row('체력 절반 아래 받는 피해',`-${pct(s.guard)}`):''}${row('전투력',fmt(s.power))}</div>`;
+  h+=`<div class="me-sec"><div class="me-h">🔮 유물</div>${row(`유물 Lv.${L}`,`공격·체력·방어 +${Math.round(RELIC_LV_B*L*100)}%`)}`;
+  let any=0;for(const k in RELIC_FX){const v=relicSum(k);if(v){any=1;h+=row(`${RELIC_FX[k].e} ${RELIC_FX[k].n}`,RELIC_FX[k].d(v))}}
+  if(!any)h+='<div class="me-n">아직 효과가 있는 유물이 없어요. 지역·대륙 보스가 떨궈요.</div>';h+='</div>';
+  const p=Math.min(5,S.promo||0);
+  h+=`<div class="me-sec"><div class="me-h">✦ 아스텔의 빛 ${p?`(${p}단계)`:''}</div>`+(typeof LIGHT_SKILL!=='undefined'?LIGHT_SKILL.map((sk,i)=>i<p?row(`✦ ${sk[0]}`,sk[1]):`<div class="me-r off"><span>🔒 ${sk[0]}</span><b>빛 ${i+1}단계</b></div>`).join(''):'')+(p?row('공격력·체력',`+${Math.round(PROMO_B*p*100)}%`):'')+'</div>';
+  h+=`<div class="me-sec"><div class="me-h">📖 도감</div>${row(`장비 도감 ${codexN()}/${ITEMS.length}`,`공격·체력 +${(cx*100).toFixed(1)}%`)}</div>`;
+  const pot=typeof potChips==='function'?potChips():[];const wb=S.wb&&S.wb.n>0?[`⛲ 소원 ${S.wb.k} +${S.wb.v}% · ${S.wb.n}전투`]:[];
+  h+=`<div class="me-sec"><div class="me-h">🧪 지금 걸린 버프</div>${pot.concat(wb).map(t=>`<div class="me-r"><span>${t}</span></div>`).join('')||'<div class="me-n">걸린 버프가 없어요. 물약은 잡화점에서 사요.</div>'}</div>`;
+  return h}
+// 메뉴 연결: 도감 탭 = 위 4탭 + 내용
+{const _t=uiTab22;uiTab22=function(t){
+  if(t==='relic'){tab='codex';codexSub='relic';document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-selected',x.dataset.tab==='codex'?'true':'false'));t='codex'}
+  if(t!=='codex')return _t.apply(this,arguments);
+  if(!CX29.some(x=>x[0]===codexSub))codexSub='codex';
+  let body;if(codexSub==='mon')body=tabMon29();else if(codexSub==='relic')body=tabRelic29();else if(codexSub==='me')body=tabMe29();
+  else body=tabCodex22().replace(/<div class="cx-sub">[\s\S]*?<\/div>/,'');
+  return cx29Tabs()+body}}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-mx29]');if(!b)return;e.stopPropagation();const [R,k,i]=b.dataset.mx29.split('_');mx29Info(+R,k,+i)},true);
+// ---------- [6] 왼쪽 위: 칩 대신 미니맵 ----------
+const mmEl=(()=>{const c=document.createElement('canvas');c.id='miniMap';c.width=MW*3;c.height=MH*3;const st=$('stage');st.appendChild(c);return c})();
+let mmBase=null,mmFor=null;
+function mmDraw(){if(!world||world.town||world.star||fight){mmEl.style.display='none';return}mmEl.style.display='';
+  const k=3,x=mmEl.getContext('2d');
+  if(mmFor!==world){mmFor=world;mmBase=document.createElement('canvas');mmBase.width=mmEl.width;mmBase.height=mmEl.height;const o=mmBase.getContext('2d'),Z=ZONES[world.r],gc=(typeof wmGround==='function'&&wmGround(world.r))||Z.fl[0];
+    o.fillStyle=gc;o.fillRect(0,0,mmBase.width,mmBase.height);o.fillStyle='rgba(0,0,0,.5)';for(let ty=0;ty<world.H;ty++)for(let tx=0;tx<world.W;tx++)if(world.g[ty*world.W+tx])o.fillRect(tx*k,ty*k,k,k)}
+  x.clearRect(0,0,mmEl.width,mmEl.height);x.drawImage(mmBase,0,0);
+  const s=k/T,dot=(px,py,r,col)=>{x.fillStyle=col;x.beginPath();x.arc(px*s,py*s,r,0,6.283);x.fill()};
+  if(world.portal){x.fillStyle='#79f6ff';x.fillRect(world.portal.x*s-3,world.portal.y*s-4,6,8)}
+  if(world.entry){x.fillStyle='#ffd23d';x.fillRect(world.entry.x*s-3,world.entry.y*s-4,5,8)}
+  for(const m of mons){if(m.kind==='b'){dot(m.x,m.y,m.bi===2?4:3,m.bi===2?'#ff4fd8':'#ff5a5a');x.strokeStyle='#000';x.lineWidth=1;x.stroke()}else if(m.sh)dot(m.x,m.y,1.6,'#fff6a0')}
+  const t=performance.now()/300;dot(hero.x,hero.y,3+Math.sin(t)*.6,'#ffffff');x.strokeStyle='#2a8cff';x.lineWidth=1.5;x.stroke()}
+setInterval(()=>{try{mmDraw()}catch(e){}},200);
+mmEl.addEventListener('click',e=>{e.stopPropagation();if(fight||!world||world.town)return;wmRegSel=world.r;openWorldMap(null)});
+mmEl.addEventListener('pointerdown',e=>e.stopPropagation());
+// 예전 칩은 숨김(효과는 메뉴 → 도감 → 내 능력)
+{const c=$('chips');if(c)c.style.display='none';const _r=renderHudExtras;renderHudExtras=function(){const r=_r.apply(this,arguments);const c=$('chips');if(c){c.innerHTML='';c.style.display='none'}return r}}
+(()=>{const s=document.createElement('style');s.textContent=`
+#chips{display:none!important}
+#miniMap{position:absolute;left:8px;top:56px;width:120px;height:72px;z-index:2;border:2px solid rgba(255,255,255,.35);border-radius:8px;background:#000;image-rendering:pixelated;box-shadow:0 2px 8px rgba(0,0,0,.6);cursor:pointer}
+.cx29-t{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-bottom:8px}.cx29-t button{padding:9px 2px;font-size:13px;font-weight:800;min-height:0}.cx29-t button.on{border-color:var(--accent);color:var(--accent);background:rgba(121,246,255,.12)}
+.mx-g{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin:4px 0 10px}
+.mx-c{display:flex;flex-direction:column;align-items:center;gap:2px;padding:4px 2px 5px;min-height:0;border-radius:9px;background:rgba(0,0,0,.3);border:1px solid #3a3845}
+.mx-c img{width:48px;height:48px;object-fit:contain;image-rendering:pixelated}.mx-c img.sil{filter:brightness(0) drop-shadow(0 0 1px rgba(255,255,255,.35))}
+.mx-c b{font-size:10px;line-height:1.2;color:#d8d6e6;word-break:keep-all;text-align:center}.mx-c:not(.ok) b{color:var(--dim)}
+.mx-c.boss{border-color:#6a4a8a}.mx-c.boss.b2{border-color:#a8843a}.mx-c.boss.ok{background:rgba(120,60,160,.18)}
+.mx-e{font-size:30px;line-height:48px}.mx-q{display:grid;place-items:center;width:48px;height:48px;font-size:15px;font-weight:800;color:#6a6878;border:1px dashed #4a4858;border-radius:8px}
+.rl29-g{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:4px 0 10px}
+.rl29-c{display:flex;flex-direction:column;align-items:center;text-align:center;gap:1px;padding:6px 4px;border-radius:10px;background:rgba(0,0,0,.3);border:1px solid #3a3845}
+.rl29-c.have{border-color:#8a74d8;background:rgba(120,100,220,.14)}.rl29-c.cb.have{border-color:#c8a84a}
+.rl29-i{width:48px;height:48px;display:grid;place-items:center}.rl29-i img{width:48px;height:48px;image-rendering:pixelated}.rl29-i .sil{filter:brightness(0) opacity(.75)}.rl-em{font-size:32px}
+.rl29-c b{font-size:11px;color:#e8e0ff}.rl29-c:not(.have) b{color:var(--dim)}.rl29-c small{font-size:9.5px;color:#b8b6c8;line-height:1.3}.rl29-c small.dim{color:var(--dim)}
+.me-sec{background:rgba(0,0,0,.28);border:1px solid #3a3845;border-radius:10px;padding:8px 10px;margin-bottom:8px}.me-h{font-weight:800;font-size:13.5px;margin-bottom:4px}
+.me-r{display:flex;justify-content:space-between;gap:8px;font-size:12.5px;padding:2px 0;border-bottom:1px dashed rgba(255,255,255,.06)}.me-r b{color:var(--accent);text-align:right}.me-r small{color:var(--dim);font-weight:400}.me-r.off{opacity:.45}.me-r.off b{color:var(--dim)}
+.me-n{font-size:11.5px;color:var(--dim)}`;document.head.appendChild(s)})();
 </script>
 <script>
 // 자동 생성(tools/pw_pack.py). Pixelwright 무료 팩 그림: 게임 안에서만 쓰기, 파일 재배포·AI 학습 금지
