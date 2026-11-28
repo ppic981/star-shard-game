@@ -1841,7 +1841,7 @@ function drawFight(){
   }else if(typeof skinFight==='function'){const ms=m.kind==='b'?BOSS_VIEW.battle[m.bi]:96;skinFight(ctx,'m',M.x,M.y+10+ms*.62,ms*1.25,null)}
   const hy=H.y-(hero.lunge>0?14:0)+(hero.hurt>0?6:0);
   drawAura(ctx,H.x,hy+30,1.7);
-  if(!(typeof skinFight==='function'&&skinFight(ctx,'h',H.x,hy+30,84))&&!drawSpr(ctx,'h'+S.cls,H.x,hy-8,96)){ctx.font='48px serif';ctx.fillText(CLASSES[S.cls].e,H.x,hy)}
+  if(!(typeof skinFight==='function'&&skinFight(ctx,'h',H.x,hy+30,84))&&!drawSpr(ctx,'h'+S.cls,H.x,hy-8,96)){ctx.font='48px serif';ctx.fillText((CLASSES[S.cls]||CLASSES[0]).e,H.x,hy)}
   drawFx();
   gbar('h',CW/2,H.y+36,CW*.6,heroHp/ST.hp,'#5ee0a0',9);
   ctx.font='11px "DotGothic16",monospace';ctx.fillStyle='#ddd';ctx.fillText(`${fmt(Math.max(0,heroHp))} / ${fmt(ST.hp)}`,CW/2,H.y+54);
@@ -1875,7 +1875,7 @@ function drawHeroF(){
   ctx.beginPath();ctx.ellipse(hero.x,hero.y+11,18,6,0,0,6.283);ctx.fill();ctx.stroke();}
   if(!(typeof skinHero==='function'&&skinHero(ctx)))/* 비교판 훅 */{const ph=Math.floor(hero.walkT||0)%4,fr=hero.moving?[1,0,2,0][ph]:0,bob=hero.moving&&(ph%2===0)?-2:0;
    ctx.save();ctx.translate(Math.round(hero.x),0);if(hero.face<0)ctx.scale(-1,1);
-   if(!drawSpr(ctx,'h'+S.cls+'_'+fr,0,hero.y-6+bob,42)){ctx.restore();ctx.save();ctx.font='30px serif';ctx.fillStyle='#fff';ctx.fillText(CLASSES[S.cls].e,hero.x,hero.y)}ctx.restore()}}
+   if(!drawSpr(ctx,'h'+S.cls+'_'+fr,0,hero.y-6+bob,42)){ctx.restore();ctx.save();ctx.font='30px serif';ctx.fillStyle='#fff';ctx.fillText((CLASSES[S.cls]||CLASSES[0]).e,hero.x,hero.y)}ctx.restore()}}
 function draw(){
   ctx.setTransform(DPR,0,0,DPR,0,0);
   if(fight&&fight.st!=='enc'){drawFight();return}
@@ -2548,7 +2548,7 @@ $('panel').addEventListener('click',e=>{
     if(navigator.clipboard)navigator.clipboard.writeText(t.value).then(()=>toast('저장 코드를 복사했어요','var(--accent)'),()=>toast('길게 눌러 직접 복사해 주세요','var(--dim)'));
     else toast(ok?'저장 코드를 복사했어요':'길게 눌러 직접 복사해 주세요','var(--accent)');return}
   else if(b.id==='impOk'){const r=importSave($('impTxt').value);if(r==='ok'){saveBox=null;closeSheet();if(S.cls==null)showChoose();else start();toast('저장을 불러왔어요','var(--accent)');priestToast()}else{toast(r==='fail'?'저장하지 못해서 불러오지 않았어요. 진행은 그대로예요':'코드가 올바르지 않아요. 진행은 그대로예요','#ff6b6b');return}}
-  else if(b.id==='resetBtn'){if(resetConfirm){S=fresh();try{localStorage.removeItem(SAVE_KEY)}catch(e){}resetConfirm=false;closeSheet();showChoose();}else resetConfirm=true}
+  else if(b.id==='resetBtn'){if(resetConfirm){saveBlocked=true;saveWarned=true;S=fresh();try{localStorage.removeItem(SAVE_KEY);localStorage.removeItem(SAVE_KEY+'_bak')}catch(e){}resetConfirm=false;closeSheet();location.reload();}else resetConfirm=true}
   dirty=true;
 });
 $('panel').addEventListener('change',e=>{
