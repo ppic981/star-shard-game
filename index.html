@@ -4893,7 +4893,7 @@ $('classList').addEventListener('click',e=>{if(!e.target.closest('.cls'))return;
 {const _d=heroDown;heroDown=function(){const r=_d.apply(this,arguments);if(!S.fd34){S.fd34=1;setTimeout(()=>{const b=document.createElement('div');b.id='pro34b';b.innerHTML='<b>가슴의 빛</b><p>아직이야. 일어나.</p>';document.body.appendChild(b);setTimeout(()=>b.remove(),2600)},900)}return r}}
 (()=>{const st=document.createElement('style');st.textContent=`
 #pro34{position:fixed;inset:0;z-index:9000;background:#05060f;display:flex;justify-content:center;transition:opacity .5s}#pro34.out{opacity:0}
-#pro34 .skip{position:absolute;top:12px;right:12px;min-height:40px;padding:0 14px;border-radius:20px;border:1px solid rgba(255,255,255,.4);background:rgba(0,0,0,.5);color:#fff;font:600 13px "Noto Sans KR",sans-serif}
+#pro34 .skip{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:calc(12px + env(safe-area-inset-right,0px));min-height:40px;padding:0 14px;border-radius:20px;border:1px solid rgba(255,255,255,.4);background:rgba(0,0,0,.5);color:#fff;font:600 13px "Noto Sans KR",sans-serif}
 #pro34 .talk{position:absolute;left:12px;right:12px;bottom:28px;max-width:456px;margin:0 auto;display:flex;gap:10px;align-items:center;padding:12px 14px;border-radius:12px;background:rgba(14,12,30,.92);border:1px solid #ffe7a0;color:#fff}
 #pro34 .talk b{color:#ffe27a;font-size:13px}#pro34 .talk p{margin:4px 0 0;font-size:15px}
 #pro34b{position:fixed;left:12px;right:12px;bottom:110px;max-width:420px;margin:0 auto;z-index:8000;padding:10px 14px;border-radius:12px;background:rgba(14,12,30,.92);border:1px solid #ffe7a0;color:#fff;font-family:"Noto Sans KR",sans-serif}
@@ -5070,15 +5070,15 @@ function v35Story(next){let i=0,done=false,t=0;const d=v35El('st35',`<div class=
 #ld35 .tip{position:absolute;top:60%;left:40px;right:40px;text-align:center;font-size:12.5px;color:#c8bca8;line-height:1.6}#ld35 .tip b{display:block;font-size:10.5px;color:#8a6a3a;letter-spacing:3px;margin-bottom:4px;font-weight:600}
 #ti35{overflow:hidden;background:#0c0a12}#ti35 .art{position:absolute;inset:0;background:center/cover no-repeat}
 #ti35 .fade{position:absolute;left:0;right:0;bottom:0;height:52%;background:linear-gradient(#0c0a1200,#0c0a12e8 55%)}
-#ti35 .logo{position:absolute;top:7%;width:100%;text-align:center}
+#ti35 .logo{position:absolute;top:calc(7% + env(safe-area-inset-top,0px));width:100%;text-align:center}
 #ti35 .logo h1{margin:0;font-family:"Gowun Batang",serif;font-size:40px;font-weight:700;letter-spacing:6px;color:#f2e2bc;text-shadow:0 2px 0 #3a2a14,0 0 18px #ffd27a55}
 #ti35 .logo p{margin:6px 0 0;font-family:"Gowun Batang",serif;font-size:13px;letter-spacing:6px;color:#c8b48a;text-shadow:0 1px 2px #000}
 #ti35 .logo .ln{width:120px;height:1px;background:#d9b26a88;margin:10px auto 0}
-#ti35 .menu{position:absolute;bottom:44px;width:100%}
+#ti35 .menu{position:absolute;bottom:calc(44px + env(safe-area-inset-bottom,0px));width:100%}
 .v35 .btn{display:block;width:250px;margin:0 auto 9px;padding:11px 0;text-align:center;border:1px solid var(--line2);border-radius:7px;background:#1b1519e6;font-weight:600;letter-spacing:1px}
 .v35 .btn.main{border-color:#a07a3a;background:#2e2214ee;color:#f6e0b0}.v35 .btn.warn{border-color:#7a3430;color:#f09080}
 .v35 .btn small{display:block;font-weight:400;font-size:10.5px;color:var(--dim);letter-spacing:0;margin-top:1px}
-.v35 .ver{position:absolute;bottom:10px;width:100%;text-align:center;font-size:10.5px;color:#6a5e58}
+.v35 .ver{position:absolute;bottom:calc(10px + env(safe-area-inset-bottom,0px));width:100%;text-align:center;font-size:10.5px;color:#6a5e58}
 #se35 .ver,#cr35 .ver{position:static;margin:16px 0 calc(env(safe-area-inset-bottom,0px) + 14px)}
 .v35 .top{display:flex;align-items:center;justify-content:space-between;padding:calc(env(safe-area-inset-top,0px) + 14px) max(16px,env(safe-area-inset-right,0px)) 8px max(16px,env(safe-area-inset-left,0px));position:sticky;top:0;z-index:2;background:#141016}.v35 .top h1{margin:0;font-size:18px;font-family:"Gowun Batang",serif}
 .v35 .x{border:1px solid var(--line2);background:#1b1519;border-radius:8px;width:44px;height:44px;font-size:18px;color:#e9e0d2;touch-action:manipulation}
@@ -5095,12 +5095,12 @@ function v35Story(next){let i=0,done=false,t=0;const d=v35El('st35',`<div class=
 #st35{background:#08060c;overflow:hidden;transition:opacity .45s}#st35.out,#ti35.out{opacity:0}
 #st35 .sc{position:absolute;inset:0;background:center/cover no-repeat;opacity:0;transition:opacity .7s}#st35 .sc.on{opacity:1}
 #st35 .sc.kb{animation:kb35 7s ease-out forwards}@keyframes kb35{from{transform:scale(1)}to{transform:scale(1.035)}}
-#st35 .skip{position:absolute;top:14px;right:14px;z-index:2;font-size:12px;color:#c8bca8;border:1px solid #4a3c3a;border-radius:14px;padding:4px 12px;background:#0e0b12aa}
-#st35 .sub{position:absolute;left:0;right:0;bottom:0;padding:64px 26px 46px;background:linear-gradient(#08060c00,#08060cd9 42%,#08060cf2)}
+#st35 .skip{position:absolute;top:calc(10px + env(safe-area-inset-top,0px));right:calc(10px + env(safe-area-inset-right,0px));z-index:2;font-size:12px;color:#c8bca8;border:1px solid #4a3c3a;border-radius:18px;padding:10px 14px;background:#0e0b12aa}
+#st35 .sub{position:absolute;left:0;right:0;bottom:0;padding:64px 26px calc(46px + env(safe-area-inset-bottom,0px));background:linear-gradient(#08060c00,#08060cd9 42%,#08060cf2)}
 #st35 .sub:before{content:"";position:absolute;left:22%;right:22%;top:52px;height:1px;background:linear-gradient(90deg,#d9b26a00,#d9b26acc,#d9b26a00)}
 #st35 .sub p{margin:0;min-height:3.6em;font-family:"Gowun Batang",serif;font-size:12px;line-height:1.85;color:#e9dfc4;text-align:center;text-shadow:0 1px 2px #000;opacity:0}
 #st35 .sub p.in{animation:in35 .8s ease-out forwards}@keyframes in35{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
-#st35 .pg{position:absolute;bottom:16px;width:100%;text-align:center;font-size:10.5px;color:#7a6e66;letter-spacing:1px}
+#st35 .pg{position:absolute;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:100%;text-align:center;font-size:10.5px;color:#7a6e66;letter-spacing:1px}
 #st35 .pg i{display:inline-block;width:5px;height:5px;border-radius:50%;background:#3a3034;margin:0 3px}#st35 .pg i.on{background:#d9b26a}#st35 .pg div{margin-top:6px}
 @media (prefers-reduced-motion:reduce){#st35 .sc.kb{animation:none}}`;document.head.appendChild(st)})();
 </script>
